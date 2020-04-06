@@ -1,0 +1,27 @@
+#!/bin/bash
+
+if [[ $# -ne 2 ]];then
+  echo
+  echo 'specify a path to the directory where the source directories exists'
+  echo 'usage: run [compiler path] [source]'
+  echo
+
+  exit 1
+fi
+
+compiler_path=$1
+filename="$(realpath $2)"
+echo "checking $filename"
+if [ ! -e $filename ]; then
+  echo
+  echo 'unable to find file or directory: '$filename
+  echo 'usage: run [compiler path] [source]'
+
+  exit 1
+fi
+
+echo "compiling $filename"
+( cd $compiler_path && ./bin/run $filename ) || exit 1
+
+echo 'successfully finished with no error(s)'
+
