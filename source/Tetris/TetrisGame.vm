@@ -1,0 +1,593 @@
+function TetrisGame.new 6
+push constant 11
+call Memory.alloc 1
+pop pointer 0
+push constant 12
+pop this 5
+push constant 3
+pop this 6
+push constant 256
+push constant 4
+add
+pop this 1
+push constant 10
+pop this 2
+push this 1
+push constant 12
+push constant 10
+call Math.multiply 2
+add
+pop this 3
+push this 2
+push constant 12
+push constant 20
+call Math.multiply 2
+add
+pop this 4
+call Screen.clearScreen 0
+pop temp 0
+push this 1
+push constant 4
+sub
+push this 2
+push constant 4
+sub
+push this 3
+push constant 4
+push this 6
+sub
+add
+push this 4
+push constant 4
+push this 6
+sub
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push this 1
+push constant 2
+sub
+push this 2
+push constant 2
+sub
+push this 3
+push constant 2
+push this 6
+sub
+add
+push this 4
+push constant 2
+push this 6
+sub
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 1
+neg
+call Screen.setColor 1
+pop temp 0
+push constant 0
+pop local 0
+label label2.while_start
+push local 0
+push constant 10
+lt
+if-goto label2.while
+goto label2.while_end
+label label2.while
+push constant 0
+pop local 1
+label label1.while_start
+push local 1
+push constant 20
+lt
+if-goto label1.while
+goto label1.while_end
+label label1.while
+push local 0
+push local 1
+call TetrisGame.drawBlock 2
+pop temp 0
+push local 1
+push constant 1
+add
+pop local 1
+goto label1.while_start
+label label1.while_end
+push local 0
+push constant 1
+add
+pop local 0
+goto label2.while_start
+label label2.while_end
+push constant 392
+pop this 7
+push constant 82
+pop this 8
+push this 7
+push constant 12
+push constant 4
+call Math.multiply 2
+push constant 4
+push constant 2
+call Math.multiply 2
+push this 6
+sub
+add
+add
+pop this 9
+push this 8
+push constant 12
+push constant 2
+call Math.multiply 2
+push constant 16
+push constant 2
+call Math.multiply 2
+push this 6
+sub
+add
+add
+pop this 10
+push this 7
+push this 8
+push this 9
+push this 10
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push this 7
+push constant 2
+add
+push this 8
+push constant 2
+add
+push this 9
+push constant 2
+sub
+push this 10
+push constant 2
+sub
+call Screen.drawRectangle 4
+pop temp 0
+push constant 1
+neg
+call Screen.setColor 1
+pop temp 0
+push constant 0
+pop local 0
+label label4.while_start
+push local 0
+push constant 4
+lt
+if-goto label4.while
+goto label4.while_end
+label label4.while
+push constant 0
+pop local 1
+label label3.while_start
+push local 1
+push constant 2
+lt
+if-goto label3.while
+goto label3.while_end
+label label3.while
+push local 0
+push local 1
+call TetrisGame.drawBlockInWindow 2
+pop temp 0
+push local 1
+push constant 1
+add
+pop local 1
+goto label3.while_start
+label label3.while_end
+push local 0
+push constant 1
+add
+pop local 0
+goto label4.while_start
+label label4.while_end
+push constant 1
+push constant 49
+call Output.moveCursor 2
+pop temp 0
+push constant 12
+call String.new 1
+push constant 83
+call String.appendChar 2
+push constant 99
+call String.appendChar 2
+push constant 111
+call String.appendChar 2
+push constant 114
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 58
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 56
+call String.appendChar 2
+push constant 56
+call String.appendChar 2
+push constant 56
+call String.appendChar 2
+push constant 56
+call String.appendChar 2
+push constant 56
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+push constant 3
+push constant 49
+call Output.moveCursor 2
+pop temp 0
+push constant 6
+call String.new 1
+push constant 76
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 118
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 108
+call String.appendChar 2
+push constant 58
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+push constant 6
+push constant 49
+call Output.moveCursor 2
+pop temp 0
+push constant 5
+call String.new 1
+push constant 78
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 120
+call String.appendChar 2
+push constant 116
+call String.appendChar 2
+push constant 58
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+push constant 12
+push constant 12
+call Output.moveCursor 2
+pop temp 0
+push constant 8
+call String.new 1
+push constant 74
+call String.appendChar 2
+push constant 65
+call String.appendChar 2
+push constant 67
+call String.appendChar 2
+push constant 75
+call String.appendChar 2
+push constant 116
+call String.appendChar 2
+push constant 114
+call String.appendChar 2
+push constant 105
+call String.appendChar 2
+push constant 115
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+push constant 12
+push constant 8
+call Math.multiply 2
+push constant 14
+sub
+push constant 8
+sub
+pop local 2
+push constant 12
+push constant 8
+call Math.multiply 2
+push constant 8
+push constant 8
+call Math.multiply 2
+push constant 10
+add
+add
+pop local 4
+push constant 12
+push constant 11
+call Math.multiply 2
+push constant 13
+sub
+push constant 11
+sub
+pop local 3
+push constant 12
+push constant 11
+call Math.multiply 2
+push constant 11
+push constant 13
+add
+add
+pop local 5
+push local 2
+pop local 0
+label label5.while_start
+push local 0
+push local 4
+gt
+not
+if-goto label5.while
+goto label5.while_end
+label label5.while
+push local 0
+push local 3
+push local 0
+push this 5
+push this 6
+sub
+add
+push local 3
+push this 5
+push this 6
+sub
+add
+call Screen.drawRectangle 4
+pop temp 0
+push local 0
+push local 5
+push local 0
+push this 5
+push this 6
+sub
+add
+push local 5
+push this 5
+push this 6
+sub
+add
+call Screen.drawRectangle 4
+pop temp 0
+push local 0
+push this 5
+add
+pop local 0
+goto label5.while_start
+label label5.while_end
+push constant 21
+push constant 2
+call Output.moveCursor 2
+pop temp 0
+push constant 10
+call String.new 1
+push constant 98
+call String.appendChar 2
+push constant 121
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 102
+call String.appendChar 2
+push constant 117
+call String.appendChar 2
+push constant 114
+call String.appendChar 2
+push constant 115
+call String.appendChar 2
+push constant 105
+call String.appendChar 2
+push constant 99
+call String.appendChar 2
+push constant 104
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+push constant 0
+pop this 0
+push pointer 0
+return
+function TetrisGame.drawBlock 2
+push argument 0
+push this 5
+call Math.multiply 2
+push this 1
+add
+pop local 0
+push argument 1
+push this 5
+call Math.multiply 2
+push this 2
+add
+pop local 1
+push local 0
+push local 1
+push local 0
+push this 5
+push this 6
+sub
+add
+push local 1
+push this 5
+push this 6
+sub
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return
+function TetrisGame.drawBlockInWindow 2
+push argument 0
+push this 5
+call Math.multiply 2
+push this 7
+push constant 4
+add
+add
+pop local 0
+push argument 1
+push this 5
+call Math.multiply 2
+push this 8
+push constant 16
+add
+add
+pop local 1
+push local 0
+push local 1
+push local 0
+push this 5
+push this 6
+sub
+add
+push local 1
+push this 5
+push this 6
+sub
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return
+function TetrisGame.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+function TetrisGame.newInstance 0
+call TetrisGame.new 0
+pop static 0
+push constant 0
+return
+function TetrisGame.getInstance 0
+push static 0
+return
+function TetrisGame.run 1
+push argument 0
+pop pointer 0
+label label8.while_start
+push this 0
+not
+if-goto label8.while
+goto label8.while_end
+label label8.while
+label label6.while_start
+push local 0
+push constant 0
+eq
+push this 0
+not
+and
+if-goto label6.while
+goto label6.while_end
+label label6.while
+call Keyboard.keyPressed 0
+pop local 0
+goto label6.while_start
+label label6.while_end
+push local 0
+push constant 140
+eq
+if-goto label7.if
+goto label7.if_end
+label label7.if
+push constant 1
+neg
+pop this 0
+label label7.if_end
+goto label8.while_start
+label label8.while_end
+push this 0
+if-goto label9.if
+goto label9.if_end
+label label9.if
+push constant 304
+push constant 18
+sub
+push constant 111
+push constant 12
+sub
+push constant 304
+push constant 32
+push constant 18
+push constant 2
+sub
+add
+add
+push constant 111
+push constant 22
+push constant 11
+add
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push constant 304
+push constant 16
+sub
+push constant 111
+push constant 10
+sub
+push constant 304
+push constant 32
+push constant 16
+push constant 2
+sub
+add
+add
+push constant 111
+push constant 22
+push constant 9
+add
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 10
+push constant 38
+call Output.moveCursor 2
+pop temp 0
+push constant 4
+call String.new 1
+push constant 71
+call String.appendChar 2
+push constant 65
+call String.appendChar 2
+push constant 77
+call String.appendChar 2
+push constant 69
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+push constant 11
+push constant 38
+call Output.moveCursor 2
+pop temp 0
+push constant 4
+call String.new 1
+push constant 79
+call String.appendChar 2
+push constant 86
+call String.appendChar 2
+push constant 69
+call String.appendChar 2
+push constant 82
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+label label9.if_end
+push constant 0
+return
