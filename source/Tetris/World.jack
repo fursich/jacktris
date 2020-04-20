@@ -41,6 +41,119 @@ class World {
     return instance;
   }
 
+  /** destroys lines from the map */
+  method void destroyLines() {
+    var int i, j, idx;
+    var int offset;
+    var Array destroyable;
+    var boolean isDestroyed;
+    var boolean stopper;
+
+    let destroyable  = Array.new(22);
+    let isDestroyed = false;
+
+    let idx = (21 * 12) + 10;
+
+    let j = 21;
+    while (j > 1) {
+      let i = 10;
+      let destroyable[j] = true;
+
+      while (i > 0) {
+        if(map[idx] = 0) {
+          let destroyable[j] = false;
+        }
+        let idx = idx - 1;
+        let i = i - 1;
+      }
+
+      if (destroyable[j]) {
+        let isDestroyed = true;
+      }
+      let idx = idx - 2;
+      let j = j - 1;
+    }
+
+    if (~isDestroyed) {
+      do destroyable.dispose();
+      return;
+    }
+
+    let destroyable[0] = false;
+    let destroyable[1] = false;
+    let idx = (21 * 12) + 10;
+
+    let j = 21;
+    let offset = 0;
+
+    while ((~(j < 0))) {
+
+      let stopper = false;
+      while (~stopper) {
+        if ((j - offset) < 0) {
+          let stopper = true;
+        } else {
+          if (~(destroyable[j - offset])) {
+            let stopper = true;
+          } else {
+            let offset = offset + 1;
+          }
+        }
+      }
+
+      if (~((j - offset) < 0)) {
+        let i = 10;
+        while (i > 0) {
+          let map[idx] = map[idx - (offset * 12)];
+
+          let idx = idx - 1;
+          let i = i - 1;
+        }
+        let idx = idx - 2;
+      } else {
+        let i = 10;
+        while (i > 0) {
+          let map[idx] = 0;
+
+          let idx = idx - 1;
+          let i = i - 1;
+        }
+        let idx = idx - 2;
+      }
+
+      let j = j - 1;
+    }
+    do redraw();
+
+    do destroyable.dispose();
+    return;
+  }
+
+  /** redraw the map to the main window */
+  method void redraw() {
+    var int i, j, idx;
+
+    do MainWindow.clear();
+
+    let idx = (2 * 12) + 1;
+    let j = 2;
+
+    while(j < 22) {
+      let i = 1;
+      while(i < 11) {
+        if(~(map[idx] = 0)) {
+          do MainWindow.drawCell(i, j);
+        }
+        let idx = idx + 1;
+        let i = i + 1;
+      }
+      let idx = idx + 2;
+      let j = j + 1;
+    }
+
+    return;
+  }
+
   /** register the given block to the map */
   method void registerCell(int i, int j) {
     let map[(12 * j) + i] = 1;

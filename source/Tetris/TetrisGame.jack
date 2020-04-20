@@ -101,11 +101,15 @@ class TetrisGame {
         if(block > 0) {
           let block = block.softDrop();
         }
+        if (block = null) {
+          do world.destroyLines();
+        }
       }
       if (key = 32) {   // space: hard drop
         if(block > 0) {
           let block = block.hardDrop();
         }
+        do world.destroyLines();
       }
       if (key = 90) {   // 'Z' : rotate left
         if(block > 0) {
@@ -117,6 +121,7 @@ class TetrisGame {
           do block.rotateRight();
         }
       }
+
 
       let key = 0;
     }

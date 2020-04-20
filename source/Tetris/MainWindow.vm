@@ -1,4 +1,4 @@
-function MainWindow.init 10
+function MainWindow.init 6
 push constant 12
 pop static 4
 push constant 3
@@ -6,74 +6,33 @@ pop static 5
 push constant 256
 push constant 4
 add
-pop local 6
+pop static 6
 push constant 10
-pop local 7
-push local 6
+pop static 7
+push static 6
 push constant 12
 push constant 10
 call Math.multiply 2
 add
-pop local 8
-push local 7
+pop static 8
+push static 7
 push constant 12
 push constant 20
 call Math.multiply 2
 add
-pop local 9
-push local 6
-push constant 4
-sub
-push local 7
-push constant 4
-sub
-push local 8
-push constant 4
-push static 5
-sub
-add
-push local 9
-push constant 4
-push static 5
-sub
-add
-call Screen.drawRectangle 4
-pop temp 0
-push constant 0
-call Screen.setColor 1
-pop temp 0
-push local 6
-push constant 2
-sub
-push local 7
-push constant 2
-sub
-push local 8
-push constant 2
-push static 5
-sub
-add
-push local 9
-push constant 2
-push static 5
-sub
-add
-call Screen.drawRectangle 4
-pop temp 0
-push constant 1
-neg
-call Screen.setColor 1
-pop temp 0
-push local 6
+pop static 9
+push static 6
 push static 4
 sub
 pop static 0
-push local 7
+push static 7
 push constant 2
 push static 4
 call Math.multiply 2
 sub
 pop static 1
+call MainWindow.drawFrame 0
+pop temp 0
 push constant 12
 push constant 12
 call Output.moveCursor 2
@@ -203,6 +162,57 @@ call String.appendChar 2
 push constant 104
 call String.appendChar 2
 call Output.printString 1
+pop temp 0
+push constant 0
+return
+function MainWindow.drawFrame 0
+push static 6
+push constant 4
+sub
+push static 7
+push constant 4
+sub
+push static 8
+push constant 4
+push static 5
+sub
+add
+push static 9
+push constant 4
+push static 5
+sub
+add
+call Screen.drawRectangle 4
+pop temp 0
+call MainWindow.clear 0
+pop temp 0
+push constant 0
+return
+function MainWindow.clear 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push static 6
+push constant 2
+sub
+push static 7
+push constant 2
+sub
+push static 8
+push constant 2
+push static 5
+sub
+add
+push static 9
+push constant 2
+push static 5
+sub
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 1
+neg
+call Screen.setColor 1
 pop temp 0
 push constant 0
 return

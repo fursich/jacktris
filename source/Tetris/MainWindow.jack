@@ -5,11 +5,11 @@
 class MainWindow {
   static int x0, y0, x1, y1; // for game window
   static int block_size, block_space;
+  static int win_x0, win_y0, win_x1, win_y1;
 
   function void init() {
     var int i, j;
     var int i0, j0, i1, j1;
-    var int win_x0, win_y0, win_x1, win_y1;
 
     let block_size = 12;
     let block_space = 3;
@@ -19,15 +19,11 @@ class MainWindow {
     let win_x1 = win_x0 + (12*10);
     let win_y1 = win_y0 + (12*20);
 
-    do Screen.drawRectangle(win_x0 - 4, win_y0 - 4, win_x1 + 4 - block_space, win_y1 + 4 - block_space);
-    do Screen.setColor(false);
-    do Screen.drawRectangle(win_x0 - 2, win_y0 - 2, win_x1 + 2 - block_space, win_y1 + 2 - block_space);
-    do Screen.setColor(true);
-
     // x0 = 0 for the leftmost wall (that are not displayed)
-    let x0 = win_x0 - block_size;
     // y0 = 0 for the ceiling (22nd row, where the block spawns)
+    let x0 = win_x0 - block_size;
     let y0 = win_y0 - (2 * block_size);
+    do MainWindow.drawFrame();
 
     do Output.moveCursor(12, 12);
     do Output.printString("JACKtris");
@@ -47,6 +43,23 @@ class MainWindow {
 
     do Output.moveCursor(21, 2);
     do Output.printString("by fursich");
+
+    return;
+  }
+
+  /** clear the main window */
+  function void drawFrame() {
+    do Screen.drawRectangle(win_x0 - 4, win_y0 - 4, win_x1 + 4 - block_space, win_y1 + 4 - block_space);
+    do MainWindow.clear();
+
+    return;
+  }
+
+  /** clear the main window */
+  function void clear() {
+    do Screen.setColor(false);
+    do Screen.drawRectangle(win_x0 - 2, win_y0 - 2, win_x1 + 2 - block_space, win_y1 + 2 - block_space);
+    do Screen.setColor(true);
 
     return;
   }
