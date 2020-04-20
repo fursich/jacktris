@@ -1,0 +1,528 @@
+/**
+ * Represents a moving block
+*/
+
+class Block {
+  static World world;
+  field int x, y, rot, type;
+  field Array currentShape; // representing current shape;
+  field Array patterns; // representing four patterns based on rot angles
+
+  constructor Block new(int block_type) {
+    var int i;
+
+    let type = block_type;
+    let x = 4; // occupies x = 4,5,6,7
+    let y = 0; // initial height;
+
+    let patterns = Array.new(4);
+    let i = 0;
+    while (i < 4) {
+      let patterns[i] = Array.new(4*4);
+      let i = i + 1;
+    }
+    do setPatterns();
+    do rotateCurrentShapeTo(0);
+
+    return this;
+  }
+
+  function void setWorld(World instance) {
+    let world = instance;
+    return;
+  }
+
+  method void dispose() {
+    var int i;
+
+    let i = 0;
+    while (i < 4) {
+      let currentShape = patterns[i];
+      do currentShape.dispose();
+      let i = i + 1;
+    }
+    do patterns.dispose();
+    do Memory.deAlloc(this);
+    return;
+  }
+
+  /** check if the block has obstacles in the given direction */
+  method boolean isMovable(int dx, int dy) {
+    var int i, j, idx;
+
+    let idx = 0;
+    let j = y + dy;
+
+    while(j < (y + dy + 4)) {
+      let i = x + dx;
+      while(i < (x + dx + 4)) {
+        if(~(currentShape[idx] = 0) & ~world.isEmpty(i, j)) {
+          return false;
+        }
+        let idx = idx + 1;
+        let i = i + 1;
+      }
+      let j = j + 1;
+    }
+
+    return true;
+  }
+
+  /** try rotation from rot0 to current angle to see if any of the SRS position fits */
+  method boolean isRotatableFrom(int rot0) {
+    var int i, j, dx, dy;
+
+    if(type = 3) {  // 'O'
+      return true;
+    }
+
+    if(type = 0) {  // 'I'
+      if(isMovable(0,0)) {
+        return true;
+      }
+      if (((rot0 = 0) & (rot = 1)) | ((rot0 = 3) & (rot = 2))) {  // 0 -> R, or L -> 2
+        if(isMovable(-2,0)) {
+          let x = x - 2;
+          return true;
+        }
+        if(isMovable(1,0)) {
+          let x = x + 1;
+          return true;
+        }
+        if(isMovable(-2, 1)) {
+          let x = x - 2;
+          let y = y + 1;
+          return true;
+        }
+        if(isMovable(1,-2)) {
+          let x = x + 1;
+          let y = y - 2;
+          return true;
+        }
+        return false;
+      }
+      if (((rot0 = 1) & (rot = 0)) | ((rot0 = 2) & (rot = 3))) {  // R -> 0, or 2 -> L
+        if(isMovable(2,0)) {
+          let x = x + 2;
+          return true;
+        }
+        if(isMovable(-1,0)) {
+          let x = x - 1;
+          return true;
+        }
+        if(isMovable(2, -1)) {
+          let x = x + 2;
+          let y = y - 1;
+          return true;
+        }
+        if(isMovable(-1,2)) {
+          let x = x - 1;
+          let y = y + 2;
+          return true;
+        }
+        return false;
+      }
+      if (((rot0 = 1) & (rot = 2)) | ((rot0 = 0) & (rot = 3))) {  // R -> 2, or 0 -> L
+        if(isMovable(-1,0)) {
+          let x = x - 1;
+          return true;
+        }
+        if(isMovable(2,0)) {
+          let x = x + 2;
+          return true;
+        }
+        if(isMovable(-1,-2)) {
+          let x = x - 1;
+          let y = y - 2;
+          return true;
+        }
+        if(isMovable(2, 1)) {
+          let x = x + 2;
+          let y = y + 1;
+          return true;
+        }
+        return false;
+      }
+      if (((rot0 = 2) & (rot = 1)) | ((rot0 = 3) & (rot = 0))) {  // 2 -> R, or L -> 0
+        if(isMovable(1,0)) {
+          let x = x + 1;
+          return true;
+        }
+        if(isMovable(-2,0)) {
+          let x = x - 2;
+          return true;
+        }
+        if(isMovable(1,2)) {
+          let x = x + 1;
+          let y = y + 2;
+          return true;
+        }
+        if(isMovable(-2, -1)) {
+          let x = x - 2;
+          let y = y - 1;
+          return true;
+        }
+        return false;
+      }
+    } else {        // 'J', 'L', 'S', 'T', 'Z'
+      if(isMovable(0,0)) {
+        return true;
+      }
+      if (rot0 = 1) {  // rotating from R
+        if(isMovable(1, 0)) {
+          let x = x + 1;
+          return true;
+        }
+        if(isMovable(1,1)) {
+          let x = x + 1;
+          let y = y + 1;
+          return true;
+        }
+        if(isMovable(0,-2)) {
+          let y = y - 2;
+          return true;
+        }
+        if(isMovable(1,-2)) {
+          let x = x + 1;
+          let y = y - 2;
+          return true;
+        }
+        return false;
+      }
+      if (rot = 3) {  // rotating to L
+        if(isMovable(1, 0)) {
+          let x = x + 1;
+          return true;
+        }
+        if(isMovable(1,-1)) {
+          let x = x + 1;
+          let y = y - 1;
+          return true;
+        }
+        if(isMovable(0,2)) {
+          let y = y + 2;
+          return true;
+        }
+        if(isMovable(1,2)) {
+          let x = x + 1;
+          let y = y + 2;
+          return true;
+        }
+        return false;
+      }
+      if (rot = 1) {  // rotating to R
+        if(isMovable(-1, 0)) {
+          let x = x - 1;
+          return true;
+        }
+        if(isMovable(-1,-1)) {
+          let x = x - 1;
+          let y = y - 1;
+          return true;
+        }
+        if(isMovable(0,2)) {
+          let y = y + 2;
+          return true;
+        }
+        if(isMovable(-1,2)) {
+          let x = x - 1;
+          let y = y + 2;
+          return true;
+        }
+        return false;
+      }
+      if (rot0 = 3) {  // rotating from L
+        if(isMovable(-1, 0)) {
+          let x = x - 1;
+          return true;
+        }
+        if(isMovable(-1,1)) {
+          let x = x - 1;
+          let y = y + 1;
+          return true;
+        }
+        if(isMovable(0,-2)) {
+          let y = y - 2;
+          return true;
+        }
+        if(isMovable(-1,-2)) {
+          let x = x - 1;
+          let y = y - 2;
+          return true;
+        }
+        return false;
+      }
+    }
+  }
+
+  /** register the block into the map as static obstacles, destroy the instance */
+  method void land() {
+    var int i, j, idx;
+
+    let idx = 0;
+    let j = y;
+
+    while(j < (y + 4)) {
+      let i = x;
+      while(i < (x + 4)) {
+        if(~(currentShape[idx] = 0)) {
+          do world.registerCell(i,j);
+        }
+        let idx = idx + 1;
+        let i = i + 1;
+      }
+      let j = j + 1;
+    }
+    do dispose();
+
+    return;
+  }
+
+  method void draw() {
+    var int i, j, idx;
+
+    let idx = 0;
+    let j = y;
+
+    while(j < (y + 4)) {
+      if(~(j < 2) & ~(j > 21)) {
+        let i = x;
+        while(i < (x + 4)) {
+          if(~(i < 1) & ~(i > 10) & (~(currentShape[idx] = 0))) {
+            do MainWindow.drawCell(i,j);
+          }
+          let idx = idx + 1;
+          let i = i + 1;
+        }
+      } else {
+        let idx = idx + 4;
+      }
+      let j = j + 1;
+    }
+    return;
+  }
+
+  method void erase() {
+    var int i, j, idx;
+
+    let idx = 0;
+    let j = y;
+
+    while(j < (y + 4)) {
+      if(~(j < 2) & ~(j > 21)) {
+        let i = x;
+        while(i < (x + 4)) {
+          if(~(i < 1) & ~(i > 10) & (~(currentShape[idx] = 0))) {
+            do MainWindow.eraseCell(i,j);
+          }
+          let idx = idx + 1;
+          let i = i + 1;
+        }
+      } else {
+        let idx = idx + 4;
+      }
+      let j = j + 1;
+    }
+    return;
+  }
+
+  method void moveLeft() {
+    if(isMovable(-1, 0)) {
+      do erase();
+      let x = x - 1;
+      do draw();
+    }
+    return;
+  }
+
+  method void moveRight() {
+    if(isMovable(1, 0)) {
+      do erase();
+      let x = x + 1;
+      do draw();
+    }
+    return;
+  }
+
+  method void rotateRight() {
+    var int rot0, rot1;
+
+    let rot0 = rot;
+    do erase();
+
+    if(rot = 3) {
+      let rot1 = 0;
+    } else {
+      let rot1 = rot + 1;
+    }
+    do rotateCurrentShapeTo(rot1);
+
+    if(isRotatableFrom(rot0)) {
+      do draw();
+    } else {
+      do rotateCurrentShapeTo(rot0);
+      do draw();
+    }
+    return;
+  }
+
+  method void rotateLeft() {
+    var int rot0, rot1;
+
+    let rot0 = rot;
+    do erase();
+
+    if(rot = 0) {
+      let rot1 = 3;
+    } else {
+      let rot1 = rot - 1;
+    }
+    do rotateCurrentShapeTo(rot1);
+
+    if(isRotatableFrom(rot0)) {
+      do draw();
+    } else {
+      do rotateCurrentShapeTo(rot0);
+      do draw();
+    }
+    return;
+  }
+
+  method Block softDrop() {
+    if(isMovable(0, 1)) {
+      do erase();
+      let y = y + 1;
+      do draw();
+      return this;
+    } else {
+      do land();
+      return null;
+    }
+  }
+
+  method Block hardDrop() {
+    do erase();
+    while(isMovable(0, 1)) {
+      let y = y + 1;
+    }
+    do draw();
+    do land();
+    return null;
+  }
+
+  method void rotateCurrentShapeTo(int r) {
+    let rot = r;
+    let currentShape = patterns[r];
+    return;
+  }
+
+  method void setPatterns() {
+    if(type = 0) { // I-block
+      do setI();
+      return;
+    }
+    if(type = 1) { // J-block
+      do setJ();
+      return;
+    }
+    if(type = 2) { // L-block
+      do setL();
+      return;
+    }
+    if(type = 3) { // O-block
+      do setO();
+      return;
+    }
+    if(type = 4) { // S-block
+      do setS();
+      return;
+    }
+    if(type = 5) { // T-block
+      do setT();
+      return;
+    }
+    if(type = 6) { // Z-block
+      do setZ();
+      return;
+    }
+  }
+
+  method void setI() {
+    do setArea(0, 0,0,0,0, 1,1,1,1, 0,0,0,0, 0,0,0,0);
+    do setArea(1, 0,0,1,0, 0,0,1,0, 0,0,1,0, 0,0,1,0);
+    do setArea(2, 0,0,0,0, 0,0,0,0, 1,1,1,1, 0,0,0,0);
+    do setArea(3, 0,1,0,0, 0,1,0,0, 0,1,0,0, 0,1,0,0);
+    return;
+  }     
+
+  method void setJ() {
+    do setArea(0, 1,0,0,0, 1,1,1,0, 0,0,0,0, 0,0,0,0);
+    do setArea(1, 0,1,1,0, 0,1,0,0, 0,1,0,0, 0,0,0,0);
+    do setArea(2, 0,0,0,0, 1,1,1,0, 0,0,1,0, 0,0,0,0);
+    do setArea(3, 0,1,0,0, 0,1,0,0, 1,1,0,0, 0,0,0,0);
+    return;
+  }     
+
+  method void setL() {
+    do setArea(0, 0,0,1,0, 1,1,1,0, 0,0,0,0, 0,0,0,0);
+    do setArea(1, 0,1,0,0, 0,1,0,0, 0,1,1,0, 0,0,0,0);
+    do setArea(2, 0,0,0,0, 1,1,1,0, 1,0,0,0, 0,0,0,0);
+    do setArea(3, 1,1,0,0, 0,1,0,0, 0,1,0,0, 0,0,0,0);
+    return;
+  }     
+
+  method void setO() {
+    do setArea(0, 0,1,1,0, 0,1,1,0, 0,0,0,0, 0,0,0,0);
+    do setArea(1, 0,1,1,0, 0,1,1,0, 0,0,0,0, 0,0,0,0);
+    do setArea(2, 0,1,1,0, 0,1,1,0, 0,0,0,0, 0,0,0,0);
+    do setArea(3, 0,1,1,0, 0,1,1,0, 0,0,0,0, 0,0,0,0);
+    return;
+  }     
+
+  method void setS() {
+    do setArea(0, 0,1,1,0, 1,1,0,0, 0,0,0,0, 0,0,0,0);
+    do setArea(1, 0,1,0,0, 0,1,1,0, 0,0,1,0, 0,0,0,0);
+    do setArea(2, 0,0,0,0, 0,1,1,0, 1,1,0,0, 0,0,0,0);
+    do setArea(3, 1,0,0,0, 1,1,0,0, 0,1,0,0, 0,0,0,0);
+    return;
+  }     
+
+  method void setT() {
+    do setArea(0, 0,1,0,0, 1,1,1,0, 0,0,0,0, 0,0,0,0);
+    do setArea(1, 0,1,0,0, 0,1,1,0, 0,1,0,0, 0,0,0,0);
+    do setArea(2, 0,0,0,0, 1,1,1,0, 0,1,0,0, 0,0,0,0);
+    do setArea(3, 0,1,0,0, 1,1,0,0, 0,1,0,0, 0,0,0,0);
+    return;
+  }     
+
+  method void setZ() {
+    do setArea(0, 1,1,0,0, 0,1,1,0, 0,0,0,0, 0,0,0,0);
+    do setArea(1, 0,0,1,0, 0,1,1,0, 0,1,0,0, 0,0,0,0);
+    do setArea(2, 0,0,0,0, 1,1,0,0, 0,1,1,0, 0,0,0,0);
+    do setArea(3, 0,1,0,0, 1,1,0,0, 1,0,0,0, 0,0,0,0);
+    return;
+  }     
+
+  method void setArea(int r, int a10, int a11, int a12, int a13, int a20, int a21, int a22, int a23, int a30, int a31, int a32, int a33, int a40, int a41, int a42, int a43) {
+    var Array ptn;
+
+    let ptn = patterns[r];
+    let ptn[0] = a10;
+    let ptn[1] = a11;
+    let ptn[2] = a12;
+    let ptn[3] = a13;
+    let ptn[4] = a20;
+    let ptn[5] = a21;
+    let ptn[6] = a22;
+    let ptn[7] = a23;
+    let ptn[8] = a30;
+    let ptn[9] = a31;
+    let ptn[10] = a32;
+    let ptn[11] = a33;
+    let ptn[12] = a40;
+    let ptn[13] = a41;
+    let ptn[14] = a42;
+    let ptn[15] = a43;
+    return;
+  }
+}

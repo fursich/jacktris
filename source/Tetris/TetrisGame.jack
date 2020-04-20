@@ -4,119 +4,27 @@
 
 class TetrisGame {
   static TetrisGame instance;
+  static ScoreBoard score_board;
+  static World world;
 
   field boolean exit;
-
-  field int x0, y0, x1, y1; // for game window (TODO: might remove and hard code later on)
-  field int block_size, block_space;
-
-  field int disp_x0, disp_y0, disp_x1, disp_y1; // for next block window (TODO: might remove and hard code later on)
 
   constructor TetrisGame new() {
     var int i, j;
     var int i0, j0, i1, j1;
 
-    let block_size = 12;
-    let block_space = 3;
-
-    let x0 = 256 + 4;
-    let y0 = 10;
-    let x1 = x0 + (12*10);
-    let y1 = y0 + (12*20);
-
     do Screen.clearScreen();
 
-    do Screen.drawRectangle(x0 - 4, y0 - 4, x1 + 4 - block_space, y1 + 4 - block_space);
-    do Screen.setColor(false);
-    do Screen.drawRectangle(x0 - 2, y0 - 2, x1 + 2 - block_space, y1 + 2 - block_space);
-    do Screen.setColor(true);
+    do MainWindow.init();
+    let score_board = ScoreBoard.new();
+    do NextWindow.init();
 
-    let i = 0;
-    while (i < 10) {
-      let j = 0;
-      while (j < 20) {
-        do TetrisGame.drawBlock(i, j);
-        let j = j + 1;
-      }
-      let i = i + 1;
-    }
-
-    let disp_x0 = 392;
-    let disp_y0 = 82;
-    let disp_x1 = disp_x0 + (12*4) + (4* 2) - block_space;
-    let disp_y1 = disp_y0 + (12*2) + (16 * 2) - block_space;
-    do Screen.drawRectangle(disp_x0, disp_y0, disp_x1, disp_y1);
-    do Screen.setColor(false);
-    do Screen.drawRectangle(disp_x0 + 2, disp_y0 + 2, disp_x1 - 2, disp_y1 - 2);
-    do Screen.setColor(true);
-
-    let i = 0;
-    while (i < 4) {
-      let j = 0;
-      while (j < 2) {
-        do TetrisGame.drawBlockInWindow(i, j);
-        let j = j + 1;
-      }
-      let i = i + 1;
-    }
-
-    do Output.moveCursor(1, 49);
-    do Output.printString("Score: 88888");
-    do Output.moveCursor(3, 49);
-    do Output.printString("Level:");
-    do Output.moveCursor(6, 49);
-    do Output.printString("Next:");
-
-    do Output.moveCursor(12, 12);
-    do Output.printString("JACKtris");
-
-    let i0 = ((12 * 8) - 14) - 8;
-    let i1 = (12 * 8) + (8 * 8) + 10;
-
-    let j0 = ((12 * 11) - 13) - 11;
-    let j1 = (12 * 11) + 11 + 13;
-
-    let i = i0;
-    while (~(i > i1)) {
-      do Screen.drawRectangle(i, j0, i + block_size - block_space, j0 + block_size - block_space);
-      do Screen.drawRectangle(i, j1, i + block_size - block_space, j1 + block_size - block_space);
-      let i = i + block_size;
-    }
-
-//    let j = j0;
-//    while (~(j > j1)) {
-//      do Screen.drawRectangle(i0, j, i0 + block_size - block_space, j + block_size - block_space);
-//      do Screen.drawRectangle(i1, j, i1 + block_size - block_space, j + block_size - block_space);
-//      let j = j + block_size;
-//    }
-
-    do Output.moveCursor(21, 2);
-    do Output.printString("by fursich");
+    do World.newInstance();
+    let world = World.getInstance();
+    do Block.setWorld(world);
 
     let exit = false;
     return this;
-  }
-
-  /** draw a block located at (i, j) on the main window */
-  // TODO: will be moved to a separate class */
-  function void drawBlock(int i, int j) {
-    var int x, y;
-    let x = (i * block_size) + x0;
-    let y = (j * block_size) + y0;
-
-    do Screen.drawRectangle(x, y, x + block_size - block_space, y + block_size - block_space);
-    return;
-  }
-
-  /** draw a block within the "next" window */
-  // TODO: might be removed completely to accept only block patterns. Or, will be moved to a separate class */
-  function void drawBlockInWindow(int i, int j) {
-    var int x, y;
-    let x = (i * block_size) + disp_x0 + 4;
-    let y = (j * block_size) + disp_y0 + 16;
-
-    do Screen.drawRectangle(x, y, x + block_size - block_space, y + block_size - block_space);
-    return;
   }
 
   method void dispose() {
@@ -134,25 +42,87 @@ class TetrisGame {
   }
 
   method void run() {
+    var Block block;
     var char key;
+    var int i, j;
+    let i = 5;
+    let j = 19;
 
     while (~exit) {
       while((key = 0) & (~exit)) {
         let key = Keyboard.keyPressed();
       }
-      if (key = 140) {
+      if (key = 140) {   // 'ESC'
         let exit = true;
       }
+      while(~(Keyboard.keyPressed() = 0)) {
+      }
+
+      if (key = 73) {   // 'I'
+        let block = Block.new(0);
+        do block.draw();
+      }
+      if (key = 74) {   // 'J'
+        let block = Block.new(1);
+        do block.draw();
+      }
+      if (key = 76) {   // 'L'
+        let block = Block.new(2);
+        do block.draw();
+      }
+      if (key = 79) {   // 'O'
+        let block = Block.new(3);
+        do block.draw();
+      }
+      if (key = 83) {   // 'S'
+        let block = Block.new(4);
+        do block.draw();
+      }
+      if (key = 84) {   // 'T'
+        let block = Block.new(5);
+        do block.draw();
+      }
+      if (key = 90) {   // 'Z'
+        let block = Block.new(6);
+        do block.draw();
+      }
+
+      if (key = 130) {   // move left
+        if(block > 0) {
+          do block.moveLeft();
+        }
+      }
+      if (key = 132) {   // move right
+        if(block > 0) {
+          do block.moveRight();
+        }
+      }
+      if (key = 133) {   // down arrow: soft drop
+        if(block > 0) {
+          let block = block.softDrop();
+        }
+      }
+      if (key = 32) {   // space: hard drop
+        if(block > 0) {
+          let block = block.hardDrop();
+        }
+      }
+      if (key = 90) {   // 'Z' : rotate left
+        if(block > 0) {
+          do block.rotateLeft();
+        }
+      }
+      if (key = 131) {   // up arrow: rotate right
+        if(block > 0) {
+          do block.rotateRight();
+        }
+      }
+
+      let key = 0;
     }
     
     if (exit) {
-      do Screen.drawRectangle(304 - 18, 111 - 12, 304 + 32 + 18 - 2, 111 + 22 + 11);
-      do Screen.setColor(false);
-      do Screen.drawRectangle(304 - 16, 111 - 10, 304 + 32 + 16 - 2, 111 + 22 + 9);
-      do Output.moveCursor(10, 38); // x = 304, y = 111;
-      do Output.printString("GAME");
-      do Output.moveCursor(11, 38); // x = 304, y = 121;
-      do Output.printString("OVER");
+      do MainWindow.gameOver();
     }
 
     return;

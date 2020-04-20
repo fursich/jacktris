@@ -1,0 +1,54 @@
+/**
+ * Singleton class that represents 'world' map
+ */
+class World {
+  static World instance;
+  field Array map;
+
+  constructor World new() {
+    var int i, j;
+
+    let map = Array.new(12 * 23);
+
+    let i = 0;
+    while (i < 12) {
+      do registerCell(i, 22);  // hidden floor underneath the first row
+      let i = i + 1;
+    }
+
+    let j = 0;
+    while (j < 23) {
+      do registerCell(0, j);   // rightmost wall of the well
+      do registerCell(11, j);  // leftmost wall of the well
+      let j = j + 1;
+    }
+
+    return this;
+  }
+
+  function void dispose() {
+    do map.dispose();
+    do Memory.deAlloc(this);
+    return;
+  }
+
+  function void newInstance() {
+    let instance = World.new();
+    return;
+  }
+
+  function World getInstance() {
+    return instance;
+  }
+
+  /** register the given block to the map */
+  method void registerCell(int i, int j) {
+    let map[(12 * j) + i] = 1;
+    return;
+  }
+
+  /** check if the given block is occupied */
+  method boolean isEmpty(int i, int j) {
+    return map[(12 * j) + i] = 0;
+  }
+}

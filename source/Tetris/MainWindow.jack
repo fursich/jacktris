@@ -1,0 +1,87 @@
+/**
+ * Represents game window
+*/
+
+class MainWindow {
+  static int x0, y0, x1, y1; // for game window
+  static int block_size, block_space;
+
+  function void init() {
+    var int i, j;
+    var int i0, j0, i1, j1;
+    var int win_x0, win_y0, win_x1, win_y1;
+
+    let block_size = 12;
+    let block_space = 3;
+
+    let win_x0 = 256 + 4;
+    let win_y0 = 10;
+    let win_x1 = win_x0 + (12*10);
+    let win_y1 = win_y0 + (12*20);
+
+    do Screen.drawRectangle(win_x0 - 4, win_y0 - 4, win_x1 + 4 - block_space, win_y1 + 4 - block_space);
+    do Screen.setColor(false);
+    do Screen.drawRectangle(win_x0 - 2, win_y0 - 2, win_x1 + 2 - block_space, win_y1 + 2 - block_space);
+    do Screen.setColor(true);
+
+    // x0 = 0 for the leftmost wall (that are not displayed)
+    let x0 = win_x0 - block_size;
+    // y0 = 0 for the ceiling (22nd row, where the block spawns)
+    let y0 = win_y0 - (2 * block_size);
+
+    do Output.moveCursor(12, 12);
+    do Output.printString("JACKtris");
+
+    let i0 = ((12 * 8) - 14) - 8;
+    let i1 = (12 * 8) + (8 * 8) + 10;
+
+    let j0 = ((12 * 11) - 13) - 11;
+    let j1 = (12 * 11) + 11 + 13;
+
+    let i = i0;
+    while (~(i > i1)) {
+      do Screen.drawRectangle(i, j0, i + block_size - block_space, j0 + block_size - block_space);
+      do Screen.drawRectangle(i, j1, i + block_size - block_space, j1 + block_size - block_space);
+      let i = i + block_size;
+    }
+
+    do Output.moveCursor(21, 2);
+    do Output.printString("by fursich");
+
+    return;
+  }
+
+  /** draw a block located at (i, j) on the main window */
+  function void drawCell(int i, int j) {
+    var int x, y;
+    let x = x0 + (i * block_size);
+    let y = y0 + (j * block_size);
+
+    do Screen.drawRectangle(x, y, x + block_size - block_space, y + block_size - block_space);
+    return;
+  }
+
+  /** erase a block located at (i, j) on the main window */
+  function void eraseCell(int i, int j) {
+    var int x, y;
+    let x = x0 + (i * block_size);
+    let y = y0 + (j * block_size);
+
+    do Screen.setColor(false);
+    do Screen.drawRectangle(x, y, x + block_size - block_space, y + block_size - block_space);
+    do Screen.setColor(true);
+    return;
+  }
+
+  function void gameOver() {
+    do Screen.drawRectangle(304 - 18, 111 - 12, 304 + 32 + 18 - 2, 111 + 22 + 11);
+    do Screen.setColor(false);
+    do Screen.drawRectangle(304 - 16, 111 - 10, 304 + 32 + 16 - 2, 111 + 22 + 9);
+    do Output.moveCursor(10, 38); // x = 304, y = 111;
+    do Output.printString("GAME");
+    do Output.moveCursor(11, 38); // x = 304, y = 121;
+    do Output.printString("OVER");
+
+    return;
+  }
+}

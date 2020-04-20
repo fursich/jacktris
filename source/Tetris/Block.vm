@@ -1,0 +1,2124 @@
+function Block.new 1
+push constant 6
+call Memory.alloc 1
+pop pointer 0
+push argument 0
+pop this 3
+push constant 4
+pop this 0
+push constant 0
+pop this 1
+push constant 4
+call Array.new 1
+pop this 5
+push constant 0
+pop local 0
+label label1.while_start
+push local 0
+push constant 4
+lt
+if-goto label1.while
+goto label1.while_end
+label label1.while
+push constant 4
+push constant 4
+call Math.multiply 2
+call Array.new 1
+push local 0
+push this 5
+add
+pop pointer 1
+pop that 0
+push local 0
+push constant 1
+add
+pop local 0
+goto label1.while_start
+label label1.while_end
+push pointer 0
+call Block.setPatterns 1
+pop temp 0
+push pointer 0
+push constant 0
+call Block.rotateCurrentShapeTo 2
+pop temp 0
+push pointer 0
+return
+function Block.setWorld 0
+push argument 0
+pop static 0
+push constant 0
+return
+function Block.dispose 1
+push argument 0
+pop pointer 0
+push constant 0
+pop local 0
+label label2.while_start
+push local 0
+push constant 4
+lt
+if-goto label2.while
+goto label2.while_end
+label label2.while
+push local 0
+push this 5
+add
+pop pointer 1
+push that 0
+pop this 4
+push this 4
+call Array.dispose 1
+pop temp 0
+push local 0
+push constant 1
+add
+pop local 0
+goto label2.while_start
+label label2.while_end
+push this 5
+call Array.dispose 1
+pop temp 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+function Block.isMovable 3
+push argument 0
+pop pointer 0
+push constant 0
+pop local 2
+push this 1
+push argument 2
+add
+pop local 1
+label label5.while_start
+push local 1
+push this 1
+push argument 2
+push constant 4
+add
+add
+lt
+if-goto label5.while
+goto label5.while_end
+label label5.while
+push this 0
+push argument 1
+add
+pop local 0
+label label4.while_start
+push local 0
+push this 0
+push argument 1
+push constant 4
+add
+add
+lt
+if-goto label4.while
+goto label4.while_end
+label label4.while
+push local 2
+push this 4
+add
+pop pointer 1
+push that 0
+push constant 0
+eq
+not
+push static 0
+push local 0
+push local 1
+call World.isEmpty 3
+not
+and
+if-goto label3.if
+goto label3.if_end
+label label3.if
+push constant 0
+return
+label label3.if_end
+push local 2
+push constant 1
+add
+pop local 2
+push local 0
+push constant 1
+add
+pop local 0
+goto label4.while_start
+label label4.while_end
+push local 1
+push constant 1
+add
+pop local 1
+goto label5.while_start
+label label5.while_end
+push constant 1
+neg
+return
+function Block.isRotatableFrom 4
+push argument 0
+pop pointer 0
+push this 3
+push constant 3
+eq
+if-goto label6.if
+goto label6.if_end
+label label6.if
+push constant 1
+neg
+return
+label label6.if_end
+push this 3
+push constant 0
+eq
+if-goto label49.if
+push pointer 0
+push constant 0
+push constant 0
+call Block.isMovable 3
+if-goto label28.if
+goto label28.if_end
+label label28.if
+push constant 1
+neg
+return
+label label28.if_end
+push argument 1
+push constant 1
+eq
+if-goto label33.if
+goto label33.if_end
+label label33.if
+push pointer 0
+push constant 1
+push constant 0
+call Block.isMovable 3
+if-goto label29.if
+goto label29.if_end
+label label29.if
+push this 0
+push constant 1
+add
+pop this 0
+push constant 1
+neg
+return
+label label29.if_end
+push pointer 0
+push constant 1
+push constant 1
+call Block.isMovable 3
+if-goto label30.if
+goto label30.if_end
+label label30.if
+push this 0
+push constant 1
+add
+pop this 0
+push this 1
+push constant 1
+add
+pop this 1
+push constant 1
+neg
+return
+label label30.if_end
+push pointer 0
+push constant 0
+push constant 2
+neg
+call Block.isMovable 3
+if-goto label31.if
+goto label31.if_end
+label label31.if
+push this 1
+push constant 2
+sub
+pop this 1
+push constant 1
+neg
+return
+label label31.if_end
+push pointer 0
+push constant 1
+push constant 2
+neg
+call Block.isMovable 3
+if-goto label32.if
+goto label32.if_end
+label label32.if
+push this 0
+push constant 1
+add
+pop this 0
+push this 1
+push constant 2
+sub
+pop this 1
+push constant 1
+neg
+return
+label label32.if_end
+push constant 0
+return
+label label33.if_end
+push this 2
+push constant 3
+eq
+if-goto label38.if
+goto label38.if_end
+label label38.if
+push pointer 0
+push constant 1
+push constant 0
+call Block.isMovable 3
+if-goto label34.if
+goto label34.if_end
+label label34.if
+push this 0
+push constant 1
+add
+pop this 0
+push constant 1
+neg
+return
+label label34.if_end
+push pointer 0
+push constant 1
+push constant 1
+neg
+call Block.isMovable 3
+if-goto label35.if
+goto label35.if_end
+label label35.if
+push this 0
+push constant 1
+add
+pop this 0
+push this 1
+push constant 1
+sub
+pop this 1
+push constant 1
+neg
+return
+label label35.if_end
+push pointer 0
+push constant 0
+push constant 2
+call Block.isMovable 3
+if-goto label36.if
+goto label36.if_end
+label label36.if
+push this 1
+push constant 2
+add
+pop this 1
+push constant 1
+neg
+return
+label label36.if_end
+push pointer 0
+push constant 1
+push constant 2
+call Block.isMovable 3
+if-goto label37.if
+goto label37.if_end
+label label37.if
+push this 0
+push constant 1
+add
+pop this 0
+push this 1
+push constant 2
+add
+pop this 1
+push constant 1
+neg
+return
+label label37.if_end
+push constant 0
+return
+label label38.if_end
+push this 2
+push constant 1
+eq
+if-goto label43.if
+goto label43.if_end
+label label43.if
+push pointer 0
+push constant 1
+neg
+push constant 0
+call Block.isMovable 3
+if-goto label39.if
+goto label39.if_end
+label label39.if
+push this 0
+push constant 1
+sub
+pop this 0
+push constant 1
+neg
+return
+label label39.if_end
+push pointer 0
+push constant 1
+neg
+push constant 1
+neg
+call Block.isMovable 3
+if-goto label40.if
+goto label40.if_end
+label label40.if
+push this 0
+push constant 1
+sub
+pop this 0
+push this 1
+push constant 1
+sub
+pop this 1
+push constant 1
+neg
+return
+label label40.if_end
+push pointer 0
+push constant 0
+push constant 2
+call Block.isMovable 3
+if-goto label41.if
+goto label41.if_end
+label label41.if
+push this 1
+push constant 2
+add
+pop this 1
+push constant 1
+neg
+return
+label label41.if_end
+push pointer 0
+push constant 1
+neg
+push constant 2
+call Block.isMovable 3
+if-goto label42.if
+goto label42.if_end
+label label42.if
+push this 0
+push constant 1
+sub
+pop this 0
+push this 1
+push constant 2
+add
+pop this 1
+push constant 1
+neg
+return
+label label42.if_end
+push constant 0
+return
+label label43.if_end
+push argument 1
+push constant 3
+eq
+if-goto label48.if
+goto label48.if_end
+label label48.if
+push pointer 0
+push constant 1
+neg
+push constant 0
+call Block.isMovable 3
+if-goto label44.if
+goto label44.if_end
+label label44.if
+push this 0
+push constant 1
+sub
+pop this 0
+push constant 1
+neg
+return
+label label44.if_end
+push pointer 0
+push constant 1
+neg
+push constant 1
+call Block.isMovable 3
+if-goto label45.if
+goto label45.if_end
+label label45.if
+push this 0
+push constant 1
+sub
+pop this 0
+push this 1
+push constant 1
+add
+pop this 1
+push constant 1
+neg
+return
+label label45.if_end
+push pointer 0
+push constant 0
+push constant 2
+neg
+call Block.isMovable 3
+if-goto label46.if
+goto label46.if_end
+label label46.if
+push this 1
+push constant 2
+sub
+pop this 1
+push constant 1
+neg
+return
+label label46.if_end
+push pointer 0
+push constant 1
+neg
+push constant 2
+neg
+call Block.isMovable 3
+if-goto label47.if
+goto label47.if_end
+label label47.if
+push this 0
+push constant 1
+sub
+pop this 0
+push this 1
+push constant 2
+sub
+pop this 1
+push constant 1
+neg
+return
+label label47.if_end
+push constant 0
+return
+label label48.if_end
+goto label49.if_end
+label label49.if
+push pointer 0
+push constant 0
+push constant 0
+call Block.isMovable 3
+if-goto label7.if
+goto label7.if_end
+label label7.if
+push constant 1
+neg
+return
+label label7.if_end
+push argument 1
+push constant 0
+eq
+push this 2
+push constant 1
+eq
+and
+push argument 1
+push constant 3
+eq
+push this 2
+push constant 2
+eq
+and
+or
+if-goto label12.if
+goto label12.if_end
+label label12.if
+push pointer 0
+push constant 2
+neg
+push constant 0
+call Block.isMovable 3
+if-goto label8.if
+goto label8.if_end
+label label8.if
+push this 0
+push constant 2
+sub
+pop this 0
+push constant 1
+neg
+return
+label label8.if_end
+push pointer 0
+push constant 1
+push constant 0
+call Block.isMovable 3
+if-goto label9.if
+goto label9.if_end
+label label9.if
+push this 0
+push constant 1
+add
+pop this 0
+push constant 1
+neg
+return
+label label9.if_end
+push pointer 0
+push constant 2
+neg
+push constant 1
+call Block.isMovable 3
+if-goto label10.if
+goto label10.if_end
+label label10.if
+push this 0
+push constant 2
+sub
+pop this 0
+push this 1
+push constant 1
+add
+pop this 1
+push constant 1
+neg
+return
+label label10.if_end
+push pointer 0
+push constant 1
+push constant 2
+neg
+call Block.isMovable 3
+if-goto label11.if
+goto label11.if_end
+label label11.if
+push this 0
+push constant 1
+add
+pop this 0
+push this 1
+push constant 2
+sub
+pop this 1
+push constant 1
+neg
+return
+label label11.if_end
+push constant 0
+return
+label label12.if_end
+push argument 1
+push constant 1
+eq
+push this 2
+push constant 0
+eq
+and
+push argument 1
+push constant 2
+eq
+push this 2
+push constant 3
+eq
+and
+or
+if-goto label17.if
+goto label17.if_end
+label label17.if
+push pointer 0
+push constant 2
+push constant 0
+call Block.isMovable 3
+if-goto label13.if
+goto label13.if_end
+label label13.if
+push this 0
+push constant 2
+add
+pop this 0
+push constant 1
+neg
+return
+label label13.if_end
+push pointer 0
+push constant 1
+neg
+push constant 0
+call Block.isMovable 3
+if-goto label14.if
+goto label14.if_end
+label label14.if
+push this 0
+push constant 1
+sub
+pop this 0
+push constant 1
+neg
+return
+label label14.if_end
+push pointer 0
+push constant 2
+push constant 1
+neg
+call Block.isMovable 3
+if-goto label15.if
+goto label15.if_end
+label label15.if
+push this 0
+push constant 2
+add
+pop this 0
+push this 1
+push constant 1
+sub
+pop this 1
+push constant 1
+neg
+return
+label label15.if_end
+push pointer 0
+push constant 1
+neg
+push constant 2
+call Block.isMovable 3
+if-goto label16.if
+goto label16.if_end
+label label16.if
+push this 0
+push constant 1
+sub
+pop this 0
+push this 1
+push constant 2
+add
+pop this 1
+push constant 1
+neg
+return
+label label16.if_end
+push constant 0
+return
+label label17.if_end
+push argument 1
+push constant 1
+eq
+push this 2
+push constant 2
+eq
+and
+push argument 1
+push constant 0
+eq
+push this 2
+push constant 3
+eq
+and
+or
+if-goto label22.if
+goto label22.if_end
+label label22.if
+push pointer 0
+push constant 1
+neg
+push constant 0
+call Block.isMovable 3
+if-goto label18.if
+goto label18.if_end
+label label18.if
+push this 0
+push constant 1
+sub
+pop this 0
+push constant 1
+neg
+return
+label label18.if_end
+push pointer 0
+push constant 2
+push constant 0
+call Block.isMovable 3
+if-goto label19.if
+goto label19.if_end
+label label19.if
+push this 0
+push constant 2
+add
+pop this 0
+push constant 1
+neg
+return
+label label19.if_end
+push pointer 0
+push constant 1
+neg
+push constant 2
+neg
+call Block.isMovable 3
+if-goto label20.if
+goto label20.if_end
+label label20.if
+push this 0
+push constant 1
+sub
+pop this 0
+push this 1
+push constant 2
+sub
+pop this 1
+push constant 1
+neg
+return
+label label20.if_end
+push pointer 0
+push constant 2
+push constant 1
+call Block.isMovable 3
+if-goto label21.if
+goto label21.if_end
+label label21.if
+push this 0
+push constant 2
+add
+pop this 0
+push this 1
+push constant 1
+add
+pop this 1
+push constant 1
+neg
+return
+label label21.if_end
+push constant 0
+return
+label label22.if_end
+push argument 1
+push constant 2
+eq
+push this 2
+push constant 1
+eq
+and
+push argument 1
+push constant 3
+eq
+push this 2
+push constant 0
+eq
+and
+or
+if-goto label27.if
+goto label27.if_end
+label label27.if
+push pointer 0
+push constant 1
+push constant 0
+call Block.isMovable 3
+if-goto label23.if
+goto label23.if_end
+label label23.if
+push this 0
+push constant 1
+add
+pop this 0
+push constant 1
+neg
+return
+label label23.if_end
+push pointer 0
+push constant 2
+neg
+push constant 0
+call Block.isMovable 3
+if-goto label24.if
+goto label24.if_end
+label label24.if
+push this 0
+push constant 2
+sub
+pop this 0
+push constant 1
+neg
+return
+label label24.if_end
+push pointer 0
+push constant 1
+push constant 2
+call Block.isMovable 3
+if-goto label25.if
+goto label25.if_end
+label label25.if
+push this 0
+push constant 1
+add
+pop this 0
+push this 1
+push constant 2
+add
+pop this 1
+push constant 1
+neg
+return
+label label25.if_end
+push pointer 0
+push constant 2
+neg
+push constant 1
+neg
+call Block.isMovable 3
+if-goto label26.if
+goto label26.if_end
+label label26.if
+push this 0
+push constant 2
+sub
+pop this 0
+push this 1
+push constant 1
+sub
+pop this 1
+push constant 1
+neg
+return
+label label26.if_end
+push constant 0
+return
+label label27.if_end
+label label49.if_end
+function Block.land 3
+push argument 0
+pop pointer 0
+push constant 0
+pop local 2
+push this 1
+pop local 1
+label label52.while_start
+push local 1
+push this 1
+push constant 4
+add
+lt
+if-goto label52.while
+goto label52.while_end
+label label52.while
+push this 0
+pop local 0
+label label51.while_start
+push local 0
+push this 0
+push constant 4
+add
+lt
+if-goto label51.while
+goto label51.while_end
+label label51.while
+push local 2
+push this 4
+add
+pop pointer 1
+push that 0
+push constant 0
+eq
+not
+if-goto label50.if
+goto label50.if_end
+label label50.if
+push static 0
+push local 0
+push local 1
+call World.registerCell 3
+pop temp 0
+label label50.if_end
+push local 2
+push constant 1
+add
+pop local 2
+push local 0
+push constant 1
+add
+pop local 0
+goto label51.while_start
+label label51.while_end
+push local 1
+push constant 1
+add
+pop local 1
+goto label52.while_start
+label label52.while_end
+push pointer 0
+call Block.dispose 1
+pop temp 0
+push constant 0
+return
+function Block.draw 3
+push argument 0
+pop pointer 0
+push constant 0
+pop local 2
+push this 1
+pop local 1
+label label56.while_start
+push local 1
+push this 1
+push constant 4
+add
+lt
+if-goto label56.while
+goto label56.while_end
+label label56.while
+push local 1
+push constant 2
+lt
+not
+push local 1
+push constant 21
+gt
+not
+and
+if-goto label55.if
+push local 2
+push constant 4
+add
+pop local 2
+goto label55.if_end
+label label55.if
+push this 0
+pop local 0
+label label54.while_start
+push local 0
+push this 0
+push constant 4
+add
+lt
+if-goto label54.while
+goto label54.while_end
+label label54.while
+push local 0
+push constant 1
+lt
+not
+push local 0
+push constant 10
+gt
+not
+push local 2
+push this 4
+add
+pop pointer 1
+push that 0
+push constant 0
+eq
+not
+and
+and
+if-goto label53.if
+goto label53.if_end
+label label53.if
+push local 0
+push local 1
+call MainWindow.drawCell 2
+pop temp 0
+label label53.if_end
+push local 2
+push constant 1
+add
+pop local 2
+push local 0
+push constant 1
+add
+pop local 0
+goto label54.while_start
+label label54.while_end
+label label55.if_end
+push local 1
+push constant 1
+add
+pop local 1
+goto label56.while_start
+label label56.while_end
+push constant 0
+return
+function Block.erase 3
+push argument 0
+pop pointer 0
+push constant 0
+pop local 2
+push this 1
+pop local 1
+label label60.while_start
+push local 1
+push this 1
+push constant 4
+add
+lt
+if-goto label60.while
+goto label60.while_end
+label label60.while
+push local 1
+push constant 2
+lt
+not
+push local 1
+push constant 21
+gt
+not
+and
+if-goto label59.if
+push local 2
+push constant 4
+add
+pop local 2
+goto label59.if_end
+label label59.if
+push this 0
+pop local 0
+label label58.while_start
+push local 0
+push this 0
+push constant 4
+add
+lt
+if-goto label58.while
+goto label58.while_end
+label label58.while
+push local 0
+push constant 1
+lt
+not
+push local 0
+push constant 10
+gt
+not
+push local 2
+push this 4
+add
+pop pointer 1
+push that 0
+push constant 0
+eq
+not
+and
+and
+if-goto label57.if
+goto label57.if_end
+label label57.if
+push local 0
+push local 1
+call MainWindow.eraseCell 2
+pop temp 0
+label label57.if_end
+push local 2
+push constant 1
+add
+pop local 2
+push local 0
+push constant 1
+add
+pop local 0
+goto label58.while_start
+label label58.while_end
+label label59.if_end
+push local 1
+push constant 1
+add
+pop local 1
+goto label60.while_start
+label label60.while_end
+push constant 0
+return
+function Block.moveLeft 0
+push argument 0
+pop pointer 0
+push pointer 0
+push constant 1
+neg
+push constant 0
+call Block.isMovable 3
+if-goto label61.if
+goto label61.if_end
+label label61.if
+push pointer 0
+call Block.erase 1
+pop temp 0
+push this 0
+push constant 1
+sub
+pop this 0
+push pointer 0
+call Block.draw 1
+pop temp 0
+label label61.if_end
+push constant 0
+return
+function Block.moveRight 0
+push argument 0
+pop pointer 0
+push pointer 0
+push constant 1
+push constant 0
+call Block.isMovable 3
+if-goto label62.if
+goto label62.if_end
+label label62.if
+push pointer 0
+call Block.erase 1
+pop temp 0
+push this 0
+push constant 1
+add
+pop this 0
+push pointer 0
+call Block.draw 1
+pop temp 0
+label label62.if_end
+push constant 0
+return
+function Block.rotateRight 2
+push argument 0
+pop pointer 0
+push this 2
+pop local 0
+push pointer 0
+call Block.erase 1
+pop temp 0
+push this 2
+push constant 3
+eq
+if-goto label63.if
+push this 2
+push constant 1
+add
+pop local 1
+goto label63.if_end
+label label63.if
+push constant 0
+pop local 1
+label label63.if_end
+push pointer 0
+push local 1
+call Block.rotateCurrentShapeTo 2
+pop temp 0
+push pointer 0
+push local 0
+call Block.isRotatableFrom 2
+if-goto label64.if
+push pointer 0
+push local 0
+call Block.rotateCurrentShapeTo 2
+pop temp 0
+push pointer 0
+call Block.draw 1
+pop temp 0
+goto label64.if_end
+label label64.if
+push pointer 0
+call Block.draw 1
+pop temp 0
+label label64.if_end
+push constant 0
+return
+function Block.rotateLeft 2
+push argument 0
+pop pointer 0
+push this 2
+pop local 0
+push pointer 0
+call Block.erase 1
+pop temp 0
+push this 2
+push constant 0
+eq
+if-goto label65.if
+push this 2
+push constant 1
+sub
+pop local 1
+goto label65.if_end
+label label65.if
+push constant 3
+pop local 1
+label label65.if_end
+push pointer 0
+push local 1
+call Block.rotateCurrentShapeTo 2
+pop temp 0
+push pointer 0
+push local 0
+call Block.isRotatableFrom 2
+if-goto label66.if
+push pointer 0
+push local 0
+call Block.rotateCurrentShapeTo 2
+pop temp 0
+push pointer 0
+call Block.draw 1
+pop temp 0
+goto label66.if_end
+label label66.if
+push pointer 0
+call Block.draw 1
+pop temp 0
+label label66.if_end
+push constant 0
+return
+function Block.softDrop 0
+push argument 0
+pop pointer 0
+push pointer 0
+push constant 0
+push constant 1
+call Block.isMovable 3
+if-goto label67.if
+push pointer 0
+call Block.land 1
+pop temp 0
+push constant 0
+return
+goto label67.if_end
+label label67.if
+push pointer 0
+call Block.erase 1
+pop temp 0
+push this 1
+push constant 1
+add
+pop this 1
+push pointer 0
+call Block.draw 1
+pop temp 0
+push pointer 0
+return
+label label67.if_end
+function Block.hardDrop 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Block.erase 1
+pop temp 0
+label label68.while_start
+push pointer 0
+push constant 0
+push constant 1
+call Block.isMovable 3
+if-goto label68.while
+goto label68.while_end
+label label68.while
+push this 1
+push constant 1
+add
+pop this 1
+goto label68.while_start
+label label68.while_end
+push pointer 0
+call Block.draw 1
+pop temp 0
+push pointer 0
+call Block.land 1
+pop temp 0
+push constant 0
+return
+function Block.rotateCurrentShapeTo 0
+push argument 0
+pop pointer 0
+push argument 1
+pop this 2
+push argument 1
+push this 5
+add
+pop pointer 1
+push that 0
+pop this 4
+push constant 0
+return
+function Block.setPatterns 0
+push argument 0
+pop pointer 0
+push this 3
+push constant 0
+eq
+if-goto label69.if
+goto label69.if_end
+label label69.if
+push pointer 0
+call Block.setI 1
+pop temp 0
+push constant 0
+return
+label label69.if_end
+push this 3
+push constant 1
+eq
+if-goto label70.if
+goto label70.if_end
+label label70.if
+push pointer 0
+call Block.setJ 1
+pop temp 0
+push constant 0
+return
+label label70.if_end
+push this 3
+push constant 2
+eq
+if-goto label71.if
+goto label71.if_end
+label label71.if
+push pointer 0
+call Block.setL 1
+pop temp 0
+push constant 0
+return
+label label71.if_end
+push this 3
+push constant 3
+eq
+if-goto label72.if
+goto label72.if_end
+label label72.if
+push pointer 0
+call Block.setO 1
+pop temp 0
+push constant 0
+return
+label label72.if_end
+push this 3
+push constant 4
+eq
+if-goto label73.if
+goto label73.if_end
+label label73.if
+push pointer 0
+call Block.setS 1
+pop temp 0
+push constant 0
+return
+label label73.if_end
+push this 3
+push constant 5
+eq
+if-goto label74.if
+goto label74.if_end
+label label74.if
+push pointer 0
+call Block.setT 1
+pop temp 0
+push constant 0
+return
+label label74.if_end
+push this 3
+push constant 6
+eq
+if-goto label75.if
+goto label75.if_end
+label label75.if
+push pointer 0
+call Block.setZ 1
+pop temp 0
+push constant 0
+return
+label label75.if_end
+function Block.setI 0
+push argument 0
+pop pointer 0
+push pointer 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+push constant 1
+push constant 1
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Block.setArea 18
+pop temp 0
+push pointer 0
+push constant 1
+push constant 0
+push constant 0
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+push constant 0
+call Block.setArea 18
+pop temp 0
+push pointer 0
+push constant 2
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+push constant 1
+push constant 1
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Block.setArea 18
+pop temp 0
+push pointer 0
+push constant 3
+push constant 0
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+push constant 0
+push constant 0
+call Block.setArea 18
+pop temp 0
+push constant 0
+return
+function Block.setJ 0
+push argument 0
+pop pointer 0
+push pointer 0
+push constant 0
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+push constant 1
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Block.setArea 18
+pop temp 0
+push pointer 0
+push constant 1
+push constant 0
+push constant 1
+push constant 1
+push constant 0
+push constant 0
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Block.setArea 18
+pop temp 0
+push pointer 0
+push constant 2
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+push constant 1
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Block.setArea 18
+pop temp 0
+push pointer 0
+push constant 3
+push constant 0
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+push constant 0
+push constant 0
+push constant 1
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Block.setArea 18
+pop temp 0
+push constant 0
+return
+function Block.setL 0
+push argument 0
+pop pointer 0
+push pointer 0
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+push constant 0
+push constant 1
+push constant 1
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Block.setArea 18
+pop temp 0
+push pointer 0
+push constant 1
+push constant 0
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Block.setArea 18
+pop temp 0
+push pointer 0
+push constant 2
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+push constant 1
+push constant 1
+push constant 0
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Block.setArea 18
+pop temp 0
+push pointer 0
+push constant 3
+push constant 1
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Block.setArea 18
+pop temp 0
+push constant 0
+return
+function Block.setO 0
+push argument 0
+pop pointer 0
+push pointer 0
+push constant 0
+push constant 0
+push constant 1
+push constant 1
+push constant 0
+push constant 0
+push constant 1
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Block.setArea 18
+pop temp 0
+push pointer 0
+push constant 1
+push constant 0
+push constant 1
+push constant 1
+push constant 0
+push constant 0
+push constant 1
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Block.setArea 18
+pop temp 0
+push pointer 0
+push constant 2
+push constant 0
+push constant 1
+push constant 1
+push constant 0
+push constant 0
+push constant 1
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Block.setArea 18
+pop temp 0
+push pointer 0
+push constant 3
+push constant 0
+push constant 1
+push constant 1
+push constant 0
+push constant 0
+push constant 1
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Block.setArea 18
+pop temp 0
+push constant 0
+return
+function Block.setS 0
+push argument 0
+pop pointer 0
+push pointer 0
+push constant 0
+push constant 0
+push constant 1
+push constant 1
+push constant 0
+push constant 1
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Block.setArea 18
+pop temp 0
+push pointer 0
+push constant 1
+push constant 0
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Block.setArea 18
+pop temp 0
+push pointer 0
+push constant 2
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+push constant 1
+push constant 0
+push constant 1
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Block.setArea 18
+pop temp 0
+push pointer 0
+push constant 3
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Block.setArea 18
+pop temp 0
+push constant 0
+return
+function Block.setT 0
+push argument 0
+pop pointer 0
+push pointer 0
+push constant 0
+push constant 0
+push constant 1
+push constant 0
+push constant 0
+push constant 1
+push constant 1
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Block.setArea 18
+pop temp 0
+push pointer 0
+push constant 1
+push constant 0
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+push constant 1
+push constant 0
+push constant 0
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Block.setArea 18
+pop temp 0
+push pointer 0
+push constant 2
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+push constant 1
+push constant 1
+push constant 0
+push constant 0
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Block.setArea 18
+pop temp 0
+push pointer 0
+push constant 3
+push constant 0
+push constant 1
+push constant 0
+push constant 0
+push constant 1
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Block.setArea 18
+pop temp 0
+push constant 0
+return
+function Block.setZ 0
+push argument 0
+pop pointer 0
+push pointer 0
+push constant 0
+push constant 1
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Block.setArea 18
+pop temp 0
+push pointer 0
+push constant 1
+push constant 0
+push constant 0
+push constant 1
+push constant 0
+push constant 0
+push constant 1
+push constant 1
+push constant 0
+push constant 0
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Block.setArea 18
+pop temp 0
+push pointer 0
+push constant 2
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 1
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Block.setArea 18
+pop temp 0
+push pointer 0
+push constant 3
+push constant 0
+push constant 1
+push constant 0
+push constant 0
+push constant 1
+push constant 1
+push constant 0
+push constant 0
+push constant 1
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+push constant 0
+call Block.setArea 18
+pop temp 0
+push constant 0
+return
+function Block.setArea 1
+push argument 0
+pop pointer 0
+push argument 1
+push this 5
+add
+pop pointer 1
+push that 0
+pop local 0
+push argument 2
+push constant 0
+push local 0
+add
+pop pointer 1
+pop that 0
+push argument 3
+push constant 1
+push local 0
+add
+pop pointer 1
+pop that 0
+push argument 4
+push constant 2
+push local 0
+add
+pop pointer 1
+pop that 0
+push argument 5
+push constant 3
+push local 0
+add
+pop pointer 1
+pop that 0
+push argument 6
+push constant 4
+push local 0
+add
+pop pointer 1
+pop that 0
+push argument 7
+push constant 5
+push local 0
+add
+pop pointer 1
+pop that 0
+push argument 8
+push constant 6
+push local 0
+add
+pop pointer 1
+pop that 0
+push argument 9
+push constant 7
+push local 0
+add
+pop pointer 1
+pop that 0
+push argument 10
+push constant 8
+push local 0
+add
+pop pointer 1
+pop that 0
+push argument 11
+push constant 9
+push local 0
+add
+pop pointer 1
+pop that 0
+push argument 12
+push constant 10
+push local 0
+add
+pop pointer 1
+pop that 0
+push argument 13
+push constant 11
+push local 0
+add
+pop pointer 1
+pop that 0
+push argument 14
+push constant 12
+push local 0
+add
+pop pointer 1
+pop that 0
+push argument 15
+push constant 13
+push local 0
+add
+pop pointer 1
+pop that 0
+push argument 16
+push constant 14
+push local 0
+add
+pop pointer 1
+pop that 0
+push argument 17
+push constant 15
+push local 0
+add
+pop pointer 1
+pop that 0
+push constant 0
+return

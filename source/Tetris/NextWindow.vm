@@ -1,0 +1,95 @@
+function NextWindow.init 0
+push constant 12
+pop static 4
+push constant 3
+pop static 5
+push constant 392
+pop static 0
+push constant 82
+pop static 1
+push static 0
+push constant 12
+push constant 4
+call Math.multiply 2
+push constant 4
+push constant 2
+call Math.multiply 2
+push static 5
+sub
+add
+add
+pop static 2
+push static 1
+push constant 12
+push constant 2
+call Math.multiply 2
+push constant 16
+push constant 2
+call Math.multiply 2
+push static 5
+sub
+add
+add
+pop static 3
+push static 0
+push static 1
+push static 2
+push static 3
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push static 0
+push constant 2
+add
+push static 1
+push constant 2
+add
+push static 2
+push constant 2
+sub
+push static 3
+push constant 2
+sub
+call Screen.drawRectangle 4
+pop temp 0
+push constant 1
+neg
+call Screen.setColor 1
+pop temp 0
+push constant 0
+return
+function NextWindow.drawBlockInWindow 2
+push argument 0
+push static 4
+call Math.multiply 2
+push static 0
+push constant 4
+add
+add
+pop local 0
+push argument 1
+push static 4
+call Math.multiply 2
+push static 1
+push constant 16
+add
+add
+pop local 1
+push local 0
+push local 1
+push local 0
+push static 4
+push static 5
+sub
+add
+push local 1
+push static 4
+push static 5
+sub
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return

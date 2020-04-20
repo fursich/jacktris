@@ -1,0 +1,49 @@
+/**
+ * Represents the right subwindow that displays the "next block"
+*/
+
+class NextWindow {
+  static int disp_x0, disp_y0, disp_x1, disp_y1; // for next block window (TODO: might remove and hard code later on)
+  static int block_size, block_space;
+
+  function void init() {
+//    var int i, j;
+
+    let block_size = 12;
+    let block_space = 3;
+
+    let disp_x0 = 392;
+    let disp_y0 = 82;
+    let disp_x1 = disp_x0 + (12*4) + (4* 2) - block_space;
+    let disp_y1 = disp_y0 + (12*2) + (16 * 2) - block_space;
+
+    do Screen.drawRectangle(disp_x0, disp_y0, disp_x1, disp_y1);
+    do Screen.setColor(false);
+    do Screen.drawRectangle(disp_x0 + 2, disp_y0 + 2, disp_x1 - 2, disp_y1 - 2);
+    do Screen.setColor(true);
+
+//    let i = 0;
+//    while (i < 4) {
+//      let j = 0;
+//      while (j < 2) {
+//        do TetrisGame.drawBlockInWindow(i, j);
+//        let j = j + 1;
+//      }
+//      let i = i + 1;
+//    }
+
+    return;
+  }
+
+  /** draw a block within the "next" window */
+  // TODO: might be removed completely to accept only block patterns. Or, will be moved to a separate class */
+  function void drawBlockInWindow(int i, int j) {
+    var int x, y;
+    let x = (i * block_size) + disp_x0 + 4;
+    let y = (j * block_size) + disp_y0 + 16;
+
+    do Screen.drawRectangle(x, y, x + block_size - block_space, y + block_size - block_space);
+    return;
+  }
+}
+
