@@ -4,9 +4,13 @@
 
 class Block {
   static World world;
+  static int unitTime;
+  static int landingTime;
+
   field int x, y, rot, type;
   field Array currentShape; // representing current shape;
   field Array patterns; // representing four patterns based on rot angles
+  field int time;
 
   constructor Block new(int block_type) {
     var int i;
@@ -24,12 +28,49 @@ class Block {
     do setPatterns();
     do rotateCurrentShapeTo(0);
 
+    let landingTime = 2000;
+
     return this;
+  }
+
+  function Block spawn(int t) {
+    var Block blk;
+
+    let blk = Block.new(t);
+    do blk.chargeTime();
+
+    do blk.draw();
+    return blk;
   }
 
   function void setWorld(World instance) {
     let world = instance;
     return;
+  }
+
+  function void setUnitTime(int t) {
+    let unitTime = t;
+    return;
+  }
+
+  method void chargeTime() {
+    if(isMovable(0,1)) {
+      let time = unitTime;
+    } else {
+      let time = landingTime;
+    }
+    return;
+  }
+
+  method boolean tick() {
+    do Sys.wait(2);
+    if (~(time < 0)) {
+      let time = time - 10; // TODO: recondier timings
+      return false;
+    } else {
+      do chargeTime();
+      return true;
+    }
   }
 
   method void dispose() {
@@ -389,25 +430,38 @@ class Block {
   }
 
   method Block softDrop() {
-    if(isMovable(0, 1)) {
-      do erase();
-      let y = y + 1;
-      do draw();
-      return this;
-    } else {
-      do land();
-      return null;
-    }
+    return dropByOne(); // TODO: add scores
   }
 
   method Block hardDrop() {
     do erase();
-    while(isMovable(0, 1)) {
+    while(isMovable(0, 1)) { // TODO: add scores
       let y = y + 1;
     }
     do draw();
     do land();
     return null;
+  }
+
+  method Block makeFall() {
+    if(tick()) {
+      return dropByOne();
+    } else {
+      return this;
+    }
+  }
+
+  method Block dropByOne() {
+    if(isMovable(0, 1)) {
+      do erase();
+      let y = y + 1;
+      do draw();
+      do chargeTime();
+      return this;
+    } else {
+      do land();
+      return null;
+    }
   }
 
   method void rotateCurrentShapeTo(int r) {

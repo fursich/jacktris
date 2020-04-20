@@ -170,18 +170,12 @@ pop temp 0
 push constant 0
 return
 label label7.if_end
-push constant 0
-push constant 0
-push local 4
-add
-pop pointer 1
-pop that 0
-push constant 0
-push constant 1
-push local 4
-add
-pop pointer 1
-pop that 0
+push pointer 0
+call World.redraw 1
+pop temp 0
+push constant 100
+call Sys.wait 1
+pop temp 0
 push constant 21
 push constant 12
 call Math.multiply 2
@@ -190,73 +184,34 @@ add
 pop local 2
 push constant 21
 pop local 1
-push constant 0
-pop local 3
-label label14.while_start
-push local 1
-push constant 0
-lt
-not
-if-goto label14.while
-goto label14.while_end
-label label14.while
-push constant 0
-pop local 6
 label label10.while_start
-push local 6
-not
+push local 1
+push constant 1
+gt
 if-goto label10.while
 goto label10.while_end
 label label10.while
 push local 1
-push local 3
-sub
-push constant 0
-lt
-if-goto label9.if
-push local 1
-push local 3
-sub
 push local 4
 add
 pop pointer 1
 push that 0
-not
-if-goto label8.if
-push local 3
-push constant 1
-add
-pop local 3
-goto label8.if_end
-label label8.if
-push constant 1
-neg
-pop local 6
-label label8.if_end
+if-goto label9.if
+push local 2
+push constant 11
+sub
+pop local 2
 goto label9.if_end
 label label9.if
-push constant 1
-neg
-pop local 6
-label label9.if_end
-goto label10.while_start
-label label10.while_end
-push local 1
-push local 3
-sub
-push constant 0
-lt
-not
-if-goto label13.if
 push constant 10
 pop local 0
-label label12.while_start
+label label8.while_start
 push local 0
 push constant 0
 gt
-if-goto label12.while
-goto label12.while_end
-label label12.while
+if-goto label8.while
+goto label8.while_end
+label label8.while
 push constant 0
 push local 2
 push this 0
@@ -271,23 +226,143 @@ push local 0
 push constant 1
 sub
 pop local 0
-goto label12.while_start
-label label12.while_end
+goto label8.while_start
+label label8.while_end
 push local 2
 push constant 2
 sub
 pop local 2
-goto label13.if_end
-label label13.if
+label label9.if_end
+push local 1
+push constant 1
+sub
+pop local 1
+goto label10.while_start
+label label10.while_end
+push pointer 0
+call World.redraw 1
+pop temp 0
+push constant 100
+call Sys.wait 1
+pop temp 0
+push constant 0
+push constant 0
+push local 4
+add
+pop pointer 1
+pop that 0
+push constant 0
+push constant 1
+push local 4
+add
+pop pointer 1
+pop that 0
+push constant 21
+push constant 12
+call Math.multiply 2
+push constant 10
+add
+pop local 2
+push constant 21
+pop local 1
+push constant 0
+pop local 3
+label label17.while_start
+push local 1
+push constant 0
+lt
+not
+if-goto label17.while
+goto label17.while_end
+label label17.while
+push constant 0
+pop local 6
+label label13.while_start
+push local 6
+not
+if-goto label13.while
+goto label13.while_end
+label label13.while
+push local 1
+push local 3
+sub
+push constant 0
+lt
+if-goto label12.if
+push local 1
+push local 3
+sub
+push local 4
+add
+pop pointer 1
+push that 0
+not
+if-goto label11.if
+push local 3
+push constant 1
+add
+pop local 3
+goto label11.if_end
+label label11.if
+push constant 1
+neg
+pop local 6
+label label11.if_end
+goto label12.if_end
+label label12.if
+push constant 1
+neg
+pop local 6
+label label12.if_end
+goto label13.while_start
+label label13.while_end
+push local 1
+push local 3
+sub
+push constant 0
+lt
+not
+if-goto label16.if
 push constant 10
 pop local 0
-label label11.while_start
+label label15.while_start
 push local 0
 push constant 0
 gt
-if-goto label11.while
-goto label11.while_end
-label label11.while
+if-goto label15.while
+goto label15.while_end
+label label15.while
+push constant 0
+push local 2
+push this 0
+add
+pop pointer 1
+pop that 0
+push local 2
+push constant 1
+sub
+pop local 2
+push local 0
+push constant 1
+sub
+pop local 0
+goto label15.while_start
+label label15.while_end
+push local 2
+push constant 2
+sub
+pop local 2
+goto label16.if_end
+label label16.if
+push constant 10
+pop local 0
+label label14.while_start
+push local 0
+push constant 0
+gt
+if-goto label14.while
+goto label14.while_end
+label label14.while
 push local 2
 push local 3
 push constant 12
@@ -310,19 +385,19 @@ push local 0
 push constant 1
 sub
 pop local 0
-goto label11.while_start
-label label11.while_end
+goto label14.while_start
+label label14.while_end
 push local 2
 push constant 2
 sub
 pop local 2
-label label13.if_end
+label label16.if_end
 push local 1
 push constant 1
 sub
 pop local 1
-goto label14.while_start
-label label14.while_end
+goto label17.while_start
+label label17.while_end
 push pointer 0
 call World.redraw 1
 pop temp 0
@@ -344,22 +419,22 @@ add
 pop local 2
 push constant 2
 pop local 1
-label label17.while_start
+label label20.while_start
 push local 1
 push constant 22
 lt
-if-goto label17.while
-goto label17.while_end
-label label17.while
+if-goto label20.while
+goto label20.while_end
+label label20.while
 push constant 1
 pop local 0
-label label16.while_start
+label label19.while_start
 push local 0
 push constant 11
 lt
-if-goto label16.while
-goto label16.while_end
-label label16.while
+if-goto label19.while
+goto label19.while_end
+label label19.while
 push local 2
 push this 0
 add
@@ -368,14 +443,14 @@ push that 0
 push constant 0
 eq
 not
-if-goto label15.if
-goto label15.if_end
-label label15.if
+if-goto label18.if
+goto label18.if_end
+label label18.if
 push local 0
 push local 1
 call MainWindow.drawCell 2
 pop temp 0
-label label15.if_end
+label label18.if_end
 push local 2
 push constant 1
 add
@@ -384,8 +459,8 @@ push local 0
 push constant 1
 add
 pop local 0
-goto label16.while_start
-label label16.while_end
+goto label19.while_start
+label label19.while_end
 push local 2
 push constant 2
 add
@@ -394,8 +469,8 @@ push local 1
 push constant 1
 add
 pop local 1
-goto label17.while_start
-label label17.while_end
+goto label20.while_start
+label label20.while_end
 push constant 0
 return
 function World.registerCell 0
