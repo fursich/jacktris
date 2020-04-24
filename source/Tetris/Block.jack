@@ -3,6 +3,7 @@
 */
 
 class Block {
+  static Player player;
   static World world;
   static int unitTime;
   static int landingTime;
@@ -41,6 +42,11 @@ class Block {
 
     do blk.draw();
     return blk;
+  }
+
+  function void setPlayer(Player p) {
+    let player = p;
+    return;
   }
 
   function void setWorld(World instance) {
@@ -299,6 +305,7 @@ class Block {
   /** register the block into the map as static obstacles, destroy the instance */
   method void land() {
     var int i, j, idx;
+    var int count;
 
     let idx = 0;
     let j = y;
@@ -314,8 +321,10 @@ class Block {
       }
       let j = j + 1;
     }
-    do dispose();
+    let count = world.destroyLines();
+    do player.addScoreForLineClear(count);
 
+    do dispose();
     return;
   }
 
@@ -430,14 +439,21 @@ class Block {
   }
 
   method Block softDrop() {
-    return dropByOne(); // TODO: add scores
+    do player.addScoreForSoftDrop();
+    return dropByOne();
   }
 
   method Block hardDrop() {
+    var int y0;
+
     do erase();
-    while(isMovable(0, 1)) { // TODO: add scores
+    let y0 = y;
+
+    while(isMovable(0, 1)) {
       let y = y + 1;
     }
+    do player.addScoreForHardDrop(y - y0);
+
     do draw();
     do land();
     return null;

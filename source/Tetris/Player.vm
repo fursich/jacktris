@@ -1,0 +1,168 @@
+function Player.new 0
+push constant 4
+call Memory.alloc 1
+pop pointer 0
+push constant 0
+pop this 1
+push constant 4800
+pop this 2
+push constant 1
+pop this 3
+push constant 0
+pop this 0
+push pointer 0
+return
+function Player.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+function Player.updateLevel 0
+push argument 0
+pop pointer 0
+push this 1
+push this 2
+lt
+if-goto label1.if
+goto label1.if_end
+label label1.if
+push constant 0
+return
+label label1.if_end
+label label2.while_start
+push this 1
+push this 2
+lt
+not
+if-goto label2.while
+goto label2.while_end
+label label2.while
+push this 2
+push constant 4800
+add
+pop this 2
+push this 3
+push constant 1
+add
+pop this 3
+goto label2.while_start
+label label2.while_end
+push this 3
+call ScoreBoard.printLevel 1
+pop temp 0
+push constant 0
+return
+function Player.getLevel 0
+push argument 0
+pop pointer 0
+push this 3
+return
+function Player.addScoreForLineClear 1
+push argument 0
+pop pointer 0
+push argument 1
+push constant 0
+gt
+not
+if-goto label3.if
+goto label3.if_end
+label label3.if
+push constant 0
+return
+label label3.if_end
+push argument 1
+push constant 3
+lt
+if-goto label7.if
+push argument 1
+push constant 3
+eq
+if-goto label6.if
+push this 0
+if-goto label5.if
+push constant 800
+pop local 0
+goto label5.if_end
+label label5.if
+push constant 1200
+pop local 0
+label label5.if_end
+push constant 1
+neg
+pop this 0
+goto label6.if_end
+label label6.if
+push constant 500
+pop local 0
+push constant 0
+pop this 0
+label label6.if_end
+goto label7.if_end
+label label7.if
+push argument 1
+push constant 1
+eq
+if-goto label4.if
+push constant 300
+pop local 0
+push constant 0
+pop this 0
+goto label4.if_end
+label label4.if
+push constant 100
+pop local 0
+push constant 0
+pop this 0
+label label4.if_end
+label label7.if_end
+push pointer 0
+push local 0
+push this 3
+call Math.multiply 2
+call Player.addScore 2
+pop temp 0
+push constant 0
+return
+function Player.addScoreForSoftDrop 0
+push argument 0
+pop pointer 0
+push pointer 0
+push constant 1
+call Player.addScore 2
+pop temp 0
+push constant 0
+return
+function Player.addScoreForHardDrop 0
+push argument 0
+pop pointer 0
+push argument 1
+push constant 0
+gt
+if-goto label8.if
+goto label8.if_end
+label label8.if
+push pointer 0
+push constant 2
+push argument 1
+call Math.multiply 2
+call Player.addScore 2
+pop temp 0
+label label8.if_end
+push constant 0
+return
+function Player.addScore 0
+push argument 0
+pop pointer 0
+push this 1
+push argument 1
+add
+pop this 1
+push this 1
+call ScoreBoard.printScore 1
+pop temp 0
+push pointer 0
+call Player.updateLevel 1
+pop temp 0
+push constant 0
+return

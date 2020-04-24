@@ -1,0 +1,95 @@
+/**
+ * represents score, time, and level that the player earned
+ * (TODO: preserve previous status for back-to-back/combo bonus)
+ */
+class Player {
+  field boolean back_to_back;
+
+  // consider having lives
+  field int score;
+  field int next_score;
+  field int level;
+
+  constructor Player new() {
+    let score = 0;
+    let next_score = 4800;
+    let level = 1;
+    let back_to_back = false;
+
+    return this;
+  }
+
+  method void dispose() {
+    do Memory.deAlloc(this);
+  }
+
+  method void updateLevel() {
+    if (score < next_score) {
+      return;
+    }
+
+    while (~(score < next_score)) {
+      let next_score = next_score + 4800; // TODO: reconsider proper level gaps
+      let level = level + 1;
+    }
+    do ScoreBoard.printLevel(level);
+    return;
+  }
+
+  method int getLevel() {
+    return level;
+  }
+
+  method void addScoreForLineClear(int line_count) {
+    var int base;
+
+    if (~(line_count > 0)) {
+      return;
+    }
+
+    if (line_count < 3) {
+      if (line_count = 1) {
+        let base = 100;
+        let back_to_back = false;
+      } else {
+        let base = 300;
+        let back_to_back = false;
+      }
+    } else {
+      if (line_count = 3) {
+        let base = 500;
+        let back_to_back = false;
+      } else {
+        if (back_to_back) {
+          let base = 1200;
+        } else {
+          let base = 800;
+        }
+        let back_to_back = true;
+      }
+    }
+
+    do addScore(base * level);
+    return;
+  }
+
+  method void addScoreForSoftDrop() {
+    do addScore(1);
+    return;
+  }
+
+  method void addScoreForHardDrop(int lines) {
+    if (lines > 0) {
+      do addScore(2 * lines);
+    }
+    return;
+  }
+
+  method void addScore(int diff) {
+    let score = score + diff;
+    do ScoreBoard.printScore(score);
+
+    do updateLevel();
+    return;
+  }
+}

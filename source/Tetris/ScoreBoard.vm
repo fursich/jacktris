@@ -1,16 +1,9 @@
-function ScoreBoard.new 0
-push constant 2
-call Memory.alloc 1
-pop pointer 0
-push constant 0
-pop this 0
-push constant 1
-pop this 1
+function ScoreBoard.init 0
 push constant 1
 push constant 49
 call Output.moveCursor 2
 pop temp 0
-push constant 7
+push constant 6
 call String.new 1
 push constant 83
 call String.appendChar 2
@@ -23,8 +16,6 @@ call String.appendChar 2
 push constant 101
 call String.appendChar 2
 push constant 58
-call String.appendChar 2
-push constant 32
 call String.appendChar 2
 call Output.printString 1
 pop temp 0
@@ -66,29 +57,15 @@ push constant 58
 call String.appendChar 2
 call Output.printString 1
 pop temp 0
-push pointer 0
+push constant 0
 call ScoreBoard.printScore 1
 pop temp 0
-push pointer 0
+push constant 1
 call ScoreBoard.printLevel 1
-pop temp 0
-push pointer 0
-return
-function ScoreBoard.addScore 0
-push argument 0
-pop pointer 0
-push this 0
-push argument 1
-add
-pop this 0
-push pointer 0
-call ScoreBoard.printScore 1
 pop temp 0
 push constant 0
 return
 function ScoreBoard.printScore 0
-push argument 0
-pop pointer 0
 push constant 1
 push constant 56
 call Output.moveCursor 2
@@ -107,14 +84,16 @@ push constant 32
 call String.appendChar 2
 call Output.printString 1
 pop temp 0
-push this 0
+push constant 1
+push constant 56
+call Output.moveCursor 2
+pop temp 0
+push argument 0
 call Output.printInt 1
 pop temp 0
 push constant 0
 return
 function ScoreBoard.printLevel 0
-push argument 0
-pop pointer 0
 push constant 3
 push constant 56
 call Output.moveCursor 2
@@ -133,7 +112,11 @@ push constant 32
 call String.appendChar 2
 call Output.printString 1
 pop temp 0
-push this 1
+push constant 3
+push constant 56
+call Output.moveCursor 2
+pop temp 0
+push argument 0
 call Output.printInt 1
 pop temp 0
 push constant 0

@@ -4,44 +4,34 @@
 
 class ScoreBoard {
 
-  field int score, level;
-
-  constructor ScoreBoard new() {
-
-    let score = 0;
-    let level = 1;
+  function void init() {
 
     do Output.moveCursor(1, 49);
-    do Output.printString("Score: ");
+    do Output.printString("Score:");
     do Output.moveCursor(3, 49);
     do Output.printString("Level:");
     do Output.moveCursor(6, 49);
     do Output.printString("Next:");
 
-    do printScore();
-    do printLevel();
+    do ScoreBoard.printScore(0);
+    do ScoreBoard.printLevel(1);
     return this;
   }
 
   /** print score in the score board */
-  method void addScore(int value) {
-    let score = score + value;
-    do printScore();
-    return;
-  }
-
-  /** print score in the score board */
-  method void printScore() {
+  function void printScore(int score) {
     do Output.moveCursor(1, 56);
     do Output.printString("     ");
+    do Output.moveCursor(1, 56);
     do Output.printInt(score);
     return;
   }
 
   /** print score in the level board */
-  method void printLevel() {
+  function void printLevel(int level) {
     do Output.moveCursor(3, 56);
     do Output.printString("     ");
+    do Output.moveCursor(3, 56);
     do Output.printInt(level);
     return;
   }

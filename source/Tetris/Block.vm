@@ -43,7 +43,7 @@ push constant 0
 call Block.rotateCurrentShapeTo 2
 pop temp 0
 push constant 2000
-pop static 2
+pop static 3
 push pointer 0
 return
 function Block.spawn 1
@@ -58,14 +58,19 @@ call Block.draw 1
 pop temp 0
 push local 0
 return
-function Block.setWorld 0
+function Block.setPlayer 0
 push argument 0
 pop static 0
 push constant 0
 return
-function Block.setUnitTime 0
+function Block.setWorld 0
 push argument 0
 pop static 1
+push constant 0
+return
+function Block.setUnitTime 0
+push argument 0
+pop static 2
 push constant 0
 return
 function Block.chargeTime 0
@@ -76,11 +81,11 @@ push constant 0
 push constant 1
 call Block.isMovable 3
 if-goto label2.if
-push static 2
+push static 3
 pop this 6
 goto label2.if_end
 label label2.if
-push static 1
+push static 2
 pop this 6
 label label2.if_end
 push constant 0
@@ -189,7 +194,7 @@ push that 0
 push constant 0
 eq
 not
-push static 0
+push static 1
 push local 0
 push local 1
 call World.isEmpty 3
@@ -950,7 +955,7 @@ push constant 0
 return
 label label29.if_end
 label label51.if_end
-function Block.land 3
+function Block.land 4
 push argument 0
 pop pointer 0
 push constant 0
@@ -988,7 +993,7 @@ not
 if-goto label52.if
 goto label52.if_end
 label label52.if
-push static 0
+push static 1
 push local 0
 push local 1
 call World.registerCell 3
@@ -1010,6 +1015,13 @@ add
 pop local 1
 goto label54.while_start
 label label54.while_end
+push static 1
+call World.destroyLines 1
+pop local 3
+push static 0
+push local 3
+call Player.addScoreForLineClear 2
+pop temp 0
 push pointer 0
 call Block.dispose 1
 pop temp 0
@@ -1329,15 +1341,20 @@ return
 function Block.softDrop 0
 push argument 0
 pop pointer 0
+push static 0
+call Player.addScoreForSoftDrop 1
+pop temp 0
 push pointer 0
 call Block.dropByOne 1
 return
-function Block.hardDrop 0
+function Block.hardDrop 1
 push argument 0
 pop pointer 0
 push pointer 0
 call Block.erase 1
 pop temp 0
+push this 1
+pop local 0
 label label69.while_start
 push pointer 0
 push constant 0
@@ -1352,6 +1369,12 @@ add
 pop this 1
 goto label69.while_start
 label label69.while_end
+push static 0
+push this 1
+push local 0
+sub
+call Player.addScoreForHardDrop 2
+pop temp 0
 push pointer 0
 call Block.draw 1
 pop temp 0

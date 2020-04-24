@@ -1,4 +1,4 @@
-function TetrisGame.new 6
+function TetrisGame.new 1
 push constant 1
 call Memory.alloc 1
 pop pointer 0
@@ -6,19 +6,24 @@ call Screen.clearScreen 0
 pop temp 0
 call MainWindow.init 0
 pop temp 0
-call ScoreBoard.new 0
-pop static 1
+call ScoreBoard.init 0
+pop temp 0
 call NextWindow.init 0
 pop temp 0
 call World.newInstance 0
 pop temp 0
 call World.getInstance 0
-pop static 2
-push static 2
+pop static 1
+push static 1
 call Block.setWorld 1
 pop temp 0
 push constant 0
 pop this 0
+call MainWindow.waitStart 0
+pop local 0
+push local 0
+call Rand.init 1
+pop temp 0
 push pointer 0
 return
 function TetrisGame.dispose 0
@@ -37,76 +42,81 @@ return
 function TetrisGame.getInstance 0
 push static 0
 return
-function TetrisGame.run 5
+function TetrisGame.run 6
 push argument 0
 pop pointer 0
+call Player.new 0
+pop local 0
+push constant 0
+pop local 4
 push constant 0
 pop local 3
-push constant 0
-pop local 2
+push local 0
+call Block.setPlayer 1
+pop temp 0
 push constant 1000
 call Block.setUnitTime 1
 pop temp 0
-label label29.while_start
+label label28.while_start
 push this 0
 not
-if-goto label29.while
-goto label29.while_end
-label label29.while
+if-goto label28.while
+goto label28.while_end
+label label28.while
 call Keyboard.keyPressed 0
-pop local 1
-push local 1
+pop local 2
+push local 2
 push constant 140
 eq
-if-goto label28.if
-push local 1
+if-goto label27.if
+push local 2
 push constant 0
 eq
 not
 if-goto label4.if
 push constant 0
-pop local 3
+pop local 4
 goto label4.if_end
 label label4.if
-push local 1
 push local 2
+push local 3
 eq
 if-goto label3.if
 push constant 0
-pop local 3
+pop local 4
 goto label3.if_end
 label label3.if
-push local 3
+push local 4
 if-goto label2.if
 push constant 1
 neg
-pop local 3
-push constant 100
 pop local 4
+push constant 100
+pop local 5
 goto label2.if_end
 label label2.if
-push local 4
+push local 5
 push constant 1
 sub
-pop local 4
-push local 4
+pop local 5
+push local 5
 push constant 0
 lt
 if-goto label1.if
 goto label1.if_end
 label label1.if
 push constant 0
-pop local 3
+pop local 4
 label label1.if_end
 label label2.if_end
 label label3.if_end
 label label4.if_end
-push local 3
+push local 4
 not
-if-goto label25.if
-goto label25.if_end
-label label25.if
-push local 1
+if-goto label24.if
+goto label24.if_end
+label label24.if
+push local 2
 push constant 73
 eq
 if-goto label5.if
@@ -114,9 +124,9 @@ goto label5.if_end
 label label5.if
 push constant 0
 call Block.spawn 1
-pop local 0
+pop local 1
 label label5.if_end
-push local 1
+push local 2
 push constant 74
 eq
 if-goto label6.if
@@ -124,9 +134,9 @@ goto label6.if_end
 label label6.if
 push constant 1
 call Block.spawn 1
-pop local 0
+pop local 1
 label label6.if_end
-push local 1
+push local 2
 push constant 76
 eq
 if-goto label7.if
@@ -134,9 +144,9 @@ goto label7.if_end
 label label7.if
 push constant 2
 call Block.spawn 1
-pop local 0
+pop local 1
 label label7.if_end
-push local 1
+push local 2
 push constant 79
 eq
 if-goto label8.if
@@ -144,9 +154,9 @@ goto label8.if_end
 label label8.if
 push constant 3
 call Block.spawn 1
-pop local 0
+pop local 1
 label label8.if_end
-push local 1
+push local 2
 push constant 83
 eq
 if-goto label9.if
@@ -154,9 +164,9 @@ goto label9.if_end
 label label9.if
 push constant 4
 call Block.spawn 1
-pop local 0
+pop local 1
 label label9.if_end
-push local 1
+push local 2
 push constant 84
 eq
 if-goto label10.if
@@ -164,9 +174,9 @@ goto label10.if_end
 label label10.if
 push constant 5
 call Block.spawn 1
-pop local 0
+pop local 1
 label label10.if_end
-push local 1
+push local 2
 push constant 90
 eq
 if-goto label11.if
@@ -174,162 +184,146 @@ goto label11.if_end
 label label11.if
 push constant 6
 call Block.spawn 1
-pop local 0
+pop local 1
 label label11.if_end
-push local 1
+push local 2
 push constant 130
 eq
 if-goto label13.if
 goto label13.if_end
 label label13.if
-push local 0
+push local 1
 push constant 0
 gt
 if-goto label12.if
 goto label12.if_end
 label label12.if
-push local 0
+push local 1
 call Block.moveLeft 1
 pop temp 0
 label label12.if_end
 label label13.if_end
-push local 1
+push local 2
 push constant 132
 eq
 if-goto label15.if
 goto label15.if_end
 label label15.if
-push local 0
+push local 1
 push constant 0
 gt
 if-goto label14.if
 goto label14.if_end
 label label14.if
-push local 0
+push local 1
 call Block.moveRight 1
 pop temp 0
 label label14.if_end
 label label15.if_end
-push local 1
+push local 2
 push constant 133
 eq
-if-goto label18.if
-goto label18.if_end
-label label18.if
-push local 0
+if-goto label17.if
+goto label17.if_end
+label label17.if
+push local 1
 push constant 0
 gt
 if-goto label16.if
 goto label16.if_end
 label label16.if
-push local 0
-call Block.softDrop 1
-pop local 0
-label label16.if_end
-push local 0
-push constant 0
-eq
-if-goto label17.if
-goto label17.if_end
-label label17.if
-push static 2
-call World.destroyLines 1
-pop temp 0
-label label17.if_end
-label label18.if_end
 push local 1
+call Block.softDrop 1
+pop local 1
+label label16.if_end
+label label17.if_end
+push local 2
 push constant 32
 eq
-if-goto label20.if
-goto label20.if_end
-label label20.if
-push local 0
-push constant 0
-gt
 if-goto label19.if
 goto label19.if_end
 label label19.if
-push local 0
-call Block.hardDrop 1
-pop local 0
-label label19.if_end
-push static 2
-call World.destroyLines 1
-pop temp 0
-label label20.if_end
 push local 1
-push constant 90
-eq
-if-goto label22.if
-goto label22.if_end
-label label22.if
-push local 0
 push constant 0
 gt
+if-goto label18.if
+goto label18.if_end
+label label18.if
+push local 1
+call Block.hardDrop 1
+pop local 1
+label label18.if_end
+label label19.if_end
+push local 2
+push constant 90
+eq
 if-goto label21.if
 goto label21.if_end
 label label21.if
-push local 0
-call Block.rotateLeft 1
-pop temp 0
-label label21.if_end
-label label22.if_end
 push local 1
-push constant 131
-eq
-if-goto label24.if
-goto label24.if_end
-label label24.if
-push local 0
 push constant 0
 gt
+if-goto label20.if
+goto label20.if_end
+label label20.if
+push local 1
+call Block.rotateLeft 1
+pop temp 0
+label label20.if_end
+label label21.if_end
+push local 2
+push constant 131
+eq
 if-goto label23.if
 goto label23.if_end
 label label23.if
-push local 0
-call Block.rotateRight 1
-pop temp 0
-label label23.if_end
-label label24.if_end
-label label25.if_end
-push local 0
+push local 1
 push constant 0
 gt
-if-goto label27.if
-goto label27.if_end
-label label27.if
-push local 0
+if-goto label22.if
+goto label22.if_end
+label label22.if
+push local 1
+call Block.rotateRight 1
+pop temp 0
+label label22.if_end
+label label23.if_end
+label label24.if_end
+push local 1
+push constant 0
+gt
+if-goto label25.if
+goto label25.if_end
+label label25.if
+push local 1
 call Block.makeFall 1
-pop local 0
-push local 0
+pop local 1
+label label25.if_end
+push local 1
 push constant 0
 eq
 if-goto label26.if
 goto label26.if_end
 label label26.if
-push static 2
-call World.destroyLines 1
-pop temp 0
 label label26.if_end
-label label27.if_end
-goto label28.if_end
-label label28.if
+goto label27.if_end
+label label27.if
 push constant 1
 neg
 pop this 0
-label label28.if_end
-push local 1
-pop local 2
+label label27.if_end
+push local 2
+pop local 3
 push constant 0
-pop local 1
-goto label29.while_start
-label label29.while_end
+pop local 2
+goto label28.while_start
+label label28.while_end
 push this 0
-if-goto label30.if
-goto label30.if_end
-label label30.if
+if-goto label29.if
+goto label29.if_end
+label label29.if
 call MainWindow.gameOver 0
 pop temp 0
-label label30.if_end
+label label29.if_end
 push constant 0
 return

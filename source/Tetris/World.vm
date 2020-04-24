@@ -58,9 +58,6 @@ function World.dispose 0
 push this 0
 call Array.dispose 1
 pop temp 0
-push pointer 0
-call Memory.deAlloc 1
-pop temp 0
 push constant 0
 return
 function World.newInstance 0
@@ -71,7 +68,7 @@ return
 function World.getInstance 0
 push static 0
 return
-function World.destroyLines 7
+function World.destroyLines 8
 push argument 0
 pop pointer 0
 push constant 22
@@ -79,6 +76,8 @@ call Array.new 1
 pop local 4
 push constant 0
 pop local 5
+push constant 0
+pop local 7
 push constant 21
 push constant 12
 call Math.multiply 2
@@ -148,6 +147,10 @@ label label5.if
 push constant 1
 neg
 pop local 5
+push local 7
+push constant 1
+add
+pop local 7
 label label5.if_end
 push local 2
 push constant 2
@@ -404,7 +407,7 @@ pop temp 0
 push local 4
 call Array.dispose 1
 pop temp 0
-push constant 0
+push local 7
 return
 function World.redraw 3
 push argument 0

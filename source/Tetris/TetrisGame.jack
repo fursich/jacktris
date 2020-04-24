@@ -4,19 +4,17 @@
 
 class TetrisGame {
   static TetrisGame instance;
-  static ScoreBoard score_board;
   static World world;
 
   field boolean exit;
 
   constructor TetrisGame new() {
-    var int i, j;
-    var int i0, j0, i1, j1;
+    var int v;
 
     do Screen.clearScreen();
 
     do MainWindow.init();
-    let score_board = ScoreBoard.new();
+    do ScoreBoard.init();
     do NextWindow.init();
 
     do World.newInstance();
@@ -46,13 +44,17 @@ class TetrisGame {
   }
 
   method void run() {
+    var Player player;
     var Block block;
     var char key, last_key;
     var boolean interval;
     var int interval_timer;
 
+    let player = Player.new();
     let interval = false;
     let last_key = null;
+
+    do Block.setPlayer(player);
     do Block.setUnitTime(1000); // TODO might vary depending on the level
 
     while (~exit) {
@@ -106,7 +108,7 @@ class TetrisGame {
           if (key = 90) {   // 'Z'
             let block = Block.spawn(6);
           }
-  
+
           if (key = 130) {   // move left
             if(block > 0) {
               do block.moveLeft();
@@ -121,15 +123,11 @@ class TetrisGame {
             if(block > 0) {
               let block = block.softDrop();
             }
-            if (block = null) {
-              do world.destroyLines();
-            }
           }
           if (key = 32) {   // space: hard drop
             if(block > 0) {
               let block = block.hardDrop();
             }
-            do world.destroyLines();
           }
           if (key = 90) {   // 'Z' : rotate left
             if(block > 0) {
@@ -145,16 +143,16 @@ class TetrisGame {
 
         if (block > 0) {
           let block = block.makeFall();
-          if (block = null) {
-            do world.destroyLines();
-          }
+        }
+        if (block = 0) {
+            // let block = Block.spawn(Rand.take());
         }
       }
 
       let last_key = key;
       let key = null;
     }
-    
+
     if (exit) {
       do MainWindow.gameOver();
     }

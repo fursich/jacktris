@@ -28,7 +28,6 @@ class World {
 
   function void dispose() {
     do map.dispose();
-    do Memory.deAlloc(this);
     return;
   }
 
@@ -41,16 +40,18 @@ class World {
     return instance;
   }
 
-  /** destroys lines from the map */
-  method void destroyLines() {
+  /** destroys lines from the map, counts up scores */
+  method int destroyLines() {
     var int i, j, idx;
     var int offset;
     var Array destroyable;
     var boolean isDestroyed;
     var boolean stopper;
+    var int destoyedCount;
 
     let destroyable  = Array.new(22);
     let isDestroyed = false;
+    let destoyedCount = 0;
 
     let idx = (21 * 12) + 10;
     let j = 21;
@@ -68,6 +69,7 @@ class World {
 
       if (destroyable[j]) {
         let isDestroyed = true;
+        let destoyedCount = destoyedCount + 1;
       }
       let idx = idx - 2;
       let j = j - 1;
@@ -75,7 +77,7 @@ class World {
 
     if (~isDestroyed) {
       do destroyable.dispose();
-      return;
+      return 0;
     }
 
     do redraw();
@@ -147,7 +149,7 @@ class World {
     do redraw();
 
     do destroyable.dispose();
-    return;
+    return destoyedCount;
   }
 
   /** redraw the map to the main window */
