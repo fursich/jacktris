@@ -281,6 +281,144 @@ call Screen.setColor 1
 pop temp 0
 push constant 0
 return
+function MainWindow.waitStart 2
+push constant 304
+push constant 18
+sub
+push constant 111
+push constant 12
+sub
+push constant 304
+push constant 40
+push constant 18
+push constant 2
+sub
+add
+add
+push constant 111
+push constant 22
+push constant 11
+add
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push constant 304
+push constant 16
+sub
+push constant 111
+push constant 10
+sub
+push constant 304
+push constant 40
+push constant 16
+push constant 2
+sub
+add
+add
+push constant 111
+push constant 22
+push constant 9
+add
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 10
+push constant 38
+call Output.moveCursor 2
+pop temp 0
+push constant 5
+call String.new 1
+push constant 80
+call String.appendChar 2
+push constant 82
+call String.appendChar 2
+push constant 69
+call String.appendChar 2
+push constant 83
+call String.appendChar 2
+push constant 83
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+push constant 11
+push constant 38
+call Output.moveCursor 2
+pop temp 0
+push constant 5
+call String.new 1
+push constant 69
+call String.appendChar 2
+push constant 78
+call String.appendChar 2
+push constant 84
+call String.appendChar 2
+push constant 69
+call String.appendChar 2
+push constant 82
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+push constant 1
+pop local 0
+push constant 0
+pop local 1
+label label3.while_start
+push local 1
+push constant 128
+eq
+not
+if-goto label3.while
+goto label3.while_end
+label label3.while
+call Keyboard.keyPressed 0
+pop local 1
+push local 0
+push constant 16383
+eq
+if-goto label2.if
+push local 0
+push constant 1
+add
+pop local 0
+goto label2.if_end
+label label2.if
+push constant 1
+pop local 0
+label label2.if_end
+goto label3.while_start
+label label3.while_end
+label label5.while_start
+push local 1
+push constant 0
+eq
+not
+if-goto label5.while
+goto label5.while_end
+label label5.while
+call Keyboard.keyPressed 0
+pop local 1
+push local 0
+push constant 16383
+eq
+if-goto label4.if
+push local 0
+push constant 1
+add
+pop local 0
+goto label4.if_end
+label label4.if
+push constant 1
+pop local 0
+label label4.if_end
+goto label5.while_start
+label label5.while_end
+call MainWindow.clear 0
+pop temp 0
+push local 0
+return
 function MainWindow.gameOver 0
 push constant 304
 push constant 18

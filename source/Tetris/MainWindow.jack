@@ -86,6 +86,45 @@ class MainWindow {
     return;
   }
 
+  /** draw prompt to start, genarating random seed */
+  function int waitStart() {
+    var int i;
+    var int key;
+
+    do Screen.drawRectangle(304 - 18, 111 - 12, 304 + 40 + 18 - 2, 111 + 22 + 11);
+    do Screen.setColor(false);
+    do Screen.drawRectangle(304 - 16, 111 - 10, 304 + 40 + 16 - 2, 111 + 22 + 9);
+    do Output.moveCursor(10, 38); // x = 304, y = 111;
+    do Output.printString("PRESS");
+    do Output.moveCursor(11, 38); // x = 304, y = 121;
+    do Output.printString("ENTER");
+
+    let i = 1;
+    let key = 0;
+    while (~(key = 128)) { // wait for Enter key to get pressed
+      let key = Keyboard.keyPressed();
+
+      if(i = 16383) {
+        let i = 1;
+      } else {
+        let i = i + 1;
+      }
+    }
+
+    while (~(key = 0)) {
+      let key = Keyboard.keyPressed();
+
+      if(i = 16383) {
+        let i = 1;
+      } else {
+        let i = i + 1;
+      }
+    }
+
+    do MainWindow.clear();
+    return i;
+  }
+
   function void gameOver() {
     do Screen.drawRectangle(304 - 18, 111 - 12, 304 + 32 + 18 - 2, 111 + 22 + 11);
     do Screen.setColor(false);

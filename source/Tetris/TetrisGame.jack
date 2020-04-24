@@ -24,6 +24,10 @@ class TetrisGame {
     do Block.setWorld(world);
 
     let exit = false;
+
+    let v = MainWindow.waitStart(); // to generate seed
+    do Rand.init(v);
+
     return this;
   }
 

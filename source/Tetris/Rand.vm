@@ -1,0 +1,168 @@
+function Rand.init 1
+push argument 0
+call Rand.setSeed 1
+pop temp 0
+push constant 7
+call Array.new 1
+pop static 0
+push constant 7
+call Array.new 1
+pop static 1
+push constant 0
+pop local 0
+label label1.while_start
+push local 0
+push constant 7
+lt
+if-goto label1.while
+goto label1.while_end
+label label1.while
+push local 0
+push local 0
+push static 1
+add
+pop pointer 1
+pop that 0
+push local 0
+push constant 1
+add
+pop local 0
+goto label1.while_start
+label label1.while_end
+call Rand.loadBag 0
+pop temp 0
+call Rand.loadBag 0
+pop temp 0
+push constant 0
+pop static 2
+push constant 0
+return
+function Rand.take 1
+push static 2
+push static 0
+add
+pop pointer 1
+push that 0
+pop local 0
+push static 2
+push constant 1
+add
+pop static 2
+push static 2
+push constant 7
+eq
+if-goto label2.if
+goto label2.if_end
+label label2.if
+push constant 0
+pop static 2
+call Rand.loadBag 0
+pop temp 0
+label label2.if_end
+push local 0
+return
+function Rand.loadBag 1
+push constant 0
+pop local 0
+label label3.while_start
+push local 0
+push constant 7
+lt
+if-goto label3.while
+goto label3.while_end
+label label3.while
+push local 0
+push static 1
+add
+pop pointer 1
+push that 0
+push local 0
+push static 0
+add
+pop pointer 1
+pop that 0
+push local 0
+push constant 1
+add
+pop local 0
+goto label3.while_start
+label label3.while_end
+push static 1
+call Rand.makePermutation 1
+pop temp 0
+push constant 0
+return
+function Rand.setSeed 0
+push argument 0
+pop static 3
+push constant 0
+return
+function Rand.getValue 1
+push static 3
+push constant 253
+call Math.multiply 2
+push constant 1
+add
+pop local 0
+push local 0
+push constant 16383
+and
+pop static 3
+push static 3
+return
+function Rand.makePermutation 3
+push constant 0
+pop local 0
+label label4.while_start
+push local 0
+push constant 6
+lt
+if-goto label4.while
+goto label4.while_end
+label label4.while
+call Rand.getValue 0
+pop local 2
+push local 0
+push local 2
+push local 2
+push constant 7
+push local 0
+sub
+call Math.divide 2
+push constant 7
+push local 0
+sub
+call Math.multiply 2
+sub
+add
+pop local 1
+push local 0
+push argument 0
+add
+pop pointer 1
+push that 0
+pop local 2
+push local 1
+push argument 0
+add
+pop pointer 1
+push that 0
+push local 0
+push argument 0
+add
+pop pointer 1
+pop that 0
+push local 2
+push local 1
+push argument 0
+add
+pop pointer 1
+pop that 0
+push local 0
+push constant 1
+add
+pop local 0
+goto label4.while_start
+label label4.while_end
+push constant 0
+return

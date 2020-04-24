@@ -1,0 +1,88 @@
+/**
+ * Simple rand library for Tetris randomizer
+ */
+class Rand {
+    static Array bag, nextBag;
+    static int index;
+    static int currentValue;
+
+    function void init(int v) {
+        var int i;
+
+        do Rand.setSeed(v);
+
+        let bag = Array.new(7);
+        let nextBag = Array.new(7);
+
+        // set the initial nextBag (identical permutation)
+        let i = 0;
+        while (i < 7) {
+            let nextBag[i] = i;
+            let i = i + 1;
+        }
+
+        do Rand.loadBag(); // randomize nextBag
+        do Rand.loadBag(); // discard the current bag (identical) and load the randomized bag
+        let index = 0;
+
+        return;
+    }
+
+    /** take one element from the current bag. if the bag gets empty, load from the nextBag */
+    function int take() {
+        var int v;
+        let v = bag[index];
+
+        let index = index + 1;
+        if (index = 7) {
+            let index = 0;
+            do Rand.loadBag();
+        }
+        return v;
+    }
+
+    /** fill the bag using the elements in the nextBag, and shuffle nextBag for the next load */
+    function void loadBag() {
+
+        var int i;
+        let i = 0;
+        while (i < 7) {
+            let bag[i] = nextBag[i];
+            let i = i + 1;
+        }
+        do Rand.makePermutation(nextBag);
+
+        return;
+    }
+
+    function void setSeed(int v) {
+        let currentValue = v;
+        return;
+    }
+
+    /** a (quick and dirty) random number generator ( < 16383, maximum integer allowed) */
+    function int getValue() {
+        var int v;
+        let v = (currentValue * 253) + 1;
+        let currentValue = v & 16383;
+        return currentValue;
+    }
+
+    /** permutation generator using Knuth shuffles */
+    function void makePermutation(Array arr) {
+        var int i, j;
+        var int t;
+
+        let i = 0;
+        while (i < 6) {
+            let t = Rand.getValue();
+            let j = i + t - ((t / (7 - i)) * (7 - i));  // j = i + (rand() mod (7 - i)) i.e. i <= j < 7
+            let t = arr[i];
+            let arr[i] = arr[j];
+            let arr[j] = t;
+
+            let i = i + 1;
+        }
+        return;
+    }
+}
