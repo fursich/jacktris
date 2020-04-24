@@ -1,0 +1,49 @@
+/**
+ * represents game clock for the player
+ */
+class Clock {
+  static int unitTime;
+  static int landingTime;
+
+  field int time;
+
+  constructor Clock new() {
+    return this;
+  }
+
+  method void dispose() {
+    do Memory.deAlloc(this);
+    return;
+  }
+
+  function void setLandingTime(int t) {
+    let landingTime = t;
+    return;
+  }
+
+  function void setUnitTime(int t) {
+    let unitTime = t;
+    return;
+  }
+
+  method void chargeTime(boolean isLanded) {
+    if(isLanded) {
+      // TODO count how many times the block landed to set hard limit
+      let time = landingTime;
+    } else {
+      let time = unitTime;
+    }
+    return;
+  }
+
+  method boolean tick(boolean isMovable) {
+    do Sys.wait(2);
+    if (~(time < 0)) {
+      let time = time - 10; // TODO: recondier timings
+      return false;
+    } else {
+      do chargeTime(~isMovable);
+      return true;
+    }
+  }
+}

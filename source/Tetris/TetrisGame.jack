@@ -55,7 +55,8 @@ class TetrisGame {
     let last_key = null;
 
     do Block.setPlayer(player);
-    do Block.setUnitTime(1000); // TODO might vary depending on the level
+    do Clock.setLandingTime(1000); // TODO might vary depending on the level
+    do Clock.setUnitTime(1000); // TODO might vary depending on the level
 
     while (~exit) {
      // let i = 0;

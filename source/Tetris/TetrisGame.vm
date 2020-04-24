@@ -55,7 +55,10 @@ push local 0
 call Block.setPlayer 1
 pop temp 0
 push constant 1000
-call Block.setUnitTime 1
+call Clock.setLandingTime 1
+pop temp 0
+push constant 1000
+call Clock.setUnitTime 1
 pop temp 0
 label label28.while_start
 push this 0
