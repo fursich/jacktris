@@ -60,20 +60,35 @@ call Screen.setColor 1
 pop temp 0
 push constant 0
 return
-function NextWindow.drawBlockInWindow 2
+function NextWindow.drawCell 4
+push argument 2
+if-goto label1.if
+push constant 4
+pop local 2
+goto label1.if_end
+label label1.if
+push constant 4
+push static 4
+push constant 2
+call Math.divide 2
+add
+pop local 2
+label label1.if_end
+push constant 16
+pop local 3
+push static 0
 push argument 0
 push static 4
 call Math.multiply 2
-push static 0
-push constant 4
+push local 2
 add
 add
 pop local 0
+push static 1
 push argument 1
 push static 4
 call Math.multiply 2
-push static 1
-push constant 16
+push local 3
 add
 add
 pop local 1
@@ -90,6 +105,30 @@ push static 5
 sub
 add
 call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return
+function NextWindow.clear 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push static 0
+push constant 2
+add
+push static 1
+push constant 2
+add
+push static 2
+push constant 2
+sub
+push static 3
+push constant 2
+sub
+call Screen.drawRectangle 4
+pop temp 0
+push constant 1
+neg
+call Screen.setColor 1
 pop temp 0
 push constant 0
 return

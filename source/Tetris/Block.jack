@@ -334,6 +334,33 @@ class Block {
     return;
   }
 
+  method void drawNext() {
+    var int i, j, idx;
+    var boolean three_column;
+
+    do NextWindow.clear();
+    if ((type = 0) | (type = 3)) {
+      let three_column = false; // I-block (width:4), or O-block(width:2)
+    } else {
+      let three_column = true; // L, J, S, T, Z
+    }
+
+    let idx = 0;
+    let j = 0;
+    while(j < 4) {
+      let i = 0;
+      while(i < 4) {
+        if(~(currentShape[idx] = 0)) {
+          do NextWindow.drawCell(i,j, three_column);
+        }
+        let idx = idx + 1;
+        let i = i + 1;
+      }
+      let j = j + 1;
+    }
+    return;
+  }
+
   method void erase() {
     var int i, j, idx;
 

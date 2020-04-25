@@ -22,27 +22,35 @@ class NextWindow {
     do Screen.drawRectangle(disp_x0 + 2, disp_y0 + 2, disp_x1 - 2, disp_y1 - 2);
     do Screen.setColor(true);
 
-//    let i = 0;
-//    while (i < 4) {
-//      let j = 0;
-//      while (j < 2) {
-//        do TetrisGame.drawBlockInWindow(i, j);
-//        let j = j + 1;
-//      }
-//      let i = i + 1;
-//    }
-
     return;
   }
 
   /** draw a block within the "next" window */
   // TODO: might be removed completely to accept only block patterns. Or, will be moved to a separate class */
-  function void drawBlockInWindow(int i, int j) {
+  function void drawCell(int i, int j, boolean three_column) {
     var int x, y;
-    let x = (i * block_size) + disp_x0 + 4;
-    let y = (j * block_size) + disp_y0 + 16;
+    var int offset_x, offset_y;
+
+    if (three_column) {
+      let offset_x = 4 + (block_size/2);
+    } else {
+      let offset_x = 4;
+    }
+    let offset_y = 16;
+
+    let x = disp_x0 + (i * block_size) + offset_x;
+    let y = disp_y0 + (j * block_size) + offset_y;
 
     do Screen.drawRectangle(x, y, x + block_size - block_space, y + block_size - block_space);
+    return;
+  }
+
+  /** clear the next window */
+  function void clear() {
+    do Screen.setColor(false);
+    do Screen.drawRectangle(disp_x0 + 2, disp_y0 + 2, disp_x1 - 2, disp_y1 - 2);
+    do Screen.setColor(true);
+
     return;
   }
 }

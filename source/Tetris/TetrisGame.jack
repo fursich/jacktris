@@ -45,10 +45,11 @@ class TetrisGame {
 
   method void run() {
     var Player player;
-    var Block block;
+    var Block block, nextBlock;
     var char key, last_key;
     var boolean interval;
     var int interval_timer;
+    var int i;
 
     let player = Player.new();
     let interval = false;
@@ -57,13 +58,16 @@ class TetrisGame {
     do Block.setPlayer(player);
     do Clock.setLandingTime(1000); // TODO might vary depending on the level
     do Clock.setUnitTime(1000); // TODO might vary depending on the level
+     let nextBlock = Block.spawn(Rand.take());
 
     while (~exit) {
-     // let i = 0;
-     // while(i > 100) {
-        let key = Keyboard.keyPressed();
-     //   let i = i + 1;
-     // }
+      if (block = 0) {
+        let block = nextBlock;
+        let i = Rand.take();
+        let nextBlock = Block.spawn(i);
+        do nextBlock.drawNext();
+      }
+      let key = Keyboard.keyPressed();
 
       if (key = 140) {   // 'ESC'
         let exit = true;
@@ -144,9 +148,6 @@ class TetrisGame {
 
         if (block > 0) {
           let block = block.makeFall();
-        }
-        if (block = 0) {
-            // let block = Block.spawn(Rand.take());
         }
       }
 
