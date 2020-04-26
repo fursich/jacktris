@@ -12,14 +12,16 @@ class World {
 
     let i = 0;
     while (i < 12) {
-      do registerCell(i, 22);  // hidden floor underneath the first row
+      let map[(12 * 22) + i] = 1;  // hidden floor underneath the first row
+
       let i = i + 1;
     }
 
     let j = 0;
     while (j < 23) {
-      do registerCell(0, j);   // rightmost wall of the well
-      do registerCell(11, j);  // leftmost wall of the well
+      let map[(12 * j) + 0] = 1;   // rightmost wall of the well
+      let map[(12 * j) + 11] = 1;  // leftmost wall of the well
+
       let j = j + 1;
     }
 
@@ -38,6 +40,35 @@ class World {
 
   function World getInstance() {
     return instance;
+  }
+
+  /** for debugging: notify when boarder was destroyed */
+  method void checkBoarder(int msg) {
+    var int j;
+
+    let j = 0;
+    while (j < 23) {
+      if (map[(12 * j) + 0] = 0) {
+        do Output.printString("!!!! Internal Error: Wall destructed!!! ");
+        do Output.printInt(msg);
+        do Output.printString("x, y = ");
+        do Output.printInt(0);
+        do Output.printString(", ");
+        do Output.printInt(j);
+        while(true) {}
+      }
+      if (map[(12 * j) + 11] = 0) {
+        do Output.printString("!!!! Internal Error: Wall destructed!!! ");
+        do Output.printInt(msg);
+        do Output.printString("x, y = ");
+        do Output.printInt(11);
+        do Output.printString(", ");
+        do Output.printInt(j);
+        while(true) {}
+      }
+      let j = j + 1;
+    }
+    return;
   }
 
   /** destroys lines from the map, counts up scores */
@@ -95,7 +126,7 @@ class World {
         }
         let idx = idx - 2;
       } else {
-        let idx = idx - 11;
+        let idx = idx - 12;
       }
       let j = j - 1;
     }
@@ -179,6 +210,14 @@ class World {
 
   /** register the given block to the map */
   method void registerCell(int i, int j) {
+    if ((i < 1) |  (i > 10)) {
+      do Output.printString("!!!! Internal Error: X out of range!!!!");
+      do Output.printInt(i);
+      do Output.printString(", ");
+      do Output.printInt(j);
+      do Sys.halt();
+    }
+
     let map[(12 * j) + i] = 1;
     return;
   }
