@@ -121,3 +121,211 @@ call Output.printInt 1
 pop temp 0
 push constant 0
 return
+function ScoreBoard.printLineClear 0
+call ScoreBoard.clear 0
+pop temp 0
+push argument 3
+if-goto label1.if
+goto label1.if_end
+label label1.if
+push constant 19
+push constant 49
+call Output.moveCursor 2
+pop temp 0
+push constant 12
+call String.new 1
+push constant 66
+call String.appendChar 2
+push constant 97
+call String.appendChar 2
+push constant 99
+call String.appendChar 2
+push constant 107
+call String.appendChar 2
+push constant 45
+call String.appendChar 2
+push constant 116
+call String.appendChar 2
+push constant 111
+call String.appendChar 2
+push constant 45
+call String.appendChar 2
+push constant 66
+call String.appendChar 2
+push constant 97
+call String.appendChar 2
+push constant 99
+call String.appendChar 2
+push constant 107
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+label label1.if_end
+push argument 1
+if-goto label3.if
+goto label3.if_end
+label label3.if
+push constant 20
+push constant 49
+call Output.moveCursor 2
+pop temp 0
+push argument 2
+if-goto label2.if
+push constant 5
+call String.new 1
+push constant 84
+call String.appendChar 2
+push constant 83
+call String.appendChar 2
+push constant 112
+call String.appendChar 2
+push constant 105
+call String.appendChar 2
+push constant 110
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+goto label2.if_end
+label label2.if
+push constant 11
+call String.new 1
+push constant 84
+call String.appendChar 2
+push constant 45
+call String.appendChar 2
+push constant 83
+call String.appendChar 2
+push constant 112
+call String.appendChar 2
+push constant 105
+call String.appendChar 2
+push constant 110
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 77
+call String.appendChar 2
+push constant 105
+call String.appendChar 2
+push constant 110
+call String.appendChar 2
+push constant 105
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+label label2.if_end
+label label3.if_end
+push constant 21
+push constant 49
+call Output.moveCursor 2
+pop temp 0
+push argument 0
+push constant 1
+eq
+if-goto label4.if
+goto label4.if_end
+label label4.if
+push constant 6
+call String.new 1
+push constant 83
+call String.appendChar 2
+push constant 105
+call String.appendChar 2
+push constant 110
+call String.appendChar 2
+push constant 103
+call String.appendChar 2
+push constant 108
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+label label4.if_end
+push argument 0
+push constant 2
+eq
+if-goto label5.if
+goto label5.if_end
+label label5.if
+push constant 6
+call String.new 1
+push constant 68
+call String.appendChar 2
+push constant 111
+call String.appendChar 2
+push constant 117
+call String.appendChar 2
+push constant 98
+call String.appendChar 2
+push constant 108
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+label label5.if_end
+push argument 0
+push constant 3
+eq
+if-goto label6.if
+goto label6.if_end
+label label6.if
+push constant 6
+call String.new 1
+push constant 84
+call String.appendChar 2
+push constant 114
+call String.appendChar 2
+push constant 105
+call String.appendChar 2
+push constant 112
+call String.appendChar 2
+push constant 108
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+label label6.if_end
+push argument 0
+push constant 4
+eq
+if-goto label7.if
+goto label7.if_end
+label label7.if
+push constant 6
+call String.new 1
+push constant 84
+call String.appendChar 2
+push constant 69
+call String.appendChar 2
+push constant 84
+call String.appendChar 2
+push constant 82
+call String.appendChar 2
+push constant 73
+call String.appendChar 2
+push constant 83
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+label label7.if_end
+push constant 0
+return
+function ScoreBoard.clear 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push constant 392
+push constant 220
+push constant 511
+push constant 242
+call Screen.drawRectangle 4
+pop temp 0
+push constant 1
+neg
+call Screen.setColor 1
+pop temp 0
+push constant 0
+return

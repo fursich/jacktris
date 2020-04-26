@@ -40,26 +40,82 @@ class Player {
     return level;
   }
 
-  method void addScoreForLineClear(int line_count) {
+  method void addScoreForLineClear(int line_count, boolean tSpin, boolean tSpinMini) {
     var int base;
+    var boolean last_b2b;
 
-    if (~(line_count > 0)) {
+    if (~(line_count > 0) & ~tSpin) {
       return;
     }
 
-    if (line_count < 3) {
+    let last_b2b = back_to_back;
+
+    if (tSpin) {
+      if (tSpinMini) {
+        if (line_count = 0) {
+          let base = 100;
+          let back_to_back = false;
+        }
+        if (line_count = 1) {
+          if (back_to_back) {
+            let base = 300;
+          } else {
+            let base = 200;
+          }
+          let back_to_back = true;
+        }
+        if (line_count = 2) {
+          if (back_to_back) {
+            let base = 600;
+          } else {
+            let base = 400;
+          }
+          let back_to_back = true;
+        }
+      } else {
+        if (line_count = 0) {
+          let base = 400;
+          let back_to_back = false;
+        }
+        if (line_count = 1) {
+          if (back_to_back) {
+            let base = 1200;
+          } else {
+            let base = 800;
+          }
+          let back_to_back = true;
+        }
+        if (line_count = 2) {
+          if (back_to_back) {
+            let base = 1800;
+          } else {
+            let base = 1200;
+          }
+          let back_to_back = true;
+        }
+        if (line_count = 3) {
+          if (back_to_back) {
+            let base = 2400;
+          } else {
+            let base = 1600;
+          }
+          let back_to_back = true;
+        }
+      }
+    } else {
       if (line_count = 1) {
         let base = 100;
         let back_to_back = false;
-      } else {
+      }
+      if (line_count = 2) {
         let base = 300;
         let back_to_back = false;
       }
-    } else {
       if (line_count = 3) {
         let base = 500;
         let back_to_back = false;
-      } else {
+      }
+      if (line_count = 4) {
         if (back_to_back) {
           let base = 1200;
         } else {
@@ -70,6 +126,9 @@ class Player {
     }
 
     do addScore(base * level);
+
+    do ScoreBoard.printLineClear(line_count, tSpin, tSpinMini, last_b2b & back_to_back);
+
     return;
   }
 
