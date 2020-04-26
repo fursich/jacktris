@@ -499,6 +499,10 @@ class Block {
     return;
   }
 
+  method boolean isGameOver() {
+    return ~isMovable(0, 0);
+  }
+
   method void setPatterns() {
     if(type = 0) { // I-block
       do setI();

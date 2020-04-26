@@ -66,12 +66,18 @@ class TetrisGame {
         let i = Rand.take();
         let nextBlock = Block.spawn(i);
         do nextBlock.drawNext();
+
+        if (block.isGameOver()) {
+          let exit = true;
+        }
       }
       let key = Keyboard.keyPressed();
 
       if (key = 140) {   // 'ESC'
         let exit = true;
-      } else {
+      }
+
+      if (~exit) {
 
         if (~(key = null)) {
           if (key = last_key) {
