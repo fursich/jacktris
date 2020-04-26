@@ -36,4 +36,47 @@ class ScoreBoard {
     return;
   }
 
+  /** print message for line clear */
+  function void printLineClear(int  line_count, boolean tSpin, boolean tSpinMini, boolean b2b) {
+
+    do ScoreBoard.clear();
+
+    if (b2b) {
+      do Output.moveCursor(19, 49);
+      do Output.printString("Back-to-Back");
+    }
+
+    if (tSpin) {
+      do Output.moveCursor(20, 49);
+      if (tSpinMini) {
+        do Output.printString("T-Spin Mini");
+      } else {
+        do Output.printString("TSpin");
+      }
+    }
+
+    do Output.moveCursor(21, 49);
+    if (line_count = 1) {
+      do Output.printString("Single");
+    }
+    if (line_count = 2) {
+      do Output.printString("Double");
+    }
+    if (line_count = 3) {
+      do Output.printString("Triple");
+    }
+    if (line_count = 4) {
+      do Output.printString("TETRIS");
+    }
+
+    return;
+  }
+
+  function void clear() {
+    do Screen.setColor(false);
+    do Screen.drawRectangle(392, 220, 511, 242);
+    do Screen.setColor(true);
+
+    return;
+  }
 }

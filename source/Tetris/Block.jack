@@ -7,6 +7,7 @@ class Block {
   static World world;
 
   field int x, y, rot, type;
+  field boolean didRotate;
   field Array currentShape; // representing current shape;
   field Array patterns; // representing four patterns based on rot angles
   field Clock clock;
@@ -27,6 +28,7 @@ class Block {
     }
     do setPatterns();
     do rotateCurrentShapeTo(0);
+    let didRotate = false;
 
     return this;
   }
@@ -288,6 +290,7 @@ class Block {
   method void land() {
     var int i, j, idx;
     var int count;
+    var boolean tSpin, tSpinMini;
 
     let idx = 0;
     let j = y;
@@ -303,8 +306,18 @@ class Block {
       }
       let j = j + 1;
     }
+
+    // check T-spin when last move was rotation + block type is T / TODO: check whether mini spin or not
+    if (didRotate & (type = 5)) {
+      let tSpin = checkTSpinCondition();
+      let tSpinMini = checkTSpinMiniCondition();
+    } else {
+      let tSpin = false;
+      let tSpinMini = false;
+    }
+
     let count = world.destroyLines();
-    do player.addScoreForLineClear(count);
+    do player.addScoreForLineClear(count, tSpin, tSpinMini);
 
     do dispose();
     return;
@@ -389,6 +402,7 @@ class Block {
     if(isMovable(-1, 0)) {
       do erase();
       let x = x - 1;
+      let didRotate = false;
       do draw();
     }
     return;
@@ -398,6 +412,7 @@ class Block {
     if(isMovable(1, 0)) {
       do erase();
       let x = x + 1;
+      let didRotate = false;
       do draw();
     }
     return;
@@ -417,6 +432,7 @@ class Block {
     do rotateCurrentShapeTo(rot1);
 
     if(isRotatableFrom(rot0)) {
+      let didRotate = true;
       do draw();
     } else {
       do rotateCurrentShapeTo(rot0);
@@ -439,6 +455,7 @@ class Block {
     do rotateCurrentShapeTo(rot1);
 
     if(isRotatableFrom(rot0)) {
+      let didRotate = true;
       do draw();
     } else {
       do rotateCurrentShapeTo(rot0);
@@ -449,6 +466,8 @@ class Block {
 
   method Block softDrop() {
     do player.addScoreForSoftDrop();
+    let didRotate = false;
+
     return dropByOne();
   }
 
@@ -463,7 +482,9 @@ class Block {
     }
     do player.addScoreForHardDrop(y - y0);
 
+    let didRotate = false;
     do draw();
+
     do land();
     return null;
   }
@@ -484,6 +505,8 @@ class Block {
     if(isMovable(0, 1)) {
       do erase();
       let y = y + 1;
+
+      let didRotate = false;
       do draw();
       do chargeTime();
       return this;
@@ -501,6 +524,45 @@ class Block {
 
   method boolean isGameOver() {
     return ~isMovable(0, 0);
+  }
+
+  method boolean checkTSpinCondition() {
+    var int x0, y0;
+    var int count;
+
+    let count = 0;
+    let x0 = x + 1;
+    let y0 = y + 1;
+
+    if (~world.isEmpty(x0 - 1, y0 - 1)) { let count = count + 1; }
+    if (~world.isEmpty(x0 - 1, y0 + 1)) { let count = count + 1; }
+    if (~world.isEmpty(x0 + 1, y0 - 1)) { let count = count + 1; }
+    if (~world.isEmpty(x0 + 1, y0 + 1)) { let count = count + 1; }
+    do Output.moveCursor(17, 56);
+    return (count > 2);
+  }
+
+  method boolean checkTSpinMiniCondition() {
+    var int xb, yb;
+
+    if (rot = 0) {
+      let xb = 1;
+      let yb = 2;
+    }
+    if (rot = 1) {
+      let xb = 0;
+      let yb = 1;
+    }
+    if (rot = 2) {
+      let xb = 1;
+      let yb = 0;
+    }
+    if (rot = 3) {
+      let xb = 2;
+      let yb = 1;
+    }
+
+    return ~world.isEmpty(x + xb, y + yb);
   }
 
   method void setPatterns() {

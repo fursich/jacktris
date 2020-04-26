@@ -58,56 +58,156 @@ push argument 0
 pop pointer 0
 push this 3
 return
-function Player.addScoreForLineClear 1
+function Player.addScoreForLineClear 2
 push argument 0
 pop pointer 0
 push argument 1
 push constant 0
 gt
 not
+push argument 2
+not
+and
 if-goto label3.if
 goto label3.if_end
 label label3.if
 push constant 0
 return
 label label3.if_end
-push argument 1
-push constant 3
-lt
-if-goto label7.if
-push argument 1
-push constant 3
-eq
-if-goto label6.if
 push this 0
-if-goto label5.if
-push constant 800
-pop local 0
-goto label5.if_end
-label label5.if
-push constant 1200
-pop local 0
-label label5.if_end
+pop local 1
+push argument 2
+if-goto label22.if
+push argument 1
 push constant 1
-neg
-pop this 0
-goto label6.if_end
-label label6.if
-push constant 500
+eq
+if-goto label17.if
+goto label17.if_end
+label label17.if
+push constant 100
 pop local 0
 push constant 0
 pop this 0
-label label6.if_end
-goto label7.if_end
-label label7.if
+label label17.if_end
 push argument 1
-push constant 1
+push constant 2
 eq
-if-goto label4.if
+if-goto label18.if
+goto label18.if_end
+label label18.if
 push constant 300
 pop local 0
 push constant 0
 pop this 0
+label label18.if_end
+push argument 1
+push constant 3
+eq
+if-goto label19.if
+goto label19.if_end
+label label19.if
+push constant 500
+pop local 0
+push constant 0
+pop this 0
+label label19.if_end
+push argument 1
+push constant 4
+eq
+if-goto label21.if
+goto label21.if_end
+label label21.if
+push this 0
+if-goto label20.if
+push constant 800
+pop local 0
+goto label20.if_end
+label label20.if
+push constant 1200
+pop local 0
+label label20.if_end
+push constant 1
+neg
+pop this 0
+label label21.if_end
+goto label22.if_end
+label label22.if
+push argument 3
+if-goto label16.if
+push argument 1
+push constant 0
+eq
+if-goto label9.if
+goto label9.if_end
+label label9.if
+push constant 400
+pop local 0
+push constant 0
+pop this 0
+label label9.if_end
+push argument 1
+push constant 1
+eq
+if-goto label11.if
+goto label11.if_end
+label label11.if
+push this 0
+if-goto label10.if
+push constant 800
+pop local 0
+goto label10.if_end
+label label10.if
+push constant 1200
+pop local 0
+label label10.if_end
+push constant 1
+neg
+pop this 0
+label label11.if_end
+push argument 1
+push constant 2
+eq
+if-goto label13.if
+goto label13.if_end
+label label13.if
+push this 0
+if-goto label12.if
+push constant 1200
+pop local 0
+goto label12.if_end
+label label12.if
+push constant 1800
+pop local 0
+label label12.if_end
+push constant 1
+neg
+pop this 0
+label label13.if_end
+push argument 1
+push constant 3
+eq
+if-goto label15.if
+goto label15.if_end
+label label15.if
+push this 0
+if-goto label14.if
+push constant 1600
+pop local 0
+goto label14.if_end
+label label14.if
+push constant 2400
+pop local 0
+label label14.if_end
+push constant 1
+neg
+pop this 0
+label label15.if_end
+goto label16.if_end
+label label16.if
+push argument 1
+push constant 0
+eq
+if-goto label4.if
 goto label4.if_end
 label label4.if
 push constant 100
@@ -115,12 +215,59 @@ pop local 0
 push constant 0
 pop this 0
 label label4.if_end
+push argument 1
+push constant 1
+eq
+if-goto label6.if
+goto label6.if_end
+label label6.if
+push this 0
+if-goto label5.if
+push constant 200
+pop local 0
+goto label5.if_end
+label label5.if
+push constant 300
+pop local 0
+label label5.if_end
+push constant 1
+neg
+pop this 0
+label label6.if_end
+push argument 1
+push constant 2
+eq
+if-goto label8.if
+goto label8.if_end
+label label8.if
+push this 0
+if-goto label7.if
+push constant 400
+pop local 0
+goto label7.if_end
+label label7.if
+push constant 600
+pop local 0
 label label7.if_end
+push constant 1
+neg
+pop this 0
+label label8.if_end
+label label16.if_end
+label label22.if_end
 push pointer 0
 push local 0
 push this 3
 call Math.multiply 2
 call Player.addScore 2
+pop temp 0
+push argument 1
+push argument 2
+push argument 3
+push local 1
+push this 0
+and
+call ScoreBoard.printLineClear 4
 pop temp 0
 push constant 0
 return
@@ -139,16 +286,16 @@ pop pointer 0
 push argument 1
 push constant 0
 gt
-if-goto label8.if
-goto label8.if_end
-label label8.if
+if-goto label23.if
+goto label23.if_end
+label label23.if
 push pointer 0
 push constant 2
 push argument 1
 call Math.multiply 2
 call Player.addScore 2
 pop temp 0
-label label8.if_end
+label label23.if_end
 push constant 0
 return
 function Player.addScore 0
