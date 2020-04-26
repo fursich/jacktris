@@ -93,25 +93,25 @@ class TetrisGame {
 
         if (~interval) {
           if (key = 73) {   // 'I'
-            let block = Block.spawn(0);
+            let nextBlock = Block.spawn(0);
           }
           if (key = 74) {   // 'J'
-            let block = Block.spawn(1);
+            let nextBlock = Block.spawn(1);
           }
           if (key = 76) {   // 'L'
-            let block = Block.spawn(2);
+            let nextBlock = Block.spawn(2);
           }
           if (key = 79) {   // 'O'
-            let block = Block.spawn(3);
+            let nextBlock = Block.spawn(3);
           }
           if (key = 83) {   // 'S'
-            let block = Block.spawn(4);
+            let nextBlock = Block.spawn(4);
           }
           if (key = 84) {   // 'T'
-            let block = Block.spawn(5);
+            let nextBlock = Block.spawn(5);
           }
           if (key = 90) {   // 'Z'
-            let block = Block.spawn(6);
+            let nextBlock = Block.spawn(6);
           }
 
           if (key = 130) {   // move left
