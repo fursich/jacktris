@@ -56,7 +56,7 @@ class TetrisGame {
     let last_key = null;
 
     do Block.setPlayer(player);
-    do Clock.setLandingTime(1000); // TODO might vary depending on the level
+    do Clock.setLandingTime(2000); // TODO might vary depending on the level
     do Clock.setUnitTime(1000); // TODO might vary depending on the level
      let nextBlock = Block.spawn(Rand.take());
 

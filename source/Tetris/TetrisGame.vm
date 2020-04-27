@@ -54,7 +54,7 @@ pop local 4
 push local 0
 call Block.setPlayer 1
 pop temp 0
-push constant 1000
+push constant 2000
 call Clock.setLandingTime 1
 pop temp 0
 push constant 1000

@@ -1,5 +1,5 @@
 function Block.new 1
-push constant 8
+push constant 9
 call Memory.alloc 1
 pop pointer 0
 push argument 0
@@ -46,6 +46,8 @@ call Block.rotateCurrentShapeTo 2
 pop temp 0
 push constant 0
 pop this 4
+push constant 0
+pop this 8
 push pointer 0
 return
 function Block.spawn 1
@@ -53,7 +55,8 @@ push argument 0
 call Block.new 1
 pop local 0
 push local 0
-call Block.chargeTime 1
+push constant 0
+call Block.chargeTime 2
 pop temp 0
 push local 0
 call Block.draw 1
@@ -73,6 +76,26 @@ return
 function Block.chargeTime 1
 push argument 0
 pop pointer 0
+push argument 1
+if-goto label2.if
+push constant 0
+pop this 8
+goto label2.if_end
+label label2.if
+push this 8
+push constant 1
+add
+pop this 8
+label label2.if_end
+push argument 1
+not
+push this 8
+push constant 7
+lt
+or
+if-goto label3.if
+goto label3.if_end
+label label3.if
 push pointer 0
 push constant 0
 push constant 1
@@ -83,6 +106,7 @@ push this 7
 push local 0
 call Clock.chargeTime 2
 pop temp 0
+label label3.if_end
 push constant 0
 return
 function Block.dispose 1
@@ -90,13 +114,13 @@ push argument 0
 pop pointer 0
 push constant 0
 pop local 0
-label label2.while_start
+label label4.while_start
 push local 0
 push constant 4
 lt
-if-goto label2.while
-goto label2.while_end
-label label2.while
+if-goto label4.while
+goto label4.while_end
+label label4.while
 push local 0
 push this 6
 add
@@ -110,8 +134,8 @@ push local 0
 push constant 1
 add
 pop local 0
-goto label2.while_start
-label label2.while_end
+goto label4.while_start
+label label4.while_end
 push this 7
 call Clock.dispose 1
 pop temp 0
@@ -132,7 +156,7 @@ push this 1
 push argument 2
 add
 pop local 1
-label label5.while_start
+label label7.while_start
 push local 1
 push this 1
 push argument 2
@@ -140,14 +164,14 @@ push constant 4
 add
 add
 lt
-if-goto label5.while
-goto label5.while_end
-label label5.while
+if-goto label7.while
+goto label7.while_end
+label label7.while
 push this 0
 push argument 1
 add
 pop local 0
-label label4.while_start
+label label6.while_start
 push local 0
 push this 0
 push argument 1
@@ -155,9 +179,9 @@ push constant 4
 add
 add
 lt
-if-goto label4.while
-goto label4.while_end
-label label4.while
+if-goto label6.while
+goto label6.while_end
+label label6.while
 push local 2
 push this 5
 add
@@ -172,12 +196,12 @@ push local 1
 call World.isEmpty 3
 not
 and
-if-goto label3.if
-goto label3.if_end
-label label3.if
+if-goto label5.if
+goto label5.if_end
+label label5.if
 push constant 0
 return
-label label3.if_end
+label label5.if_end
 push local 2
 push constant 1
 add
@@ -186,14 +210,14 @@ push local 0
 push constant 1
 add
 pop local 0
-goto label4.while_start
-label label4.while_end
+goto label6.while_start
+label label6.while_end
 push local 1
 push constant 1
 add
 pop local 1
-goto label5.while_start
-label label5.while_end
+goto label7.while_start
+label label7.while_end
 push constant 1
 neg
 return
@@ -203,88 +227,52 @@ pop pointer 0
 push this 3
 push constant 3
 eq
-if-goto label6.if
-goto label6.if_end
-label label6.if
+if-goto label8.if
+goto label8.if_end
+label label8.if
 push constant 1
 neg
 return
-label label6.if_end
+label label8.if_end
 push this 3
 push constant 0
 eq
-if-goto label49.if
+if-goto label51.if
 push pointer 0
 push constant 0
 push constant 0
-call Block.isMovable 3
-if-goto label28.if
-goto label28.if_end
-label label28.if
-push constant 1
-neg
-return
-label label28.if_end
-push argument 1
-push constant 1
-eq
-if-goto label33.if
-goto label33.if_end
-label label33.if
-push pointer 0
-push constant 1
-push constant 0
-call Block.isMovable 3
-if-goto label29.if
-goto label29.if_end
-label label29.if
-push this 0
-push constant 1
-add
-pop this 0
-push constant 1
-neg
-return
-label label29.if_end
-push pointer 0
-push constant 1
-push constant 1
 call Block.isMovable 3
 if-goto label30.if
 goto label30.if_end
 label label30.if
-push this 0
-push constant 1
-add
-pop this 0
-push this 1
-push constant 1
-add
-pop this 1
 push constant 1
 neg
 return
 label label30.if_end
+push argument 1
+push constant 1
+eq
+if-goto label35.if
+goto label35.if_end
+label label35.if
 push pointer 0
+push constant 1
 push constant 0
-push constant 2
-neg
 call Block.isMovable 3
 if-goto label31.if
 goto label31.if_end
 label label31.if
-push this 1
-push constant 2
-sub
-pop this 1
+push this 0
+push constant 1
+add
+pop this 0
 push constant 1
 neg
 return
 label label31.if_end
 push pointer 0
 push constant 1
-push constant 2
-neg
+push constant 1
 call Block.isMovable 3
 if-goto label32.if
 goto label32.if_end
@@ -294,25 +282,33 @@ push constant 1
 add
 pop this 0
 push this 1
+push constant 1
+add
+pop this 1
+push constant 1
+neg
+return
+label label32.if_end
+push pointer 0
+push constant 0
+push constant 2
+neg
+call Block.isMovable 3
+if-goto label33.if
+goto label33.if_end
+label label33.if
+push this 1
 push constant 2
 sub
 pop this 1
 push constant 1
 neg
 return
-label label32.if_end
-push constant 0
-return
 label label33.if_end
-push this 2
-push constant 3
-eq
-if-goto label38.if
-goto label38.if_end
-label label38.if
 push pointer 0
 push constant 1
-push constant 0
+push constant 2
+neg
 call Block.isMovable 3
 if-goto label34.if
 goto label34.if_end
@@ -321,48 +317,42 @@ push this 0
 push constant 1
 add
 pop this 0
-push constant 1
-neg
-return
-label label34.if_end
-push pointer 0
-push constant 1
-push constant 1
-neg
-call Block.isMovable 3
-if-goto label35.if
-goto label35.if_end
-label label35.if
-push this 0
-push constant 1
-add
-pop this 0
 push this 1
-push constant 1
+push constant 2
 sub
 pop this 1
 push constant 1
 neg
 return
-label label35.if_end
-push pointer 0
+label label34.if_end
 push constant 0
-push constant 2
+return
+label label35.if_end
+push this 2
+push constant 3
+eq
+if-goto label40.if
+goto label40.if_end
+label label40.if
+push pointer 0
+push constant 1
+push constant 0
 call Block.isMovable 3
 if-goto label36.if
 goto label36.if_end
 label label36.if
-push this 1
-push constant 2
+push this 0
+push constant 1
 add
-pop this 1
+pop this 0
 push constant 1
 neg
 return
 label label36.if_end
 push pointer 0
 push constant 1
-push constant 2
+push constant 1
+neg
 call Block.isMovable 3
 if-goto label37.if
 goto label37.if_end
@@ -372,70 +362,68 @@ push constant 1
 add
 pop this 0
 push this 1
+push constant 1
+sub
+pop this 1
+push constant 1
+neg
+return
+label label37.if_end
+push pointer 0
+push constant 0
+push constant 2
+call Block.isMovable 3
+if-goto label38.if
+goto label38.if_end
+label label38.if
+push this 1
 push constant 2
 add
 pop this 1
 push constant 1
 neg
 return
-label label37.if_end
-push constant 0
-return
 label label38.if_end
-push this 2
-push constant 1
-eq
-if-goto label43.if
-goto label43.if_end
-label label43.if
 push pointer 0
 push constant 1
-neg
-push constant 0
+push constant 2
 call Block.isMovable 3
 if-goto label39.if
 goto label39.if_end
 label label39.if
 push this 0
 push constant 1
-sub
+add
 pop this 0
-push constant 1
-neg
-return
-label label39.if_end
-push pointer 0
-push constant 1
-neg
-push constant 1
-neg
-call Block.isMovable 3
-if-goto label40.if
-goto label40.if_end
-label label40.if
-push this 0
-push constant 1
-sub
-pop this 0
-push this 1
-push constant 1
-sub
-pop this 1
-push constant 1
-neg
-return
-label label40.if_end
-push pointer 0
-push constant 0
-push constant 2
-call Block.isMovable 3
-if-goto label41.if
-goto label41.if_end
-label label41.if
 push this 1
 push constant 2
 add
 pop this 1
+push constant 1
+neg
+return
+label label39.if_end
+push constant 0
+return
+label label40.if_end
+push this 2
+push constant 1
+eq
+if-goto label45.if
+goto label45.if_end
+label label45.if
+push pointer 0
+push constant 1
+neg
+push constant 0
+call Block.isMovable 3
+if-goto label41.if
+goto label41.if_end
+label label41.if
+push this 0
+push constant 1
+sub
+pop this 0
 push constant 1
 neg
 return
@@ -443,7 +431,8 @@ label label41.if_end
 push pointer 0
 push constant 1
 neg
-push constant 2
+push constant 1
+neg
 call Block.isMovable 3
 if-goto label42.if
 goto label42.if_end
@@ -453,26 +442,32 @@ push constant 1
 sub
 pop this 0
 push this 1
+push constant 1
+sub
+pop this 1
+push constant 1
+neg
+return
+label label42.if_end
+push pointer 0
+push constant 0
+push constant 2
+call Block.isMovable 3
+if-goto label43.if
+goto label43.if_end
+label label43.if
+push this 1
 push constant 2
 add
 pop this 1
 push constant 1
 neg
 return
-label label42.if_end
-push constant 0
-return
 label label43.if_end
-push argument 1
-push constant 3
-eq
-if-goto label48.if
-goto label48.if_end
-label label48.if
 push pointer 0
 push constant 1
 neg
-push constant 0
+push constant 2
 call Block.isMovable 3
 if-goto label44.if
 goto label44.if_end
@@ -481,42 +476,35 @@ push this 0
 push constant 1
 sub
 pop this 0
-push constant 1
-neg
-return
-label label44.if_end
-push pointer 0
-push constant 1
-neg
-push constant 1
-call Block.isMovable 3
-if-goto label45.if
-goto label45.if_end
-label label45.if
-push this 0
-push constant 1
-sub
-pop this 0
 push this 1
-push constant 1
+push constant 2
 add
 pop this 1
 push constant 1
 neg
 return
-label label45.if_end
-push pointer 0
+label label44.if_end
 push constant 0
-push constant 2
+return
+label label45.if_end
+push argument 1
+push constant 3
+eq
+if-goto label50.if
+goto label50.if_end
+label label50.if
+push pointer 0
+push constant 1
 neg
+push constant 0
 call Block.isMovable 3
 if-goto label46.if
 goto label46.if_end
 label label46.if
-push this 1
-push constant 2
+push this 0
+push constant 1
 sub
-pop this 1
+pop this 0
 push constant 1
 neg
 return
@@ -524,8 +512,7 @@ label label46.if_end
 push pointer 0
 push constant 1
 neg
-push constant 2
-neg
+push constant 1
 call Block.isMovable 3
 if-goto label47.if
 goto label47.if_end
@@ -535,29 +522,66 @@ push constant 1
 sub
 pop this 0
 push this 1
+push constant 1
+add
+pop this 1
+push constant 1
+neg
+return
+label label47.if_end
+push pointer 0
+push constant 0
+push constant 2
+neg
+call Block.isMovable 3
+if-goto label48.if
+goto label48.if_end
+label label48.if
+push this 1
 push constant 2
 sub
 pop this 1
 push constant 1
 neg
 return
-label label47.if_end
-push constant 0
-return
 label label48.if_end
+push pointer 0
+push constant 1
+neg
+push constant 2
+neg
+call Block.isMovable 3
+if-goto label49.if
 goto label49.if_end
 label label49.if
+push this 0
+push constant 1
+sub
+pop this 0
+push this 1
+push constant 2
+sub
+pop this 1
+push constant 1
+neg
+return
+label label49.if_end
+push constant 0
+return
+label label50.if_end
+goto label51.if_end
+label label51.if
 push pointer 0
 push constant 0
 push constant 0
 call Block.isMovable 3
-if-goto label7.if
-goto label7.if_end
-label label7.if
+if-goto label9.if
+goto label9.if_end
+label label9.if
 push constant 1
 neg
 return
-label label7.if_end
+label label9.if_end
 push argument 1
 push constant 0
 eq
@@ -573,44 +597,13 @@ push constant 2
 eq
 and
 or
-if-goto label12.if
-goto label12.if_end
-label label12.if
+if-goto label14.if
+goto label14.if_end
+label label14.if
 push pointer 0
 push constant 2
 neg
 push constant 0
-call Block.isMovable 3
-if-goto label8.if
-goto label8.if_end
-label label8.if
-push this 0
-push constant 2
-sub
-pop this 0
-push constant 1
-neg
-return
-label label8.if_end
-push pointer 0
-push constant 1
-push constant 0
-call Block.isMovable 3
-if-goto label9.if
-goto label9.if_end
-label label9.if
-push this 0
-push constant 1
-add
-pop this 0
-push constant 1
-neg
-return
-label label9.if_end
-push pointer 0
-push constant 2
-neg
-push constant 1
 call Block.isMovable 3
 if-goto label10.if
 goto label10.if_end
@@ -619,18 +612,13 @@ push this 0
 push constant 2
 sub
 pop this 0
-push this 1
-push constant 1
-add
-pop this 1
 push constant 1
 neg
 return
 label label10.if_end
 push pointer 0
 push constant 1
-push constant 2
-neg
+push constant 0
 call Block.isMovable 3
 if-goto label11.if
 goto label11.if_end
@@ -639,6 +627,42 @@ push this 0
 push constant 1
 add
 pop this 0
+push constant 1
+neg
+return
+label label11.if_end
+push pointer 0
+push constant 2
+neg
+push constant 1
+call Block.isMovable 3
+if-goto label12.if
+goto label12.if_end
+label label12.if
+push this 0
+push constant 2
+sub
+pop this 0
+push this 1
+push constant 1
+add
+pop this 1
+push constant 1
+neg
+return
+label label12.if_end
+push pointer 0
+push constant 1
+push constant 2
+neg
+call Block.isMovable 3
+if-goto label13.if
+goto label13.if_end
+label label13.if
+push this 0
+push constant 1
+add
+pop this 0
 push this 1
 push constant 2
 sub
@@ -646,10 +670,10 @@ pop this 1
 push constant 1
 neg
 return
-label label11.if_end
+label label13.if_end
 push constant 0
 return
-label label12.if_end
+label label14.if_end
 push argument 1
 push constant 1
 eq
@@ -665,44 +689,12 @@ push constant 3
 eq
 and
 or
-if-goto label17.if
-goto label17.if_end
-label label17.if
+if-goto label19.if
+goto label19.if_end
+label label19.if
 push pointer 0
 push constant 2
 push constant 0
-call Block.isMovable 3
-if-goto label13.if
-goto label13.if_end
-label label13.if
-push this 0
-push constant 2
-add
-pop this 0
-push constant 1
-neg
-return
-label label13.if_end
-push pointer 0
-push constant 1
-neg
-push constant 0
-call Block.isMovable 3
-if-goto label14.if
-goto label14.if_end
-label label14.if
-push this 0
-push constant 1
-sub
-pop this 0
-push constant 1
-neg
-return
-label label14.if_end
-push pointer 0
-push constant 2
-push constant 1
-neg
 call Block.isMovable 3
 if-goto label15.if
 goto label15.if_end
@@ -711,10 +703,6 @@ push this 0
 push constant 2
 add
 pop this 0
-push this 1
-push constant 1
-sub
-pop this 1
 push constant 1
 neg
 return
@@ -722,7 +710,7 @@ label label15.if_end
 push pointer 0
 push constant 1
 neg
-push constant 2
+push constant 0
 call Block.isMovable 3
 if-goto label16.if
 goto label16.if_end
@@ -731,39 +719,34 @@ push this 0
 push constant 1
 sub
 pop this 0
-push this 1
-push constant 2
-add
-pop this 1
 push constant 1
 neg
 return
 label label16.if_end
-push constant 0
+push pointer 0
+push constant 2
+push constant 1
+neg
+call Block.isMovable 3
+if-goto label17.if
+goto label17.if_end
+label label17.if
+push this 0
+push constant 2
+add
+pop this 0
+push this 1
+push constant 1
+sub
+pop this 1
+push constant 1
+neg
 return
 label label17.if_end
-push argument 1
-push constant 1
-eq
-push this 2
-push constant 2
-eq
-and
-push argument 1
-push constant 0
-eq
-push this 2
-push constant 3
-eq
-and
-or
-if-goto label22.if
-goto label22.if_end
-label label22.if
 push pointer 0
 push constant 1
 neg
-push constant 0
+push constant 2
 call Block.isMovable 3
 if-goto label18.if
 goto label18.if_end
@@ -772,30 +755,39 @@ push this 0
 push constant 1
 sub
 pop this 0
+push this 1
+push constant 2
+add
+pop this 1
 push constant 1
 neg
 return
 label label18.if_end
-push pointer 0
-push constant 2
 push constant 0
-call Block.isMovable 3
-if-goto label19.if
-goto label19.if_end
-label label19.if
-push this 0
-push constant 2
-add
-pop this 0
-push constant 1
-neg
 return
 label label19.if_end
+push argument 1
+push constant 1
+eq
+push this 2
+push constant 2
+eq
+and
+push argument 1
+push constant 0
+eq
+push this 2
+push constant 3
+eq
+and
+or
+if-goto label24.if
+goto label24.if_end
+label label24.if
 push pointer 0
 push constant 1
 neg
-push constant 2
-neg
+push constant 0
 call Block.isMovable 3
 if-goto label20.if
 goto label20.if_end
@@ -804,6 +796,38 @@ push this 0
 push constant 1
 sub
 pop this 0
+push constant 1
+neg
+return
+label label20.if_end
+push pointer 0
+push constant 2
+push constant 0
+call Block.isMovable 3
+if-goto label21.if
+goto label21.if_end
+label label21.if
+push this 0
+push constant 2
+add
+pop this 0
+push constant 1
+neg
+return
+label label21.if_end
+push pointer 0
+push constant 1
+neg
+push constant 2
+neg
+call Block.isMovable 3
+if-goto label22.if
+goto label22.if_end
+label label22.if
+push this 0
+push constant 1
+sub
+pop this 0
 push this 1
 push constant 2
 sub
@@ -811,14 +835,14 @@ pop this 1
 push constant 1
 neg
 return
-label label20.if_end
+label label22.if_end
 push pointer 0
 push constant 2
 push constant 1
 call Block.isMovable 3
-if-goto label21.if
-goto label21.if_end
-label label21.if
+if-goto label23.if
+goto label23.if_end
+label label23.if
 push this 0
 push constant 2
 add
@@ -830,10 +854,10 @@ pop this 1
 push constant 1
 neg
 return
-label label21.if_end
+label label23.if_end
 push constant 0
 return
-label label22.if_end
+label label24.if_end
 push argument 1
 push constant 2
 eq
@@ -849,43 +873,12 @@ push constant 0
 eq
 and
 or
-if-goto label27.if
-goto label27.if_end
-label label27.if
+if-goto label29.if
+goto label29.if_end
+label label29.if
 push pointer 0
 push constant 1
 push constant 0
-call Block.isMovable 3
-if-goto label23.if
-goto label23.if_end
-label label23.if
-push this 0
-push constant 1
-add
-pop this 0
-push constant 1
-neg
-return
-label label23.if_end
-push pointer 0
-push constant 2
-neg
-push constant 0
-call Block.isMovable 3
-if-goto label24.if
-goto label24.if_end
-label label24.if
-push this 0
-push constant 2
-sub
-pop this 0
-push constant 1
-neg
-return
-label label24.if_end
-push pointer 0
-push constant 1
-push constant 2
 call Block.isMovable 3
 if-goto label25.if
 goto label25.if_end
@@ -894,10 +887,6 @@ push this 0
 push constant 1
 add
 pop this 0
-push this 1
-push constant 2
-add
-pop this 1
 push constant 1
 neg
 return
@@ -905,12 +894,47 @@ label label25.if_end
 push pointer 0
 push constant 2
 neg
-push constant 1
-neg
+push constant 0
 call Block.isMovable 3
 if-goto label26.if
 goto label26.if_end
 label label26.if
+push this 0
+push constant 2
+sub
+pop this 0
+push constant 1
+neg
+return
+label label26.if_end
+push pointer 0
+push constant 1
+push constant 2
+call Block.isMovable 3
+if-goto label27.if
+goto label27.if_end
+label label27.if
+push this 0
+push constant 1
+add
+pop this 0
+push this 1
+push constant 2
+add
+pop this 1
+push constant 1
+neg
+return
+label label27.if_end
+push pointer 0
+push constant 2
+neg
+push constant 1
+neg
+call Block.isMovable 3
+if-goto label28.if
+goto label28.if_end
+label label28.if
 push this 0
 push constant 2
 sub
@@ -922,11 +946,11 @@ pop this 1
 push constant 1
 neg
 return
-label label26.if_end
+label label28.if_end
 push constant 0
 return
-label label27.if_end
-label label49.if_end
+label label29.if_end
+label label51.if_end
 function Block.land 6
 push argument 0
 pop pointer 0
@@ -934,26 +958,26 @@ push constant 0
 pop local 2
 push this 1
 pop local 1
-label label52.while_start
+label label54.while_start
 push local 1
 push this 1
 push constant 4
 add
 lt
-if-goto label52.while
-goto label52.while_end
-label label52.while
+if-goto label54.while
+goto label54.while_end
+label label54.while
 push this 0
 pop local 0
-label label51.while_start
+label label53.while_start
 push local 0
 push this 0
 push constant 4
 add
 lt
-if-goto label51.while
-goto label51.while_end
-label label51.while
+if-goto label53.while
+goto label53.while_end
+label label53.while
 push local 2
 push this 5
 add
@@ -962,15 +986,15 @@ push that 0
 push constant 0
 eq
 not
-if-goto label50.if
-goto label50.if_end
-label label50.if
+if-goto label52.if
+goto label52.if_end
+label label52.if
 push static 1
 push local 0
 push local 1
 call World.registerCell 3
 pop temp 0
-label label50.if_end
+label label52.if_end
 push local 2
 push constant 1
 add
@@ -979,33 +1003,33 @@ push local 0
 push constant 1
 add
 pop local 0
-goto label51.while_start
-label label51.while_end
+goto label53.while_start
+label label53.while_end
 push local 1
 push constant 1
 add
 pop local 1
-goto label52.while_start
-label label52.while_end
+goto label54.while_start
+label label54.while_end
 push this 4
 push this 3
 push constant 5
 eq
 and
-if-goto label53.if
+if-goto label55.if
 push constant 0
 pop local 4
 push constant 0
 pop local 5
-goto label53.if_end
-label label53.if
+goto label55.if_end
+label label55.if
 push pointer 0
 call Block.checkTSpinCondition 1
 pop local 4
 push pointer 0
 call Block.checkTSpinMiniCondition 1
 pop local 5
-label label53.if_end
+label label55.if_end
 push static 1
 call World.destroyLines 1
 pop local 3
@@ -1027,15 +1051,15 @@ push constant 0
 pop local 2
 push this 1
 pop local 1
-label label57.while_start
+label label59.while_start
 push local 1
 push this 1
 push constant 4
 add
 lt
-if-goto label57.while
-goto label57.while_end
-label label57.while
+if-goto label59.while
+goto label59.while_end
+label label59.while
 push local 1
 push constant 2
 lt
@@ -1045,24 +1069,24 @@ push constant 21
 gt
 not
 and
-if-goto label56.if
+if-goto label58.if
 push local 2
 push constant 4
 add
 pop local 2
-goto label56.if_end
-label label56.if
+goto label58.if_end
+label label58.if
 push this 0
 pop local 0
-label label55.while_start
+label label57.while_start
 push local 0
 push this 0
 push constant 4
 add
 lt
-if-goto label55.while
-goto label55.while_end
-label label55.while
+if-goto label57.while
+goto label57.while_end
+label label57.while
 push local 0
 push constant 1
 lt
@@ -1081,14 +1105,14 @@ eq
 not
 and
 and
-if-goto label54.if
-goto label54.if_end
-label label54.if
+if-goto label56.if
+goto label56.if_end
+label label56.if
 push local 0
 push local 1
 call MainWindow.drawCell 2
 pop temp 0
-label label54.if_end
+label label56.if_end
 push local 2
 push constant 1
 add
@@ -1097,15 +1121,15 @@ push local 0
 push constant 1
 add
 pop local 0
-goto label55.while_start
-label label55.while_end
-label label56.if_end
+goto label57.while_start
+label label57.while_end
+label label58.if_end
 push local 1
 push constant 1
 add
 pop local 1
-goto label57.while_start
-label label57.while_end
+goto label59.while_start
+label label59.while_end
 push constant 0
 return
 function Block.drawNext 4
@@ -1120,35 +1144,35 @@ push this 3
 push constant 3
 eq
 or
-if-goto label58.if
+if-goto label60.if
 push constant 1
 neg
 pop local 3
-goto label58.if_end
-label label58.if
+goto label60.if_end
+label label60.if
 push constant 0
 pop local 3
-label label58.if_end
+label label60.if_end
 push constant 0
 pop local 2
 push constant 0
 pop local 1
-label label61.while_start
+label label63.while_start
 push local 1
 push constant 4
 lt
-if-goto label61.while
-goto label61.while_end
-label label61.while
+if-goto label63.while
+goto label63.while_end
+label label63.while
 push constant 0
 pop local 0
-label label60.while_start
+label label62.while_start
 push local 0
 push constant 4
 lt
-if-goto label60.while
-goto label60.while_end
-label label60.while
+if-goto label62.while
+goto label62.while_end
+label label62.while
 push local 2
 push this 5
 add
@@ -1157,15 +1181,15 @@ push that 0
 push constant 0
 eq
 not
-if-goto label59.if
-goto label59.if_end
-label label59.if
+if-goto label61.if
+goto label61.if_end
+label label61.if
 push local 0
 push local 1
 push local 3
 call NextWindow.drawCell 3
 pop temp 0
-label label59.if_end
+label label61.if_end
 push local 2
 push constant 1
 add
@@ -1174,14 +1198,14 @@ push local 0
 push constant 1
 add
 pop local 0
-goto label60.while_start
-label label60.while_end
+goto label62.while_start
+label label62.while_end
 push local 1
 push constant 1
 add
 pop local 1
-goto label61.while_start
-label label61.while_end
+goto label63.while_start
+label label63.while_end
 push constant 0
 return
 function Block.erase 3
@@ -1191,15 +1215,15 @@ push constant 0
 pop local 2
 push this 1
 pop local 1
-label label65.while_start
+label label67.while_start
 push local 1
 push this 1
 push constant 4
 add
 lt
-if-goto label65.while
-goto label65.while_end
-label label65.while
+if-goto label67.while
+goto label67.while_end
+label label67.while
 push local 1
 push constant 2
 lt
@@ -1209,24 +1233,24 @@ push constant 21
 gt
 not
 and
-if-goto label64.if
+if-goto label66.if
 push local 2
 push constant 4
 add
 pop local 2
-goto label64.if_end
-label label64.if
+goto label66.if_end
+label label66.if
 push this 0
 pop local 0
-label label63.while_start
+label label65.while_start
 push local 0
 push this 0
 push constant 4
 add
 lt
-if-goto label63.while
-goto label63.while_end
-label label63.while
+if-goto label65.while
+goto label65.while_end
+label label65.while
 push local 0
 push constant 1
 lt
@@ -1245,14 +1269,14 @@ eq
 not
 and
 and
-if-goto label62.if
-goto label62.if_end
-label label62.if
+if-goto label64.if
+goto label64.if_end
+label label64.if
 push local 0
 push local 1
 call MainWindow.eraseCell 2
 pop temp 0
-label label62.if_end
+label label64.if_end
 push local 2
 push constant 1
 add
@@ -1261,15 +1285,15 @@ push local 0
 push constant 1
 add
 pop local 0
-goto label63.while_start
-label label63.while_end
-label label64.if_end
+goto label65.while_start
+label label65.while_end
+label label66.if_end
 push local 1
 push constant 1
 add
 pop local 1
-goto label65.while_start
-label label65.while_end
+goto label67.while_start
+label label67.while_end
 push constant 0
 return
 function Block.moveLeft 0
@@ -1280,9 +1304,9 @@ push constant 1
 neg
 push constant 0
 call Block.isMovable 3
-if-goto label66.if
-goto label66.if_end
-label label66.if
+if-goto label68.if
+goto label68.if_end
+label label68.if
 push pointer 0
 call Block.erase 1
 pop temp 0
@@ -1295,7 +1319,12 @@ pop this 4
 push pointer 0
 call Block.draw 1
 pop temp 0
-label label66.if_end
+push pointer 0
+push constant 1
+neg
+call Block.chargeTime 2
+pop temp 0
+label label68.if_end
 push constant 0
 return
 function Block.moveRight 0
@@ -1305,9 +1334,9 @@ push pointer 0
 push constant 1
 push constant 0
 call Block.isMovable 3
-if-goto label67.if
-goto label67.if_end
-label label67.if
+if-goto label69.if
+goto label69.if_end
+label label69.if
 push pointer 0
 call Block.erase 1
 pop temp 0
@@ -1320,7 +1349,12 @@ pop this 4
 push pointer 0
 call Block.draw 1
 pop temp 0
-label label67.if_end
+push pointer 0
+push constant 1
+neg
+call Block.chargeTime 2
+pop temp 0
+label label69.if_end
 push constant 0
 return
 function Block.rotateRight 2
@@ -1334,61 +1368,14 @@ pop temp 0
 push this 2
 push constant 3
 eq
-if-goto label68.if
+if-goto label70.if
 push this 2
 push constant 1
 add
 pop local 1
-goto label68.if_end
-label label68.if
-push constant 0
-pop local 1
-label label68.if_end
-push pointer 0
-push local 1
-call Block.rotateCurrentShapeTo 2
-pop temp 0
-push pointer 0
-push local 0
-call Block.isRotatableFrom 2
-if-goto label69.if
-push pointer 0
-push local 0
-call Block.rotateCurrentShapeTo 2
-pop temp 0
-push pointer 0
-call Block.draw 1
-pop temp 0
-goto label69.if_end
-label label69.if
-push constant 1
-neg
-pop this 4
-push pointer 0
-call Block.draw 1
-pop temp 0
-label label69.if_end
-push constant 0
-return
-function Block.rotateLeft 2
-push argument 0
-pop pointer 0
-push this 2
-pop local 0
-push pointer 0
-call Block.erase 1
-pop temp 0
-push this 2
-push constant 0
-eq
-if-goto label70.if
-push this 2
-push constant 1
-sub
-pop local 1
 goto label70.if_end
 label label70.if
-push constant 3
+push constant 0
 pop local 1
 label label70.if_end
 push pointer 0
@@ -1414,7 +1401,64 @@ pop this 4
 push pointer 0
 call Block.draw 1
 pop temp 0
+push pointer 0
+push constant 1
+neg
+call Block.chargeTime 2
+pop temp 0
 label label71.if_end
+push constant 0
+return
+function Block.rotateLeft 2
+push argument 0
+pop pointer 0
+push this 2
+pop local 0
+push pointer 0
+call Block.erase 1
+pop temp 0
+push this 2
+push constant 0
+eq
+if-goto label72.if
+push this 2
+push constant 1
+sub
+pop local 1
+goto label72.if_end
+label label72.if
+push constant 3
+pop local 1
+label label72.if_end
+push pointer 0
+push local 1
+call Block.rotateCurrentShapeTo 2
+pop temp 0
+push pointer 0
+push local 0
+call Block.isRotatableFrom 2
+if-goto label73.if
+push pointer 0
+push local 0
+call Block.rotateCurrentShapeTo 2
+pop temp 0
+push pointer 0
+call Block.draw 1
+pop temp 0
+goto label73.if_end
+label label73.if
+push constant 1
+neg
+pop this 4
+push pointer 0
+call Block.draw 1
+pop temp 0
+push pointer 0
+push constant 1
+neg
+call Block.chargeTime 2
+pop temp 0
+label label73.if_end
 push constant 0
 return
 function Block.softDrop 0
@@ -1436,20 +1480,20 @@ call Block.erase 1
 pop temp 0
 push this 1
 pop local 0
-label label72.while_start
+label label74.while_start
 push pointer 0
 push constant 0
 push constant 1
 call Block.isMovable 3
-if-goto label72.while
-goto label72.while_end
-label label72.while
+if-goto label74.while
+goto label74.while_end
+label label74.while
 push this 1
 push constant 1
 add
 pop this 1
-goto label72.while_start
-label label72.while_end
+goto label74.while_start
+label label74.while_end
 push static 0
 push this 1
 push local 0
@@ -1477,15 +1521,15 @@ call Block.isMovable 3
 call Clock.tick 2
 pop local 0
 push local 0
-if-goto label73.if
+if-goto label75.if
 push pointer 0
 return
-goto label73.if_end
-label label73.if
+goto label75.if_end
+label label75.if
 push pointer 0
 call Block.dropByOne 1
 return
-label label73.if_end
+label label75.if_end
 function Block.dropByOne 0
 push argument 0
 pop pointer 0
@@ -1493,14 +1537,14 @@ push pointer 0
 push constant 0
 push constant 1
 call Block.isMovable 3
-if-goto label74.if
+if-goto label76.if
 push pointer 0
 call Block.land 1
 pop temp 0
 push constant 0
 return
-goto label74.if_end
-label label74.if
+goto label76.if_end
+label label76.if
 push pointer 0
 call Block.erase 1
 pop temp 0
@@ -1514,11 +1558,12 @@ push pointer 0
 call Block.draw 1
 pop temp 0
 push pointer 0
-call Block.chargeTime 1
+push constant 0
+call Block.chargeTime 2
 pop temp 0
 push pointer 0
 return
-label label74.if_end
+label label76.if_end
 function Block.rotateCurrentShapeTo 0
 push argument 0
 pop pointer 0
@@ -1563,40 +1608,6 @@ push constant 1
 sub
 call World.isEmpty 3
 not
-if-goto label75.if
-goto label75.if_end
-label label75.if
-push local 2
-push constant 1
-add
-pop local 2
-label label75.if_end
-push static 1
-push local 0
-push constant 1
-sub
-push local 1
-push constant 1
-add
-call World.isEmpty 3
-not
-if-goto label76.if
-goto label76.if_end
-label label76.if
-push local 2
-push constant 1
-add
-pop local 2
-label label76.if_end
-push static 1
-push local 0
-push constant 1
-add
-push local 1
-push constant 1
-sub
-call World.isEmpty 3
-not
 if-goto label77.if
 goto label77.if_end
 label label77.if
@@ -1608,7 +1619,7 @@ label label77.if_end
 push static 1
 push local 0
 push constant 1
-add
+sub
 push local 1
 push constant 1
 add
@@ -1622,6 +1633,40 @@ push constant 1
 add
 pop local 2
 label label78.if_end
+push static 1
+push local 0
+push constant 1
+add
+push local 1
+push constant 1
+sub
+call World.isEmpty 3
+not
+if-goto label79.if
+goto label79.if_end
+label label79.if
+push local 2
+push constant 1
+add
+pop local 2
+label label79.if_end
+push static 1
+push local 0
+push constant 1
+add
+push local 1
+push constant 1
+add
+call World.isEmpty 3
+not
+if-goto label80.if
+goto label80.if_end
+label label80.if
+push local 2
+push constant 1
+add
+pop local 2
+label label80.if_end
 push constant 17
 push constant 56
 call Output.moveCursor 2
@@ -1639,47 +1684,47 @@ pop pointer 0
 push this 2
 push constant 0
 eq
-if-goto label79.if
-goto label79.if_end
-label label79.if
-push constant 1
-pop local 0
-push constant 2
-pop local 1
-label label79.if_end
-push this 2
-push constant 1
-eq
-if-goto label80.if
-goto label80.if_end
-label label80.if
-push constant 0
-pop local 0
-push constant 1
-pop local 1
-label label80.if_end
-push this 2
-push constant 2
-eq
 if-goto label81.if
 goto label81.if_end
 label label81.if
 push constant 1
 pop local 0
-push constant 0
+push constant 2
 pop local 1
 label label81.if_end
 push this 2
-push constant 3
+push constant 1
 eq
 if-goto label82.if
 goto label82.if_end
 label label82.if
-push constant 2
+push constant 0
 pop local 0
 push constant 1
 pop local 1
 label label82.if_end
+push this 2
+push constant 2
+eq
+if-goto label83.if
+goto label83.if_end
+label label83.if
+push constant 1
+pop local 0
+push constant 0
+pop local 1
+label label83.if_end
+push this 2
+push constant 3
+eq
+if-goto label84.if
+goto label84.if_end
+label label84.if
+push constant 2
+pop local 0
+push constant 1
+pop local 1
+label label84.if_end
 push static 1
 push this 0
 push local 0
@@ -1696,87 +1741,87 @@ pop pointer 0
 push this 3
 push constant 0
 eq
-if-goto label83.if
-goto label83.if_end
-label label83.if
+if-goto label85.if
+goto label85.if_end
+label label85.if
 push pointer 0
 call Block.setI 1
 pop temp 0
 push constant 0
 return
-label label83.if_end
-push this 3
-push constant 1
-eq
-if-goto label84.if
-goto label84.if_end
-label label84.if
-push pointer 0
-call Block.setJ 1
-pop temp 0
-push constant 0
-return
-label label84.if_end
-push this 3
-push constant 2
-eq
-if-goto label85.if
-goto label85.if_end
-label label85.if
-push pointer 0
-call Block.setL 1
-pop temp 0
-push constant 0
-return
 label label85.if_end
 push this 3
-push constant 3
+push constant 1
 eq
 if-goto label86.if
 goto label86.if_end
 label label86.if
 push pointer 0
-call Block.setO 1
+call Block.setJ 1
 pop temp 0
 push constant 0
 return
 label label86.if_end
 push this 3
-push constant 4
+push constant 2
 eq
 if-goto label87.if
 goto label87.if_end
 label label87.if
 push pointer 0
-call Block.setS 1
+call Block.setL 1
 pop temp 0
 push constant 0
 return
 label label87.if_end
 push this 3
-push constant 5
+push constant 3
 eq
 if-goto label88.if
 goto label88.if_end
 label label88.if
 push pointer 0
-call Block.setT 1
+call Block.setO 1
 pop temp 0
 push constant 0
 return
 label label88.if_end
 push this 3
-push constant 6
+push constant 4
 eq
 if-goto label89.if
 goto label89.if_end
 label label89.if
 push pointer 0
-call Block.setZ 1
+call Block.setS 1
 pop temp 0
 push constant 0
 return
 label label89.if_end
+push this 3
+push constant 5
+eq
+if-goto label90.if
+goto label90.if_end
+label label90.if
+push pointer 0
+call Block.setT 1
+pop temp 0
+push constant 0
+return
+label label90.if_end
+push this 3
+push constant 6
+eq
+if-goto label91.if
+goto label91.if_end
+label label91.if
+push pointer 0
+call Block.setZ 1
+pop temp 0
+push constant 0
+return
+label label91.if_end
 function Block.setI 0
 push argument 0
 pop pointer 0
