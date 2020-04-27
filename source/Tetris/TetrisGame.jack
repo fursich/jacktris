@@ -98,28 +98,6 @@ class TetrisGame {
         }
 
         if (~interval) {
-          if (key = 73) {   // 'I'
-            let nextBlock = Block.spawn(0);
-          }
-          if (key = 74) {   // 'J'
-            let nextBlock = Block.spawn(1);
-          }
-          if (key = 76) {   // 'L'
-            let nextBlock = Block.spawn(2);
-          }
-          if (key = 79) {   // 'O'
-            let nextBlock = Block.spawn(3);
-          }
-          if (key = 83) {   // 'S'
-            let nextBlock = Block.spawn(4);
-          }
-          if (key = 84) {   // 'T'
-            let nextBlock = Block.spawn(5);
-          }
-          if (key = 90) {   // 'Z'
-            let nextBlock = Block.spawn(6);
-          }
-
           if (key = 130) {   // move left
             if(block > 0) {
               do block.moveLeft();
