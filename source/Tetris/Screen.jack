@@ -233,7 +233,7 @@ class Screen {
 
     /** Draws a filled rectangle whose top left corner is (x1, y1)
      * and bottom right corner is (x2,y2), using the current color. */
-    function void drawRectangle(int x1, int y1, int x2, int y2) {
+    function void SLOWdrawRectangle(int x1, int y1, int x2, int y2) {
       var int py;
 
       if((y1<0) | ~(y1<ScreenHeight) | (x1<0) | ~(x1<ScreenWidth)) {
@@ -289,7 +289,7 @@ class Screen {
     }
 
     /* fast drawer for a rectangle using 'word-based mass assignment' specialized for horizontal line */
-    function void fastDrawRectangle(int x1, int y1, int x2, int y2) {
+    function void drawRectangle(int x1, int y1, int x2, int y2) {
       var int i, j, t;
       var int mask1, mask2;
       var int offset1, offset2, index1, index2, base_address1, base_address2;

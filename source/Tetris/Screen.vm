@@ -669,7 +669,7 @@ label label20.if_end
 label label24.if_end
 push constant 0
 return
-function Screen.drawRectangle 1
+function Screen.SLOWdrawRectangle 1
 push argument 1
 push constant 0
 lt
@@ -833,7 +833,7 @@ label label30.while_end
 label label32.if_end
 push local 1
 return
-function Screen.fastDrawRectangle 11
+function Screen.drawRectangle 11
 push argument 1
 push constant 0
 lt
