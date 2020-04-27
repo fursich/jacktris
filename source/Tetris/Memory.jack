@@ -1,0 +1,154 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/12/Memory.jack
+
+/**
+ * This library provides two services: direct access to the computer's main
+ * memory (RAM), and allocation and recycling of memory blocks. The Hack RAM
+ * consists of 32,768 words, each holding a 16-bit binary number.
+ */
+class Memory {
+
+    static Array memory;
+    static int HeapBase, HeapEnd;
+    static int FreeBase;
+
+    /** Initializes the class. */
+    function void init() {
+      var Array free_list;
+
+      let memory = 0;
+      let HeapBase = 2048;
+      let HeapEnd  = 16383;
+      let FreeBase = HeapBase;
+
+      let free_list = HeapBase;
+      let free_list[0] = (HeapEnd - HeapBase) + 1;
+      let free_list[1] = null;
+
+      return;
+    }
+
+    /** Returns the RAM value at the given address. */
+    function int peek(int address) {
+      return memory[address];
+    }
+
+    /** Sets the RAM value at the given address to the given value. */
+    function void poke(int address, int value) {
+      let memory[address] = value;
+
+      return;
+    }
+
+    /** Finds an available RAM block of the given size and returns
+     *  a reference to its base address. */
+    function int alloc(int size) {
+      var Array free_list;
+      var Array block;
+      var Array last_node;
+      var int free_size;
+
+      if(~(size > 0)) {
+        do Sys.error(5);
+      }
+
+      if(FreeBase = null) {
+        do Sys.error(6);
+      }
+
+      let free_list = FreeBase;
+      let last_node = null;
+
+      while(free_list[0] < size) {
+        if(free_list[1] = null) {
+          do Sys.error(6);
+        }
+        let last_node = free_list;
+        let free_list = free_list[1];
+      }
+
+      let free_size = free_list[0];
+      if(free_size > size + 3) {
+        let block = free_list + (free_size - size);
+        let free_list[0] = (free_size - size) - 1;
+        let block[-1] = size + 1;
+      } else {
+        if(last_node = null) {
+          let FreeBase = free_list[1];
+        } else {
+          let last_node[1] = free_list[1];
+        }
+        let block = free_list + 1;
+      }
+
+      return block;
+    }
+
+    /** De-allocates the given object (cast as an array) by making
+     *  it available for future allocations. */
+    function void deAlloc(Array o) {
+      var Array free_list;
+      var Array last_node;
+
+      let free_list = FreeBase;
+      let last_node = null;
+
+      if((o < HeapBase) | (o > HeapEnd)) {
+        /* this block has an invalid size */
+        /* temtatively use error_code = 5 (invalid Memory size) for this. */
+        do Sys.error(5);
+      }
+
+      if(~(o[-1] > 0) | (o[-1] > (HeapEnd - HeapBase)) | (((o - 1) + (o[-1] - 1)) > HeapEnd)) {
+        /* this block has an invalid size */
+        /* temtatively use error_code = 5 (invalid Memory size) for this. */
+        do Sys.error(5);
+      }
+
+      while(~(free_list=null) & (free_list < (o-1))) {
+        let last_node = free_list;
+        let free_list = free_list[1];
+      }
+
+      if(~(last_node=null)) {
+        if((last_node + last_node[0]) > (o - 1)) {
+          /* a block that has already returned or has an invalid size */
+          /* temtatively use error_code = 6 (Heap Overflow) for this. */
+          do Sys.error(6);
+        }
+      }
+
+      if(~(free_list=null)) {
+        if(((o - 1) + o[-1]) > free_list) {
+          /* a block that has already returned or has an invalid size */
+          /* temtatively use error_code = 6 (Heap Overflow) for this. */
+          do Sys.error(6);
+        }
+      }
+
+      if(last_node=null) {
+        let o[0] = free_list;
+        let FreeBase = o - 1;
+      } else {
+        let o[0] = last_node[1];
+        let last_node[1] = o - 1;
+      }
+
+      if(~(free_list=null)) {
+        if(((o - 1) + o[-1]) = free_list) {
+          let o[-1] = o[-1] + free_list[0];
+          let o[0] = free_list[1];
+        }
+      }
+
+      if(~(last_node=null)) {
+        if((last_node + last_node[0]) = (o - 1)) {
+          let last_node[0] = last_node[0] + o[-1];
+          let last_node[1] = o[0];
+        }
+      }
+      return;
+    }
+}

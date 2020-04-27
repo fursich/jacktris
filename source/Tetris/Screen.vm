@@ -1,0 +1,1446 @@
+function Screen.init 2
+push constant 16384
+pop static 0
+push constant 1
+neg
+pop static 1
+push constant 512
+pop static 3
+push constant 256
+pop static 4
+push constant 16
+pop static 5
+push static 3
+push static 5
+call Math.divide 2
+pop static 6
+push static 5
+call Array.new 1
+pop static 2
+push constant 1
+pop local 1
+push constant 0
+pop local 0
+label label1.while_start
+push local 0
+push static 5
+lt
+if-goto label1.while
+goto label1.while_end
+label label1.while
+push local 1
+push local 0
+push static 2
+add
+pop pointer 1
+pop that 0
+push local 1
+push local 1
+add
+pop local 1
+push local 0
+push constant 1
+add
+pop local 0
+goto label1.while_start
+label label1.while_end
+push constant 0
+return
+function Screen.draw_black_pixel 0
+push argument 0
+push static 0
+add
+pop pointer 1
+push that 0
+push argument 1
+push static 2
+add
+pop pointer 1
+push that 0
+or
+push argument 0
+push static 0
+add
+pop pointer 1
+pop that 0
+push constant 0
+return
+function Screen.draw_white_pixel 0
+push argument 0
+push static 0
+add
+pop pointer 1
+push that 0
+push argument 1
+push static 2
+add
+pop pointer 1
+push that 0
+not
+and
+push argument 0
+push static 0
+add
+pop pointer 1
+pop that 0
+push constant 0
+return
+function Screen.clearScreen 1
+push static 4
+push static 6
+call Math.multiply 2
+pop local 0
+label label2.while_start
+push local 0
+push constant 0
+gt
+if-goto label2.while
+goto label2.while_end
+label label2.while
+push constant 0
+push local 0
+push static 0
+add
+pop pointer 1
+pop that 0
+push local 0
+push constant 1
+sub
+pop local 0
+goto label2.while_start
+label label2.while_end
+push constant 0
+return
+function Screen.setColor 0
+push argument 0
+pop static 1
+push constant 0
+return
+function Screen.drawPixel 3
+push argument 1
+push constant 0
+lt
+push argument 1
+push static 4
+lt
+not
+push argument 0
+push constant 0
+lt
+push argument 0
+push static 3
+lt
+not
+or
+or
+or
+if-goto label3.if
+goto label3.if_end
+label label3.if
+push constant 7
+call Sys.error 1
+pop temp 0
+label label3.if_end
+push argument 0
+push static 5
+call Math.divide 2
+pop local 0
+push argument 1
+push static 6
+call Math.multiply 2
+push local 0
+add
+pop local 1
+push argument 0
+push local 0
+push static 5
+call Math.multiply 2
+sub
+pop local 2
+push static 1
+if-goto label4.if
+push local 1
+push local 2
+call Screen.draw_white_pixel 2
+pop temp 0
+goto label4.if_end
+label label4.if
+push local 1
+push local 2
+call Screen.draw_black_pixel 2
+pop temp 0
+label label4.if_end
+push constant 0
+return
+function Screen.drawLine 5
+push argument 1
+push constant 0
+lt
+push argument 1
+push static 4
+lt
+not
+push argument 0
+push constant 0
+lt
+push argument 0
+push static 3
+lt
+not
+or
+or
+or
+if-goto label5.if
+goto label5.if_end
+label label5.if
+push constant 8
+call Sys.error 1
+pop temp 0
+label label5.if_end
+push argument 3
+push constant 0
+lt
+push argument 3
+push static 4
+lt
+not
+push argument 2
+push constant 0
+lt
+push argument 2
+push static 3
+lt
+not
+or
+or
+or
+if-goto label6.if
+goto label6.if_end
+label label6.if
+push constant 8
+call Sys.error 1
+pop temp 0
+label label6.if_end
+push argument 0
+pop local 0
+push argument 1
+pop local 1
+push argument 2
+push argument 0
+sub
+pop local 2
+push argument 3
+push argument 1
+sub
+pop local 3
+push constant 0
+pop local 4
+push local 2
+push constant 0
+gt
+if-goto label17.if
+push local 3
+push constant 0
+gt
+if-goto label16.if
+label label15.while_start
+push local 0
+push argument 2
+eq
+not
+push local 1
+push argument 3
+eq
+not
+or
+if-goto label15.while
+goto label15.while_end
+label label15.while
+push local 0
+push local 1
+call Screen.drawPixel 2
+pop temp 0
+push local 4
+push constant 0
+gt
+push local 3
+push constant 0
+eq
+or
+if-goto label14.if
+push local 1
+push constant 1
+sub
+pop local 1
+push local 4
+push local 2
+sub
+pop local 4
+goto label14.if_end
+label label14.if
+push local 0
+push constant 1
+sub
+pop local 0
+push local 4
+push local 3
+add
+pop local 4
+label label14.if_end
+goto label15.while_start
+label label15.while_end
+goto label16.if_end
+label label16.if
+label label13.while_start
+push local 0
+push argument 2
+eq
+not
+push local 1
+push argument 3
+eq
+not
+or
+if-goto label13.while
+goto label13.while_end
+label label13.while
+push local 0
+push local 1
+call Screen.drawPixel 2
+pop temp 0
+push local 4
+push constant 0
+gt
+push local 2
+push constant 0
+eq
+or
+if-goto label12.if
+push local 0
+push constant 1
+sub
+pop local 0
+push local 4
+push local 3
+add
+pop local 4
+goto label12.if_end
+label label12.if
+push local 1
+push constant 1
+add
+pop local 1
+push local 4
+push local 2
+add
+pop local 4
+label label12.if_end
+goto label13.while_start
+label label13.while_end
+label label16.if_end
+goto label17.if_end
+label label17.if
+push local 3
+push constant 0
+gt
+if-goto label11.if
+label label10.while_start
+push local 0
+push argument 2
+eq
+not
+push local 1
+push argument 3
+eq
+not
+or
+if-goto label10.while
+goto label10.while_end
+label label10.while
+push local 0
+push local 1
+call Screen.drawPixel 2
+pop temp 0
+push local 4
+push constant 0
+gt
+if-goto label9.if
+push local 0
+push constant 1
+add
+pop local 0
+push local 4
+push local 3
+sub
+pop local 4
+goto label9.if_end
+label label9.if
+push local 1
+push constant 1
+sub
+pop local 1
+push local 4
+push local 2
+sub
+pop local 4
+label label9.if_end
+goto label10.while_start
+label label10.while_end
+goto label11.if_end
+label label11.if
+label label8.while_start
+push local 0
+push argument 2
+eq
+not
+push local 1
+push argument 3
+eq
+not
+or
+if-goto label8.while
+goto label8.while_end
+label label8.while
+push local 0
+push local 1
+call Screen.drawPixel 2
+pop temp 0
+push local 4
+push constant 0
+gt
+if-goto label7.if
+push local 1
+push constant 1
+add
+pop local 1
+push local 4
+push local 2
+add
+pop local 4
+goto label7.if_end
+label label7.if
+push local 0
+push constant 1
+add
+pop local 0
+push local 4
+push local 3
+sub
+pop local 4
+label label7.if_end
+goto label8.while_start
+label label8.while_end
+label label11.if_end
+label label17.if_end
+push argument 2
+push argument 3
+call Screen.drawPixel 2
+pop temp 0
+push constant 0
+return
+function Screen.fastDrawHorizontalLine 10
+push argument 2
+push constant 0
+lt
+push argument 2
+push static 4
+lt
+not
+push argument 0
+push constant 0
+lt
+push argument 0
+push static 3
+lt
+not
+push argument 1
+push constant 0
+lt
+push argument 1
+push static 3
+lt
+not
+or
+or
+or
+or
+or
+if-goto label18.if
+goto label18.if_end
+label label18.if
+push constant 8
+call Sys.error 1
+pop temp 0
+label label18.if_end
+push argument 0
+push argument 1
+gt
+if-goto label19.if
+goto label19.if_end
+label label19.if
+push argument 1
+pop local 1
+push argument 0
+pop argument 1
+push local 1
+pop argument 0
+label label19.if_end
+push argument 0
+push static 5
+call Math.divide 2
+pop local 4
+push argument 1
+push static 5
+call Math.divide 2
+pop local 5
+push argument 0
+push local 4
+push static 5
+call Math.multiply 2
+sub
+pop local 6
+push argument 1
+push local 5
+push static 5
+call Math.multiply 2
+sub
+pop local 7
+push argument 2
+push static 6
+call Math.multiply 2
+push local 4
+add
+pop local 8
+push argument 2
+push static 6
+call Math.multiply 2
+push local 5
+add
+pop local 9
+push local 4
+push local 5
+eq
+if-goto label24.if
+push local 6
+push static 5
+push constant 1
+sub
+call Screen.buildMask 2
+pop local 2
+push constant 0
+push local 7
+call Screen.buildMask 2
+pop local 3
+push static 1
+if-goto label23.if
+push local 8
+push static 0
+add
+pop pointer 1
+push that 0
+push local 2
+and
+push local 8
+push static 0
+add
+pop pointer 1
+pop that 0
+push local 8
+push constant 1
+add
+pop local 0
+label label22.while_start
+push local 0
+push local 9
+lt
+if-goto label22.while
+goto label22.while_end
+label label22.while
+push constant 0
+push local 0
+push static 0
+add
+pop pointer 1
+pop that 0
+push local 0
+push constant 1
+add
+pop local 0
+goto label22.while_start
+label label22.while_end
+push local 9
+push static 0
+add
+pop pointer 1
+push that 0
+push local 3
+and
+push local 9
+push static 0
+add
+pop pointer 1
+pop that 0
+goto label23.if_end
+label label23.if
+push local 8
+push static 0
+add
+pop pointer 1
+push that 0
+push local 2
+or
+push local 8
+push static 0
+add
+pop pointer 1
+pop that 0
+push local 8
+push constant 1
+add
+pop local 0
+label label21.while_start
+push local 0
+push local 9
+lt
+if-goto label21.while
+goto label21.while_end
+label label21.while
+push constant 1
+neg
+push local 0
+push static 0
+add
+pop pointer 1
+pop that 0
+push local 0
+push constant 1
+add
+pop local 0
+goto label21.while_start
+label label21.while_end
+push local 9
+push static 0
+add
+pop pointer 1
+push that 0
+push local 3
+or
+push local 9
+push static 0
+add
+pop pointer 1
+pop that 0
+label label23.if_end
+goto label24.if_end
+label label24.if
+push local 6
+push local 7
+call Screen.buildMask 2
+pop local 2
+push static 1
+if-goto label20.if
+push local 8
+push static 0
+add
+pop pointer 1
+push that 0
+push local 2
+and
+push local 8
+push static 0
+add
+pop pointer 1
+pop that 0
+goto label20.if_end
+label label20.if
+push local 8
+push static 0
+add
+pop pointer 1
+push that 0
+push local 2
+or
+push local 8
+push static 0
+add
+pop pointer 1
+pop that 0
+label label20.if_end
+label label24.if_end
+push constant 0
+return
+function Screen.drawRectangle 1
+push argument 1
+push constant 0
+lt
+push argument 1
+push static 4
+lt
+not
+push argument 0
+push constant 0
+lt
+push argument 0
+push static 3
+lt
+not
+or
+or
+or
+if-goto label25.if
+goto label25.if_end
+label label25.if
+push constant 9
+call Sys.error 1
+pop temp 0
+label label25.if_end
+push argument 3
+push constant 0
+lt
+push argument 3
+push static 4
+lt
+not
+push argument 2
+push constant 0
+lt
+push argument 2
+push static 3
+lt
+not
+or
+or
+or
+if-goto label26.if
+goto label26.if_end
+label label26.if
+push constant 9
+call Sys.error 1
+pop temp 0
+label label26.if_end
+push argument 1
+push argument 3
+gt
+if-goto label27.if
+push argument 1
+pop local 0
+goto label27.if_end
+label label27.if
+push argument 3
+pop local 0
+push argument 1
+pop argument 3
+push local 0
+pop argument 1
+label label27.if_end
+label label28.while_start
+push local 0
+push argument 3
+gt
+not
+if-goto label28.while
+goto label28.while_end
+label label28.while
+push argument 0
+push local 0
+push argument 2
+push local 0
+call Screen.drawLine 4
+pop temp 0
+push local 0
+push constant 1
+add
+pop local 0
+goto label28.while_start
+label label28.while_end
+push constant 0
+return
+function Screen.buildMask 2
+push argument 0
+push constant 0
+lt
+push argument 1
+push static 5
+lt
+not
+push argument 1
+push argument 0
+lt
+or
+or
+if-goto label29.if
+goto label29.if_end
+label label29.if
+push constant 0
+return
+label label29.if_end
+push argument 0
+pop local 0
+push static 1
+if-goto label32.if
+push constant 1
+neg
+pop local 1
+label label31.while_start
+push local 0
+push argument 1
+gt
+not
+if-goto label31.while
+goto label31.while_end
+label label31.while
+push local 1
+push local 0
+push static 2
+add
+pop pointer 1
+push that 0
+not
+and
+pop local 1
+push local 0
+push constant 1
+add
+pop local 0
+goto label31.while_start
+label label31.while_end
+goto label32.if_end
+label label32.if
+push constant 0
+pop local 1
+label label30.while_start
+push local 0
+push argument 1
+gt
+not
+if-goto label30.while
+goto label30.while_end
+label label30.while
+push local 1
+push local 0
+push static 2
+add
+pop pointer 1
+push that 0
+or
+pop local 1
+push local 0
+push constant 1
+add
+pop local 0
+goto label30.while_start
+label label30.while_end
+label label32.if_end
+push local 1
+return
+function Screen.fastDrawRectangle 11
+push argument 1
+push constant 0
+lt
+push argument 1
+push static 4
+lt
+not
+push argument 0
+push constant 0
+lt
+push argument 0
+push static 3
+lt
+not
+or
+or
+or
+if-goto label33.if
+goto label33.if_end
+label label33.if
+push constant 9
+call Sys.error 1
+pop temp 0
+label label33.if_end
+push argument 3
+push constant 0
+lt
+push argument 3
+push static 4
+lt
+not
+push argument 2
+push constant 0
+lt
+push argument 2
+push static 3
+lt
+not
+or
+or
+or
+if-goto label34.if
+goto label34.if_end
+label label34.if
+push constant 9
+call Sys.error 1
+pop temp 0
+label label34.if_end
+push argument 0
+push argument 2
+gt
+if-goto label35.if
+goto label35.if_end
+label label35.if
+push argument 2
+pop local 2
+push argument 0
+pop argument 2
+push local 2
+pop argument 0
+label label35.if_end
+push argument 1
+push argument 3
+gt
+if-goto label36.if
+goto label36.if_end
+label label36.if
+push argument 3
+pop local 2
+push argument 1
+pop argument 3
+push local 2
+pop argument 1
+label label36.if_end
+push argument 0
+push static 5
+call Math.divide 2
+pop local 5
+push argument 2
+push static 5
+call Math.divide 2
+pop local 6
+push argument 0
+push local 5
+push static 5
+call Math.multiply 2
+sub
+pop local 7
+push argument 2
+push local 6
+push static 5
+call Math.multiply 2
+sub
+pop local 8
+push argument 1
+push static 6
+call Math.multiply 2
+push local 5
+add
+pop local 9
+push argument 1
+push static 6
+call Math.multiply 2
+push local 6
+add
+pop local 10
+push argument 1
+pop local 0
+push local 5
+push local 6
+eq
+if-goto label45.if
+push local 7
+push static 5
+push constant 1
+sub
+call Screen.buildMask 2
+pop local 3
+push constant 0
+push local 8
+call Screen.buildMask 2
+pop local 4
+push static 1
+if-goto label44.if
+label label43.while_start
+push local 0
+push argument 3
+gt
+not
+if-goto label43.while
+goto label43.while_end
+label label43.while
+push local 9
+push static 0
+add
+pop pointer 1
+push that 0
+push local 3
+and
+push local 9
+push static 0
+add
+pop pointer 1
+pop that 0
+push local 9
+push constant 1
+add
+pop local 1
+label label42.while_start
+push local 1
+push local 10
+lt
+if-goto label42.while
+goto label42.while_end
+label label42.while
+push constant 0
+push local 1
+push static 0
+add
+pop pointer 1
+pop that 0
+push local 1
+push constant 1
+add
+pop local 1
+goto label42.while_start
+label label42.while_end
+push local 10
+push static 0
+add
+pop pointer 1
+push that 0
+push local 4
+and
+push local 10
+push static 0
+add
+pop pointer 1
+pop that 0
+push local 9
+push static 6
+add
+pop local 9
+push local 10
+push static 6
+add
+pop local 10
+push local 0
+push constant 1
+add
+pop local 0
+goto label43.while_start
+label label43.while_end
+goto label44.if_end
+label label44.if
+label label41.while_start
+push local 0
+push argument 3
+gt
+not
+if-goto label41.while
+goto label41.while_end
+label label41.while
+push local 9
+push static 0
+add
+pop pointer 1
+push that 0
+push local 3
+or
+push local 9
+push static 0
+add
+pop pointer 1
+pop that 0
+push local 9
+push constant 1
+add
+pop local 1
+label label40.while_start
+push local 1
+push local 10
+lt
+if-goto label40.while
+goto label40.while_end
+label label40.while
+push constant 1
+neg
+push local 1
+push static 0
+add
+pop pointer 1
+pop that 0
+push local 1
+push constant 1
+add
+pop local 1
+goto label40.while_start
+label label40.while_end
+push local 10
+push static 0
+add
+pop pointer 1
+push that 0
+push local 4
+or
+push local 10
+push static 0
+add
+pop pointer 1
+pop that 0
+push local 9
+push static 6
+add
+pop local 9
+push local 10
+push static 6
+add
+pop local 10
+push local 0
+push constant 1
+add
+pop local 0
+goto label41.while_start
+label label41.while_end
+label label44.if_end
+goto label45.if_end
+label label45.if
+push local 7
+push local 8
+call Screen.buildMask 2
+pop local 3
+push static 1
+if-goto label39.if
+label label38.while_start
+push local 0
+push argument 3
+gt
+not
+if-goto label38.while
+goto label38.while_end
+label label38.while
+push local 9
+push static 0
+add
+pop pointer 1
+push that 0
+push local 3
+and
+push local 9
+push static 0
+add
+pop pointer 1
+pop that 0
+push local 9
+push static 6
+add
+pop local 9
+push local 10
+push static 6
+add
+pop local 10
+push local 0
+push constant 1
+add
+pop local 0
+goto label38.while_start
+label label38.while_end
+goto label39.if_end
+label label39.if
+label label37.while_start
+push local 0
+push argument 3
+gt
+not
+if-goto label37.while
+goto label37.while_end
+label label37.while
+push local 9
+push static 0
+add
+pop pointer 1
+push that 0
+push local 3
+or
+push local 10
+push static 0
+add
+pop pointer 1
+pop that 0
+push local 9
+push static 6
+add
+pop local 9
+push local 10
+push static 6
+add
+pop local 10
+push local 0
+push constant 1
+add
+pop local 0
+goto label37.while_start
+label label37.while_end
+label label39.if_end
+label label45.if_end
+push constant 0
+return
+function Screen.drawCircle 3
+push argument 2
+push constant 1
+push argument 2
+push constant 181
+gt
+or
+lt
+if-goto label46.if
+goto label46.if_end
+label label46.if
+push constant 13
+call Sys.error 1
+pop temp 0
+label label46.if_end
+push argument 0
+push argument 2
+sub
+push constant 0
+lt
+push argument 1
+push argument 2
+sub
+push constant 0
+lt
+push argument 0
+push argument 2
+add
+push static 3
+lt
+not
+push argument 1
+push argument 2
+add
+push static 4
+lt
+not
+or
+or
+or
+if-goto label47.if
+goto label47.if_end
+label label47.if
+push constant 12
+call Sys.error 1
+pop temp 0
+label label47.if_end
+push argument 2
+push argument 2
+call Math.multiply 2
+pop local 2
+push argument 2
+pop local 1
+label label48.while_start
+push local 1
+push constant 0
+lt
+not
+if-goto label48.while
+goto label48.while_end
+label label48.while
+push local 2
+push local 1
+push local 1
+call Math.multiply 2
+sub
+call Math.sqrt 1
+pop local 0
+push argument 0
+push local 0
+sub
+push argument 1
+push local 1
+add
+push argument 0
+push local 0
+add
+push argument 1
+push local 1
+add
+call Screen.drawLine 4
+pop temp 0
+push argument 0
+push local 0
+sub
+push argument 1
+push local 1
+sub
+push argument 0
+push local 0
+add
+push argument 1
+push local 1
+sub
+call Screen.drawLine 4
+pop temp 0
+push local 1
+push constant 1
+sub
+pop local 1
+goto label48.while_start
+label label48.while_end
+push constant 0
+return
+function Screen.fastDrawCircle 5
+push argument 2
+push constant 1
+push argument 2
+push constant 181
+gt
+or
+lt
+if-goto label49.if
+goto label49.if_end
+label label49.if
+push constant 13
+call Sys.error 1
+pop temp 0
+label label49.if_end
+push argument 0
+push argument 2
+sub
+push constant 0
+lt
+push argument 1
+push argument 2
+sub
+push constant 0
+lt
+push argument 0
+push argument 2
+add
+push static 3
+lt
+not
+push argument 1
+push argument 2
+add
+push static 4
+lt
+not
+or
+or
+or
+if-goto label50.if
+goto label50.if_end
+label label50.if
+push constant 12
+call Sys.error 1
+pop temp 0
+label label50.if_end
+push constant 1
+push argument 2
+sub
+pop local 0
+push constant 3
+pop local 1
+push constant 5
+push constant 2
+push argument 2
+call Math.multiply 2
+sub
+pop local 2
+push argument 2
+pop local 4
+push constant 0
+pop local 3
+label label52.while_start
+push local 3
+push local 4
+gt
+not
+if-goto label52.while
+goto label52.while_end
+label label52.while
+push local 0
+push constant 0
+lt
+if-goto label51.if
+push argument 0
+push local 3
+sub
+push argument 0
+push local 3
+add
+push argument 1
+push local 4
+add
+call Screen.fastDrawHorizontalLine 3
+pop temp 0
+push argument 0
+push local 3
+sub
+push argument 0
+push local 3
+add
+push argument 1
+push local 4
+sub
+call Screen.fastDrawHorizontalLine 3
+pop temp 0
+push local 0
+push local 2
+add
+pop local 0
+push local 1
+push constant 2
+add
+pop local 1
+push local 2
+push constant 4
+add
+pop local 2
+push local 4
+push constant 1
+sub
+pop local 4
+goto label51.if_end
+label label51.if
+push local 0
+push local 1
+add
+pop local 0
+push local 1
+push constant 2
+add
+pop local 1
+push local 2
+push constant 2
+add
+pop local 2
+label label51.if_end
+push argument 0
+push local 4
+sub
+push argument 0
+push local 4
+add
+push argument 1
+push local 3
+add
+call Screen.fastDrawHorizontalLine 3
+pop temp 0
+push argument 0
+push local 4
+sub
+push argument 0
+push local 4
+add
+push argument 1
+push local 3
+sub
+call Screen.fastDrawHorizontalLine 3
+pop temp 0
+push local 3
+push constant 1
+add
+pop local 3
+goto label52.while_start
+label label52.while_end
+push constant 0
+return

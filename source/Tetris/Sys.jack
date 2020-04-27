@@ -1,0 +1,146 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/12/Sys.jack
+
+/**
+ * A library that supports various program execution services.
+ */
+class Sys {
+    static int State;
+
+    /** Performs all the initializations required by the OS. */
+    function void init() {
+      let State = 0;
+
+      do Memory.init();
+      do Keyboard.init();
+      do Math.init();
+      do Output.init();
+      do Screen.init();
+
+      do Main.main();
+
+      do Sys.halt();
+      return;
+    }
+
+    /** Set system error messages */
+    function void display_err_messages(int errorCode) {
+      do Output.println();
+      do Output.printString("<Err");
+      do Output.printInt(errorCode);
+      do Output.printString("> ");
+
+      if(errorCode=1) {
+        do Output.printString("Sys.wait: Duration must be positive");
+        return;
+      }
+      if(errorCode=2) {
+        do Output.printString("Array.new: Array size must be positive");
+        return;
+      }
+      if(errorCode=3) {
+        do Output.printString("Math.divide: Division by zero");
+        return;
+      }
+      if(errorCode=4) {
+        do Output.printString("Math.sqrt: Cannot compute square root of a negative number");
+        return;
+      }
+      if(errorCode=5) {
+        do Output.printString("Memory.alloc: Allocated memory size must be positive");
+        return;
+      }
+      if(errorCode=6) {
+        do Output.printString("Memory.alloc: Heap overflow");
+        return;
+      }
+      if(errorCode=7) {
+        do Output.printString("Screen.drawPixel: Illegal pixel coordinates");
+        return;
+      }
+      if(errorCode=8) {
+        do Output.printString("Screen.drawLine: Illegal line coordinates");
+        return;
+      }
+      if(errorCode=9) {
+        do Output.printString("Screen.drawRectangle: Illegal rectangle coordinates");
+        return;
+      }
+
+      if(errorCode=12) {
+        do Output.printString("Screen.drawCircle: Illegal center coordinates");
+        return;
+      }
+      if(errorCode=13) {
+        do Output.printString("Screen.drawCircle: Illegal radius");
+        return;
+      }
+      if(errorCode=14) {
+        do Output.printString("String.new: Maximum length must be non-negative");
+        return;
+      }
+      if(errorCode=15) {
+        do Output.printString("String.charAt: String index out of bounds");
+        return;
+      }
+      if(errorCode=16) {
+        do Output.printString("String.setCharAt: String index out of bounds");
+        return;
+      }
+      if(errorCode=17) {
+        do Output.printString("String.appendChar: String is full");
+        return;
+      }
+      if(errorCode=18) {
+        do Output.printString("String.eraseLastChar: String is empty");
+        return;
+      }
+      if(errorCode=19) {
+        do Output.printString("String.setInt: Insufficient string capacity");
+        return;
+      }
+      if(errorCode=20) {
+        do Output.printString("Output.moveCursor: Illegal cursor location");
+        return;
+      }
+
+      return;
+    }
+
+    /** Halts the program execution. */
+    function void halt() {
+      let State = -1;
+
+      do Output.println();
+      do Output.printString("<Program Halted>");
+      while(true){}
+    }
+
+    /** Waits approximately duration milliseconds and returns.  */
+    function void wait(int duration) {
+      var int t;
+
+      while(duration > 0) {
+        let t = 80;
+        while(t > 0) {
+          let t = t - 1;
+        }
+
+	let duration = duration - 1;
+      }
+
+      return;
+    }
+
+    /** Displays the given error code in the form "ERR<errorCode>",
+     *  and halts the program's execution. */
+    function void error(int errorCode) {
+      let State = errorCode;
+
+      do Sys.display_err_messages(errorCode);
+
+      while(true){}
+    }
+}

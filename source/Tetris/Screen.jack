@@ -1,0 +1,448 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/12/Screen.jack
+
+/**
+ * A library of functions for displaying graphics on the screen.
+ * The Hack physical screen consists of 512 rows (indexed 0..511, top to bottom)
+ * of 256 pixels each (indexed 0..255, left to right). The top left pixel on
+ * the screen is indexed (0,0).
+ */
+class Screen {
+
+    static Array screen;
+    static boolean color;
+
+    static Array BitMask;
+
+    static int ScreenWidth;
+    static int ScreenHeight;
+    static int WordLength;
+    static int ScreenWordLength;
+
+    /** Initializes the Screen. */
+    function void init() {
+      var int j, bit;
+
+      let screen = 16384;
+      let color = true;
+      let ScreenWidth = 512;
+      let ScreenHeight = 256;
+      let WordLength = 16;
+      let ScreenWordLength = ScreenWidth / WordLength;
+
+      let BitMask = Array.new(WordLength);
+
+      let bit = 1;
+      let j = 0;
+      while(j < WordLength)
+      {
+        let BitMask[j] = bit;
+        let bit = bit + bit;
+        let j = j + 1;
+      }
+
+      return;
+    }
+
+    function void draw_black_pixel(int adr, int idx) {
+      let screen[adr] = screen[adr] | BitMask[idx];
+      return;
+    }
+
+    function void draw_white_pixel(int adr, int idx) {
+      let screen[adr] = screen[adr] & ~BitMask[idx];
+      return;
+    }
+
+    /** Erases the entire screen. */
+    function void clearScreen() {
+      var int idx;
+
+      let idx = ScreenHeight * ScreenWordLength;
+      while(idx > 0) {
+        let screen[idx] = 0;
+        let idx = idx - 1;
+      }
+
+      return;
+    }
+
+    /** Sets the current color, to be used for all subsequent drawXXX commands.
+     *  Black is represented by true, white by false. */
+    function void setColor(boolean b) {
+      let color = b;
+      return;
+    }
+
+    /** Draws the (x,y) pixel, using the current color. */
+    function void drawPixel(int x, int y) {
+      var int offset, base_address, index;
+
+      if((y<0) | ~(y<ScreenHeight) | (x<0) | ~(x<ScreenWidth)) {
+        do Sys.error(7);
+      }
+
+      let offset = x / WordLength;
+      let base_address = (y * ScreenWordLength) + offset;
+      let index = x - (offset * WordLength);
+
+      if(color) {
+        do Screen.draw_black_pixel(base_address, index);
+      } else {
+        do Screen.draw_white_pixel(base_address, index);
+      }
+
+      return;
+    }
+
+    /** Draws a line from pixel (x1,y1) to pixel (x2,y2), using the current color. */
+    function void drawLine(int x1, int y1, int x2, int y2) {
+      var int px, py;
+      var int dx, dy, delta;
+
+      if((y1<0) | ~(y1<ScreenHeight) | (x1<0) | ~(x1<ScreenWidth)) {
+        do Sys.error(8);
+      }
+      if((y2<0) | ~(y2<ScreenHeight) | (x2<0) | ~(x2<ScreenWidth)) {
+        do Sys.error(8);
+      }
+
+      // suppose: a = px - x0, b = py - y0, dx > 0, dy > 0
+      // (b/a >= dy/dx) => delta := (bdx - ady >= 0) => a++
+      // (b/a < dy/dx)  => delta := (bdx - ady < 0)  => b++
+
+      let px = x1;
+      let py = y1;
+      let dx = x2 - x1;
+      let dy = y2 - y1;
+      let delta = 0;
+
+      if(dx > 0) {
+        if(dy > 0) {
+          while(~(px = x2) | ~(py = y2)) {
+            do Screen.drawPixel(px,py);
+            if(delta > 0) {
+              let px = px + 1;
+              let delta = delta - dy;
+            } else {
+              let py = py + 1;
+              let delta = delta + dx;
+            }
+          }
+        } else {
+          while(~(px = x2) | ~(py = y2)) {
+            do Screen.drawPixel(px,py);
+            if(delta > 0) {
+              let py = py - 1;
+              let delta = delta - dx;
+            } else {
+              let px = px + 1;
+              let delta = delta - dy;
+            }
+          }
+        }
+      } else {
+        if(dy > 0) {
+          while(~(px = x2) | ~(py = y2)) {
+            do Screen.drawPixel(px,py);
+            if((delta > 0) | (dx = 0)) {
+              let py = py + 1;
+              let delta = delta + dx;
+            } else {
+              let px = px - 1;
+              let delta = delta + dy;
+            }
+          }
+        } else {
+          while(~(px = x2) | ~(py = y2)) {
+            do Screen.drawPixel(px,py);
+            if((delta > 0) | (dy = 0)) {
+              let px = px - 1;
+              let delta = delta + dy;
+            } else {
+              let py = py - 1;
+              let delta = delta - dx;
+            }
+          }
+        }
+      }
+
+      do Screen.drawPixel(x2,y2);
+      return;
+    }
+
+    /* fast drawer for a horizontal line using 'word-based mass assignment' */
+    function void fastDrawHorizontalLine(int x1, int x2, int y) {
+      var int j, t;
+      var int mask1, mask2;
+      var int offset1, offset2, index1, index2, base_address1, base_address2;
+
+      if((y<0) | ~(y<ScreenHeight) | (x1<0) | ~(x1<ScreenWidth) | (x2<0) | ~(x2<ScreenWidth)) {
+        do Sys.error(8);
+      }
+
+      // make sure that x1 <= x2
+      if(x1 > x2) {
+        let t = x2;
+        let x2 = x1;
+        let x1 = t;
+      }
+
+      let offset1 = x1 / WordLength;
+      let offset2 = x2 / WordLength;
+      let index1 = x1 - (offset1 * WordLength);
+      let index2 = x2 - (offset2 * WordLength);
+      let base_address1 = (y * ScreenWordLength) + offset1;
+      let base_address2 = (y * ScreenWordLength) + offset2;
+
+      if(offset1 = offset2) {
+        let mask1 = Screen.buildMask(index1, index2);
+
+        if(color) {
+          let screen[base_address1] = screen[base_address1] | mask1;
+        } else {
+          let screen[base_address1] = screen[base_address1] & mask1;
+        }
+      } else {
+        let mask1 = Screen.buildMask(index1, WordLength - 1);
+        let mask2 = Screen.buildMask(0, index2);
+
+        if(color) {
+          let screen[base_address1] = screen[base_address1] | mask1;
+          let j = base_address1 + 1;
+          while(j < base_address2) {
+            let screen[j] = -1;
+            let j = j + 1;
+          }
+          let screen[base_address2] = screen[base_address2] | mask2;
+        } else {
+          let screen[base_address1] = screen[base_address1] & mask1;
+          let j = base_address1 + 1;
+          while(j < base_address2) {
+            let screen[j] = 0;
+            let j = j + 1;
+          }
+          let screen[base_address2] = screen[base_address2] & mask2;
+        }
+      }
+
+      return;
+    }
+
+    /** Draws a filled rectangle whose top left corner is (x1, y1)
+     * and bottom right corner is (x2,y2), using the current color. */
+    function void drawRectangle(int x1, int y1, int x2, int y2) {
+      var int py;
+
+      if((y1<0) | ~(y1<ScreenHeight) | (x1<0) | ~(x1<ScreenWidth)) {
+        do Sys.error(9);
+      }
+      if((y2<0) | ~(y2<ScreenHeight) | (x2<0) | ~(x2<ScreenWidth)) {
+        do Sys.error(9);
+      }
+
+      // make sure that y1 <= y2, py = y1
+      if(y1 > y2) {
+        let py = y2;
+        let y2 = y1;
+        let y1 = py;
+      } else {
+        let py = y1;
+      }
+
+      while(~(py > y2)) {
+        do Screen.drawLine(x1, py, x2, py);
+        let py = py + 1;
+      }
+      return;
+    }
+
+    /** build proper mask from pth bit to qth bit */
+    function int buildMask(int p, int q) {
+      var int i;
+      var int mask;
+
+      if((p < 0) | ~(q < WordLength) | (q < p)) {
+        return null;
+      }
+
+      let i = p;
+      if(color) {
+        let mask = 0;
+
+        while(~(i > q)) {
+          let mask = mask | BitMask[i];
+          let i = i + 1;
+        }
+      } else {
+        let mask = -1;
+
+        while(~(i > q)) {
+          let mask = mask & ~BitMask[i];
+          let i = i + 1;
+        }
+      }
+
+      return mask;
+    }
+
+    /* fast drawer for a rectangle using 'word-based mass assignment' specialized for horizontal line */
+    function void fastDrawRectangle(int x1, int y1, int x2, int y2) {
+      var int i, j, t;
+      var int mask1, mask2;
+      var int offset1, offset2, index1, index2, base_address1, base_address2;
+
+      if((y1<0) | ~(y1<ScreenHeight) | (x1<0) | ~(x1<ScreenWidth)) {
+        do Sys.error(9);
+      }
+      if((y2<0) | ~(y2<ScreenHeight) | (x2<0) | ~(x2<ScreenWidth)) {
+        do Sys.error(9);
+      }
+
+      // make sure that x1 <= x2
+      if(x1 > x2) {
+        let t = x2;
+        let x2 = x1;
+        let x1 = t;
+      }
+      // make sure that y1 <= y2
+      if(y1 > y2) {
+        let t = y2;
+        let y2 = y1;
+        let y1 = t;
+      }
+
+      let offset1 = x1 / WordLength;
+      let offset2 = x2 / WordLength;
+      let index1 = x1 - (offset1 * WordLength);
+      let index2 = x2 - (offset2 * WordLength);
+      let base_address1 = (y1 * ScreenWordLength) + offset1;
+      let base_address2 = (y1 * ScreenWordLength) + offset2;
+
+      let i = y1;
+      if(offset1 = offset2) {
+        let mask1 = Screen.buildMask(index1, index2);
+
+        if(color) {
+          while(~(i > y2)) {
+            let screen[base_address2] = screen[base_address1] | mask1;
+            let base_address1 = base_address1 + ScreenWordLength;
+            let base_address2 = base_address2 + ScreenWordLength;
+            let i = i + 1;
+          }
+        } else {
+          while(~(i > y2)) {
+            let screen[base_address1] = screen[base_address1] & mask1;
+            let base_address1 = base_address1 + ScreenWordLength;
+            let base_address2 = base_address2 + ScreenWordLength;
+            let i = i + 1;
+          }
+        }
+      } else {
+        let mask1 = Screen.buildMask(index1, WordLength - 1);
+        let mask2 = Screen.buildMask(0, index2);
+
+        if(color) {
+          while(~(i > y2)) {
+
+            let screen[base_address1] = screen[base_address1] | mask1;
+            let j = base_address1 + 1;
+            while(j < base_address2) {
+              let screen[j] = -1;
+              let j = j + 1;
+            }
+            let screen[base_address2] = screen[base_address2] | mask2;
+
+            let base_address1 = base_address1 + ScreenWordLength;
+            let base_address2 = base_address2 + ScreenWordLength;
+            let i = i + 1;
+          }
+        } else {
+          while(~(i > y2)) {
+
+            let screen[base_address1] = screen[base_address1] & mask1;
+            let j = base_address1 + 1;
+            while(j < base_address2) {
+              let screen[j] = 0;
+              let j = j + 1;
+            }
+            let screen[base_address2] = screen[base_address2] & mask2;
+
+            let base_address1 = base_address1 + ScreenWordLength;
+            let base_address2 = base_address2 + ScreenWordLength;
+            let i = i + 1;
+          }
+        }
+      }
+
+      return;
+    }
+
+    /** Draws a filled circle of radius r<=181 around (x,y), using the current color. */
+    function void drawCircle(int x, int y, int r) {
+      var int px, py;
+      var int r2;
+
+      if(r < 1 | r > 181) {
+        do Sys.error(13);
+      }
+      if(((x - r) < 0) | ((y - r) < 0) | ~((x + r) < ScreenWidth) | ~((y + r) < ScreenHeight)) {
+        do Sys.error(12);
+      }
+
+      let r2 = r * r;
+      let py = r;
+      while(~(py < 0)) {
+        let px = Math.sqrt(r2 - (py * py));
+        do Screen.drawLine(x - px, y + py, x + px, y + py);
+        do Screen.drawLine(x - px, y - py, x + px, y - py);
+        let py = py - 1;
+      }
+
+      return;
+    }
+
+    /** Draws a filled circle of radius r<=181 around (x,y), using the current color. */
+    /* (faster function as it's using Bresenham algorithm) */
+    function void fastDrawCircle(int x, int y, int r) {
+      var int d, dh, dd;
+      var int px, py;
+
+      if(r < 1 | r > 181) {
+        do Sys.error(13);
+      }
+      if(((x - r) < 0) | ((y - r) < 0) | ~((x + r) < ScreenWidth) | ~((y + r) < ScreenHeight)) {
+        do Sys.error(12);
+      }
+
+      let d = 1 - r;
+      let dh = 3;
+      let dd = 5 - (2 * r);
+
+      let py = r;
+      let px = 0;
+      while(~(px > py)) {
+        if(d < 0) {
+          let d = d + dh;
+          let dh = dh + 2;
+          let dd = dd + 2;
+        } else {
+          do Screen.fastDrawHorizontalLine(x - px, x + px, y + py);
+          do Screen.fastDrawHorizontalLine(x - px, x + px, y - py);
+
+          let d = d + dd;
+          let dh = dh + 2;
+          let dd = dd + 4;
+          let py = py - 1;
+        }
+
+          do Screen.fastDrawHorizontalLine(x - py, x + py, y + px);
+          do Screen.fastDrawHorizontalLine(x - py, x + py, y - px);
+        let px = px + 1;
+      }
+
+      return;
+    }
+}

@@ -1,0 +1,197 @@
+function Keyboard.init 0
+push constant 24576
+pop static 0
+push constant 62
+pop static 1
+push constant 0
+return
+function Keyboard.keyPressed 0
+push constant 0
+push static 0
+add
+pop pointer 1
+push that 0
+return
+function Keyboard.readChar 1
+push constant 0
+call Output.printChar 1
+pop temp 0
+push constant 0
+pop local 0
+label label1.while_start
+push local 0
+push constant 0
+eq
+if-goto label1.while
+goto label1.while_end
+label label1.while
+call Keyboard.keyPressed 0
+pop local 0
+goto label1.while_start
+label label1.while_end
+call Output.backSpace 0
+pop temp 0
+push local 0
+push constant 32
+lt
+not
+push local 0
+push constant 126
+gt
+not
+and
+if-goto label2.if
+goto label2.if_end
+label label2.if
+push local 0
+call Output.printChar 1
+pop temp 0
+label label2.if_end
+label label3.while_start
+call Keyboard.keyPressed 0
+push constant 0
+eq
+not
+if-goto label3.while
+goto label3.while_end
+label label3.while
+goto label3.while_start
+label label3.while_end
+push local 0
+return
+function Keyboard.readLine 2
+push argument 0
+call Output.printString 1
+pop temp 0
+call Output.println 0
+pop temp 0
+push static 1
+call String.new 1
+pop local 0
+push constant 0
+pop local 1
+label label8.while_start
+push constant 1
+neg
+if-goto label8.while
+goto label8.while_end
+label label8.while
+call Keyboard.readChar 0
+pop local 1
+push local 1
+call String.newLine 0
+eq
+if-goto label4.if
+goto label4.if_end
+label label4.if
+call Output.println 0
+pop temp 0
+push local 0
+return
+label label4.if_end
+push local 1
+call String.backSpace 0
+eq
+if-goto label7.if
+push local 0
+call String.length 1
+push static 1
+lt
+if-goto label6.if
+call Output.backSpace 0
+pop temp 0
+goto label6.if_end
+label label6.if
+push local 0
+push local 1
+call String.appendChar 2
+pop temp 0
+label label6.if_end
+goto label7.if_end
+label label7.if
+push local 0
+call String.length 1
+push constant 0
+gt
+if-goto label5.if
+goto label5.if_end
+label label5.if
+push local 0
+call String.eraseLastChar 1
+pop temp 0
+call Output.backSpace 0
+pop temp 0
+label label5.if_end
+label label7.if_end
+goto label8.while_start
+label label8.while_end
+function Keyboard.readInt 3
+push argument 0
+call Output.printString 1
+pop temp 0
+call Output.println 0
+pop temp 0
+push static 1
+call String.new 1
+pop local 0
+push constant 0
+pop local 1
+label label13.while_start
+push constant 1
+neg
+if-goto label13.while
+goto label13.while_end
+label label13.while
+call Keyboard.readChar 0
+pop local 1
+push local 1
+call String.newLine 0
+eq
+if-goto label9.if
+goto label9.if_end
+label label9.if
+call Output.println 0
+pop temp 0
+push local 0
+call String.intValue 1
+pop local 2
+push local 0
+call String.dispose 1
+pop temp 0
+push local 2
+return
+label label9.if_end
+push local 1
+call String.backSpace 0
+eq
+if-goto label12.if
+push local 0
+call String.length 1
+push static 1
+lt
+if-goto label11.if
+goto label11.if_end
+label label11.if
+push local 0
+push local 1
+call String.appendChar 2
+pop temp 0
+label label11.if_end
+goto label12.if_end
+label label12.if
+push local 0
+call String.length 1
+push constant 0
+gt
+if-goto label10.if
+goto label10.if_end
+label label10.if
+push local 0
+call String.eraseLastChar 1
+pop temp 0
+call Output.backSpace 0
+pop temp 0
+label label10.if_end
+label label12.if_end
+goto label13.while_start
+label label13.while_end

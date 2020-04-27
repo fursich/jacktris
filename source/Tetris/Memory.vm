@@ -1,0 +1,452 @@
+function Memory.init 1
+push constant 0
+pop static 0
+push constant 2048
+pop static 1
+push constant 16383
+pop static 2
+push static 1
+pop static 3
+push static 1
+pop local 0
+push static 2
+push static 1
+sub
+push constant 1
+add
+push constant 0
+push local 0
+add
+pop pointer 1
+pop that 0
+push constant 0
+push constant 1
+push local 0
+add
+pop pointer 1
+pop that 0
+push constant 0
+return
+function Memory.peek 0
+push argument 0
+push static 0
+add
+pop pointer 1
+push that 0
+return
+function Memory.poke 0
+push argument 1
+push argument 0
+push static 0
+add
+pop pointer 1
+pop that 0
+push constant 0
+return
+function Memory.alloc 4
+push argument 0
+push constant 0
+gt
+not
+if-goto label1.if
+goto label1.if_end
+label label1.if
+push constant 5
+call Sys.error 1
+pop temp 0
+label label1.if_end
+push static 3
+push constant 0
+eq
+if-goto label2.if
+goto label2.if_end
+label label2.if
+push constant 6
+call Sys.error 1
+pop temp 0
+label label2.if_end
+push static 3
+pop local 0
+push constant 0
+pop local 2
+label label4.while_start
+push constant 0
+push local 0
+add
+pop pointer 1
+push that 0
+push argument 0
+lt
+if-goto label4.while
+goto label4.while_end
+label label4.while
+push constant 1
+push local 0
+add
+pop pointer 1
+push that 0
+push constant 0
+eq
+if-goto label3.if
+goto label3.if_end
+label label3.if
+push constant 6
+call Sys.error 1
+pop temp 0
+label label3.if_end
+push local 0
+pop local 2
+push constant 1
+push local 0
+add
+pop pointer 1
+push that 0
+pop local 0
+goto label4.while_start
+label label4.while_end
+push constant 0
+push local 0
+add
+pop pointer 1
+push that 0
+pop local 3
+push local 3
+push argument 0
+push constant 3
+add
+gt
+if-goto label6.if
+push local 2
+push constant 0
+eq
+if-goto label5.if
+push constant 1
+push local 0
+add
+pop pointer 1
+push that 0
+push constant 1
+push local 2
+add
+pop pointer 1
+pop that 0
+goto label5.if_end
+label label5.if
+push constant 1
+push local 0
+add
+pop pointer 1
+push that 0
+pop static 3
+label label5.if_end
+push local 0
+push constant 1
+add
+pop local 1
+goto label6.if_end
+label label6.if
+push local 0
+push local 3
+push argument 0
+sub
+add
+pop local 1
+push local 3
+push argument 0
+sub
+push constant 1
+sub
+push constant 0
+push local 0
+add
+pop pointer 1
+pop that 0
+push argument 0
+push constant 1
+add
+push constant 1
+neg
+push local 1
+add
+pop pointer 1
+pop that 0
+label label6.if_end
+push local 1
+return
+function Memory.deAlloc 2
+push static 3
+pop local 0
+push constant 0
+pop local 1
+push argument 0
+push static 1
+lt
+push argument 0
+push static 2
+gt
+or
+if-goto label7.if
+goto label7.if_end
+label label7.if
+push constant 5
+call Sys.error 1
+pop temp 0
+label label7.if_end
+push constant 1
+neg
+push argument 0
+add
+pop pointer 1
+push that 0
+push constant 0
+gt
+not
+push constant 1
+neg
+push argument 0
+add
+pop pointer 1
+push that 0
+push static 2
+push static 1
+sub
+gt
+push argument 0
+push constant 1
+sub
+push constant 1
+neg
+push argument 0
+add
+pop pointer 1
+push that 0
+push constant 1
+sub
+add
+push static 2
+gt
+or
+or
+if-goto label8.if
+goto label8.if_end
+label label8.if
+push constant 5
+call Sys.error 1
+pop temp 0
+label label8.if_end
+label label9.while_start
+push local 0
+push constant 0
+eq
+not
+push local 0
+push argument 0
+push constant 1
+sub
+lt
+and
+if-goto label9.while
+goto label9.while_end
+label label9.while
+push local 0
+pop local 1
+push constant 1
+push local 0
+add
+pop pointer 1
+push that 0
+pop local 0
+goto label9.while_start
+label label9.while_end
+push local 1
+push constant 0
+eq
+not
+if-goto label11.if
+goto label11.if_end
+label label11.if
+push local 1
+push constant 0
+push local 1
+add
+pop pointer 1
+push that 0
+add
+push argument 0
+push constant 1
+sub
+gt
+if-goto label10.if
+goto label10.if_end
+label label10.if
+push constant 6
+call Sys.error 1
+pop temp 0
+label label10.if_end
+label label11.if_end
+push local 0
+push constant 0
+eq
+not
+if-goto label13.if
+goto label13.if_end
+label label13.if
+push argument 0
+push constant 1
+sub
+push constant 1
+neg
+push argument 0
+add
+pop pointer 1
+push that 0
+add
+push local 0
+gt
+if-goto label12.if
+goto label12.if_end
+label label12.if
+push constant 6
+call Sys.error 1
+pop temp 0
+label label12.if_end
+label label13.if_end
+push local 1
+push constant 0
+eq
+if-goto label14.if
+push constant 1
+push local 1
+add
+pop pointer 1
+push that 0
+push constant 0
+push argument 0
+add
+pop pointer 1
+pop that 0
+push argument 0
+push constant 1
+sub
+push constant 1
+push local 1
+add
+pop pointer 1
+pop that 0
+goto label14.if_end
+label label14.if
+push local 0
+push constant 0
+push argument 0
+add
+pop pointer 1
+pop that 0
+push argument 0
+push constant 1
+sub
+pop static 3
+label label14.if_end
+push local 0
+push constant 0
+eq
+not
+if-goto label16.if
+goto label16.if_end
+label label16.if
+push argument 0
+push constant 1
+sub
+push constant 1
+neg
+push argument 0
+add
+pop pointer 1
+push that 0
+add
+push local 0
+eq
+if-goto label15.if
+goto label15.if_end
+label label15.if
+push constant 1
+neg
+push argument 0
+add
+pop pointer 1
+push that 0
+push constant 0
+push local 0
+add
+pop pointer 1
+push that 0
+add
+push constant 1
+neg
+push argument 0
+add
+pop pointer 1
+pop that 0
+push constant 1
+push local 0
+add
+pop pointer 1
+push that 0
+push constant 0
+push argument 0
+add
+pop pointer 1
+pop that 0
+label label15.if_end
+label label16.if_end
+push local 1
+push constant 0
+eq
+not
+if-goto label18.if
+goto label18.if_end
+label label18.if
+push local 1
+push constant 0
+push local 1
+add
+pop pointer 1
+push that 0
+add
+push argument 0
+push constant 1
+sub
+eq
+if-goto label17.if
+goto label17.if_end
+label label17.if
+push constant 0
+push local 1
+add
+pop pointer 1
+push that 0
+push constant 1
+neg
+push argument 0
+add
+pop pointer 1
+push that 0
+add
+push constant 0
+push local 1
+add
+pop pointer 1
+pop that 0
+push constant 0
+push argument 0
+add
+pop pointer 1
+push that 0
+push constant 1
+push local 1
+add
+pop pointer 1
+pop that 0
+label label17.if_end
+label label18.if_end
+push constant 0
+return

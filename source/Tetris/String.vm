@@ -1,0 +1,361 @@
+function String.new 0
+push constant 3
+call Memory.alloc 1
+pop pointer 0
+push constant 45
+pop static 0
+push constant 48
+pop static 1
+push constant 5
+pop static 2
+push argument 0
+push constant 0
+lt
+if-goto label1.if
+goto label1.if_end
+label label1.if
+push constant 14
+call Sys.error 1
+pop temp 0
+label label1.if_end
+push argument 0
+push constant 0
+eq
+not
+if-goto label2.if
+goto label2.if_end
+label label2.if
+push argument 0
+call Array.new 1
+pop this 0
+label label2.if_end
+push constant 0
+pop this 1
+push argument 0
+pop this 2
+push pointer 0
+return
+function String.dispose 0
+push argument 0
+pop pointer 0
+push this 2
+push constant 0
+eq
+not
+if-goto label3.if
+goto label3.if_end
+label label3.if
+push this 0
+call Array.dispose 1
+pop temp 0
+label label3.if_end
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+function String.length 0
+push argument 0
+pop pointer 0
+push this 1
+return
+function String.charAt 0
+push argument 0
+pop pointer 0
+push argument 1
+push constant 0
+lt
+push argument 1
+push this 1
+lt
+not
+or
+if-goto label4.if
+goto label4.if_end
+label label4.if
+push constant 15
+call Sys.error 1
+pop temp 0
+label label4.if_end
+push argument 1
+push this 0
+add
+pop pointer 1
+push that 0
+return
+function String.setCharAt 0
+push argument 0
+pop pointer 0
+push argument 1
+push constant 0
+lt
+push argument 1
+push this 1
+lt
+not
+or
+if-goto label5.if
+goto label5.if_end
+label label5.if
+push constant 16
+call Sys.error 1
+pop temp 0
+label label5.if_end
+push argument 2
+push argument 1
+push this 0
+add
+pop pointer 1
+pop that 0
+push constant 0
+return
+function String.appendChar 0
+push argument 0
+pop pointer 0
+push this 1
+push this 2
+eq
+if-goto label6.if
+goto label6.if_end
+label label6.if
+push constant 17
+call Sys.error 1
+pop temp 0
+label label6.if_end
+push argument 1
+push this 1
+push this 0
+add
+pop pointer 1
+pop that 0
+push this 1
+push constant 1
+add
+pop this 1
+push pointer 0
+return
+function String.eraseLastChar 0
+push argument 0
+pop pointer 0
+push this 1
+push constant 0
+eq
+if-goto label7.if
+goto label7.if_end
+label label7.if
+push constant 18
+call Sys.error 1
+pop temp 0
+label label7.if_end
+push this 1
+push constant 1
+sub
+pop this 1
+push constant 0
+return
+function String.intValue 5
+push argument 0
+pop pointer 0
+push constant 1
+neg
+pop local 3
+push constant 0
+pop local 2
+push constant 0
+push this 0
+add
+pop pointer 1
+push that 0
+push static 0
+eq
+if-goto label8.if
+push constant 0
+pop local 4
+push constant 0
+pop local 0
+goto label8.if_end
+label label8.if
+push constant 1
+neg
+pop local 4
+push constant 1
+pop local 0
+label label8.if_end
+label label10.while_start
+push local 0
+push this 1
+lt
+push local 3
+push constant 1
+neg
+eq
+and
+if-goto label10.while
+goto label10.while_end
+label label10.while
+push local 0
+push this 0
+add
+pop pointer 1
+push that 0
+push static 1
+sub
+pop local 1
+push local 1
+push constant 0
+lt
+push local 1
+push constant 9
+gt
+or
+if-goto label9.if
+push local 2
+push constant 10
+call Math.multiply 2
+push local 1
+add
+pop local 2
+push local 0
+push constant 1
+add
+pop local 0
+goto label9.if_end
+label label9.if
+push constant 0
+pop local 3
+label label9.if_end
+goto label10.while_start
+label label10.while_end
+push local 4
+if-goto label11.if
+push local 2
+return
+goto label11.if_end
+label label11.if
+push local 2
+neg
+return
+label label11.if_end
+function String.setInt 5
+push argument 0
+pop pointer 0
+push static 2
+push constant 1
+add
+call Array.new 1
+pop local 3
+push constant 0
+pop local 4
+push argument 1
+push constant 0
+lt
+if-goto label12.if
+push constant 0
+pop local 2
+goto label12.if_end
+label label12.if
+push argument 1
+neg
+pop argument 1
+push constant 1
+neg
+pop local 2
+label label12.if_end
+label label13.while_start
+push argument 1
+push constant 0
+gt
+if-goto label13.while
+goto label13.while_end
+label label13.while
+push argument 1
+pop local 1
+push argument 1
+push constant 10
+call Math.divide 2
+pop argument 1
+push local 1
+push argument 1
+push constant 10
+call Math.multiply 2
+sub
+push static 1
+add
+push local 4
+push local 3
+add
+pop pointer 1
+pop that 0
+push local 4
+push constant 1
+add
+pop local 4
+goto label13.while_start
+label label13.while_end
+push local 2
+if-goto label14.if
+goto label14.if_end
+label label14.if
+push static 0
+push local 4
+push local 3
+add
+pop pointer 1
+pop that 0
+push local 4
+push constant 1
+add
+pop local 4
+label label14.if_end
+push local 4
+push this 2
+gt
+if-goto label15.if
+goto label15.if_end
+label label15.if
+push constant 19
+call Sys.error 1
+pop temp 0
+label label15.if_end
+push constant 0
+pop local 0
+label label16.while_start
+push local 0
+push local 4
+lt
+if-goto label16.while
+goto label16.while_end
+label label16.while
+push local 4
+push local 0
+sub
+push constant 1
+sub
+push local 3
+add
+pop pointer 1
+push that 0
+push local 0
+push this 0
+add
+pop pointer 1
+pop that 0
+push local 0
+push constant 1
+add
+pop local 0
+goto label16.while_start
+label label16.while_end
+push local 4
+pop this 1
+push constant 0
+return
+function String.newLine 0
+push constant 128
+return
+function String.backSpace 0
+push constant 129
+return
+function String.doubleQuote 0
+push constant 34
+return
