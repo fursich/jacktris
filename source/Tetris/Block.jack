@@ -11,6 +11,7 @@ class Block {
   field Array currentShape; // representing current shape;
   field Array patterns; // representing four patterns based on rot angles
   field Clock clock;
+  field int userMoveCount;
 
   constructor Block new(int block_type) {
     var int i;
@@ -29,6 +30,7 @@ class Block {
     do setPatterns();
     do rotateCurrentShapeTo(0);
     let didRotate = false;
+    let userMoveCount = 0;
 
     return this;
   }
@@ -37,7 +39,7 @@ class Block {
     var Block blk;
 
     let blk = Block.new(t);
-    do blk.chargeTime();
+    do blk.chargeTime(false);
 
     do blk.draw();
     return blk;
@@ -53,11 +55,19 @@ class Block {
     return;
   }
 
-  method void chargeTime() {
+  method void chargeTime(boolean isUserMove) {
     var boolean isLanded;
 
-    let isLanded = ~isMovable(0,1);
-    do clock.chargeTime(isLanded);
+    if (isUserMove) {
+      let userMoveCount = userMoveCount + 1;
+    } else {
+      let userMoveCount = 0;
+    }
+
+    if(~isUserMove | (userMoveCount < 7)) {
+      let isLanded = ~isMovable(0,1);
+      do clock.chargeTime(isLanded);
+    }
 
     return;
   }
@@ -404,6 +414,7 @@ class Block {
       let x = x - 1;
       let didRotate = false;
       do draw();
+      do chargeTime(true);
     }
     return;
   }
@@ -414,6 +425,7 @@ class Block {
       let x = x + 1;
       let didRotate = false;
       do draw();
+      do chargeTime(true);
     }
     return;
   }
@@ -434,6 +446,7 @@ class Block {
     if(isRotatableFrom(rot0)) {
       let didRotate = true;
       do draw();
+      do chargeTime(true);
     } else {
       do rotateCurrentShapeTo(rot0);
       do draw();
@@ -457,6 +470,7 @@ class Block {
     if(isRotatableFrom(rot0)) {
       let didRotate = true;
       do draw();
+      do chargeTime(true);
     } else {
       do rotateCurrentShapeTo(rot0);
       do draw();
@@ -508,7 +522,7 @@ class Block {
 
       let didRotate = false;
       do draw();
-      do chargeTime();
+      do chargeTime(false);
       return this;
     } else {
       do land();
